@@ -1,0 +1,32 @@
+{
+  "cache_settings": {
+    "max_cache_size_mb": 10,
+    "cache_expiry_days": 7,
+    "auto_cleanup_interval": 10,
+    "enable_auto_backup": true,
+    "backup_retention_days": 30
+  },
+  "monitoring": {
+    "enable_size_monitoring": true,
+    "size_warning_threshold_mb": 8,
+    "enable_performance_logging": false,
+    "log_level": "INFO"
+  },
+  "maintenance": {
+    "auto_reduce_cache_percentage": 50,
+    "enable_startup_cleanup": true,
+    "enable_periodic_optimization": true,
+    "optimization_frequency": "weekly"
+  },
+  "paths": {
+    "cache_directory": ".encoding_cache",
+    "backup_directory": ".encoding_cache",
+    "log_file": "cache_maintenance.log"
+  },
+  "advanced": {
+    "compression_enabled": false,
+    "encryption_enabled": false,
+    "concurrent_access_lock": true,
+    "memory_cache_enabled": true
+  }
+}

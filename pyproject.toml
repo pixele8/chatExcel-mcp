@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=65.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chatExcel"
+version = "0.1.0"
+description = "chatExcel - Excel智能处理与数据分析MCP服务器"
+requires-python = ">=3.11"
+dependencies = [
+    "fastmcp>=0.1.0",
+    "pandas>=2.0.0",
+    "chardet>=5.0.0",
+    "openpyxl>=3.1.0",
+    "seaborn>=0.12.0",
+    "matplotlib>=3.6.0",
+    "numpy>=1.24.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+]
+
+[tool.setuptools]
+py-modules = ["server", "config"]
+
+[tool.setuptools.package-data]
+"*" = ["templates/*.html", "static/**/*"]
