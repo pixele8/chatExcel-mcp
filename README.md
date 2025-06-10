@@ -6,6 +6,919 @@
 [![NumPy](https://img.shields.io/badge/NumPy-1.26.4-orange.svg)](https://numpy.org)
 [![Pandas](https://img.shields.io/badge/Pandas-2.3.0-blue.svg)](https://pandas.pydata.org)
 [![Plotly](https://img.shields.io/badge/Plotly-5.17.0-red.svg)](https://plotly.com)
+[![功能验证](https://img.shields.io/badge/功能验证-通过-brightgreen.svg)](#)
+
+## 📋 项目概述
+
+chatExcel 是一个基于 Model Context Protocol (MCP) 的智能Excel处理服务器，专为复杂Excel文件的智能解析、数据处理和分析而设计。项目提供了14个专业的MCP工具，支持Excel文件的智能读取、数据验证、代码执行和可视化功能。
+
+### 🚀 核心特性
+
+- **智能Excel处理**: 自动检测文件编码、多级表头识别、参数智能推荐
+- **安全代码执行**: 沙箱环境中执行pandas/numpy代码，支持复杂数据处理
+- **交互式可视化**: 基于Chart.js的动态图表生成（柱状图、饼图、折线图）
+- **数据质量验证**: 综合数据完整性检查和质量评估
+- **批量处理**: 支持多文件批量验证和处理
+- **缓存优化**: 智能编码检测缓存，提升处理性能
+
+### 🛠️ MCP工具列表 (14个)
+
+| 工具名称 | 功能描述 | 支持格式 |
+|---------|---------|----------|
+| `read_metadata` | CSV文件元数据读取和智能分析 | CSV |
+| `verify_data_integrity` | 数据完整性验证和比对核准 | Excel, CSV |
+| `read_excel_metadata` | Excel文件元数据读取和智能编码检测 | Excel |
+| `run_excel_code` | Excel代码执行引擎(支持复杂格式参数) | Excel |
+| `run_code` | CSV代码执行引擎(安全沙箱环境) | CSV |
+| `bar_chart_to_html` | 交互式柱状图生成(Chart.js) | 数据数组 |
+| `pie_chart_to_html` | 交互式饼图生成(Chart.js) | 数据数组 |
+| `line_chart_to_html` | 交互式折线图生成(Chart.js) | 数据数组 |
+| `validate_data_quality` | 数据质量验证和改进建议 | Excel, CSV |
+| `suggest_excel_read_parameters_tool` | Excel读取参数智能推荐 | Excel |
+| `detect_excel_file_structure_tool` | Excel文件结构检测 | Excel |
+| `create_excel_read_template_tool` | Excel读取代码模板生成 | Excel |
+| `comprehensive_data_verification_tool` | 综合数据验证和核准 | Excel, CSV |
+| `batch_data_verification_tool` | 批量数据验证工具 | Excel, CSV |
+
+---
+## CACHE_OPTIMIZATION_README.md
+
+# 编码缓存优化系统
+
+## 概述
+
+本项目实现了一个智能的编码缓存管理系统，用于优化Excel文件编码检测的性能。系统支持自动清理、大小监控、备份恢复等功能，确保缓存系统的高效运行。
+
+## 功能特性
+
+### 🚀 核心功能
+- **智能编码检测缓存**：自动缓存文件编码检测结果
+- **自动过期清理**：定期清理过期的缓存条目
+- **大小监控**：实时监控缓存文件大小，防止无限增长
+- **自动备份**：定期创建缓存备份，保障数据安全
+- **配置驱动**：通过JSON配置文件灵活控制所有参数
+
+### 📊 性能优化
+- **减少重复检测**：避免对同一文件重复进行编码检测
+- **智能缓存策略**：基于文件哈希和时间戳的缓存机制
+- **内存友好**：控制缓存大小，避免内存溢出
+- **异步清理**：后台自动执行维护任务
+
+## 配置说明
+
+### 配置文件：`cache_config.json`
+
+```json
+{
+  "cache_settings": {
+    "max_cache_size_mb": 10,           // 最大缓存大小(MB)
+    "cache_expiry_days": 7,            // 缓存过期天数
+    "auto_cleanup_interval": 10,       // 自动清理间隔(次数)
+    "enable_auto_backup": true         // 启用自动备份
+  },
+  "monitoring": {
+    "enable_size_monitoring": true,    // 启用大小监控
+    "size_warning_threshold_mb": 8,    // 大小警告阈值(MB)
+    "enable_performance_logging": false, // 启用性能日志
+    "log_level": "INFO"                // 日志级别
+  },
+  "maintenance": {
+    "auto_reduce_cache_percentage": 50, // 自动减少缓存百分比
+    "enable_startup_cleanup": true,    // 启用启动时清理
+    "enable_periodic_optimization": true, // 启用定期优化
+    "optimization_frequency": "weekly" // 优化频率
+  },
+  "paths": {
+    "cache_directory": ".encoding_cache", // 缓存目录
+    "backup_directory": ".encoding_cache", // 备份目录
+    "log_file": "cache_maintenance.log"    // 日志文件
+  }
+}
+```
+
+### 配置参数详解
+
+#### 缓存设置 (cache_settings)
+- `max_cache_size_mb`: 缓存文件的最大大小限制
+- `cache_expiry_days`: 缓存条目的有效期（天数）
+- `auto_cleanup_interval`: 每N次写入操作后执行一次自动清理
+- `enable_auto_backup`: 是否启用自动备份功能
+
+#### 监控设置 (monitoring)
+- `enable_size_monitoring`: 是否启用缓存大小监控
+- `size_warning_threshold_mb`: 发出警告的大小阈值
+- `enable_performance_logging`: 是否启用详细的性能日志
+- `log_level`: 日志记录级别
+
+#### 维护设置 (maintenance)
+- `auto_reduce_cache_percentage`: 当缓存超限时，删除最旧条目的百分比
+- `enable_startup_cleanup`: 是否在启动时执行清理
+- `enable_periodic_optimization`: 是否启用定期优化
+
+## 使用方法
+
+### 1. 命令行工具
+
+#### 基本用法
+```bash
+# 查看缓存统计信息
+python cache_manager.py stats
+
+# 清理过期缓存
+python cache_manager.py cleanup
+
+# 监控缓存大小
+python cache_manager.py monitor
+
+# 创建备份
+python cache_manager.py backup
+
+# 从备份恢复
+python cache_manager.py restore
+
+# 执行完整优化（清理+监控+备份）
+python cache_manager.py optimize
+
+# 导出缓存信息
+python cache_manager.py export --export-file cache_data.json
+```
+
+#### 使用自定义配置
+```bash
+# 使用指定的配置文件
+python cache_manager.py --config my_config.json stats
+
+# 使用自定义缓存目录
+python cache_manager.py --cache-dir /path/to/cache stats
+```
+
+### 2. 自动化维护
+
+#### 使用维护脚本
+```bash
+# 手动执行维护
+./scripts/cache_maintenance.sh
+
+# 查看维护日志
+tail -f cache_maintenance.log
+```
+
+#### 设置定时任务
+```bash
+# 编辑crontab
+crontab -e
+
+# 添加定时任务（每天凌晨2点执行维护）
+0 2 * * * /path/to/chatExcel-mcp/scripts/cache_maintenance.sh
+
+# 每周日凌晨3点执行深度优化
+0 3 * * 0 /path/to/chatExcel-mcp/scripts/cache_maintenance.sh
+```
+
+### 3. 程序集成
+
+#### 在Python代码中使用
+```python
+from enhanced_excel_helper import EncodingCache
+
+# 使用默认配置
+cache = EncodingCache()
+
+# 使用自定义配置文件
+cache = EncodingCache(config_file="my_config.json")
+
+# 获取文件编码（自动缓存）
+encoding = cache.get("/path/to/file.xlsx")
+if not encoding:
+    # 检测并缓存编码
+    detected_encoding = detect_file_encoding("/path/to/file.xlsx")
+    cache.set("/path/to/file.xlsx", detected_encoding)
+
+# 获取缓存统计
+stats = cache.get_cache_stats()
+print(f"缓存条目数: {stats['total_entries']}")
+print(f"缓存文件大小: {stats['cache_size_mb']:.2f} MB")
+```
+
+## 监控和维护
+
+### 性能监控
+
+1. **缓存命中率监控**
+   ```bash
+   python cache_manager.py stats
+   ```
+
+2. **大小监控**
+   ```bash
+   python cache_manager.py monitor
+   ```
+
+3. **日志监控**
+   ```bash
+   tail -f cache_maintenance.log
+   ```
+
+### 故障排除
+
+#### 常见问题
+
+1. **缓存文件过大**
+   - 检查配置中的 `max_cache_size_mb` 设置
+   - 执行手动清理：`python cache_manager.py cleanup`
+   - 调整 `auto_cleanup_interval` 参数
+
+2. **性能下降**
+   - 检查缓存命中率
+   - 考虑增加 `cache_expiry_days`
+   - 启用性能日志进行详细分析
+
+3. **配置文件错误**
+   - 检查JSON格式是否正确
+   - 验证所有必需字段是否存在
+   - 查看启动日志中的错误信息
+
+#### 恢复操作
+
+1. **从备份恢复**
+   ```bash
+   python cache_manager.py restore
+   ```
+
+2. **重置缓存**
+   ```bash
+   rm -rf .encoding_cache
+   # 缓存将在下次使用时自动重建
+   ```
+
+3. **重置配置**
+   ```bash
+   # 删除配置文件，将使用默认配置
+   rm cache_config.json
+   ```
+
+## 最佳实践
+
+### 生产环境建议
+
+1. **配置优化**
+   - 根据文件处理量调整 `max_cache_size_mb`
+   - 设置合适的 `cache_expiry_days`（建议7-30天）
+   - 启用 `enable_auto_backup`
+
+2. **监控设置**
+   - 在生产环境中启用 `enable_size_monitoring`
+   - 设置合理的 `size_warning_threshold_mb`
+   - 考虑启用 `enable_performance_logging` 进行性能分析
+
+3. **维护计划**
+   - 设置每日自动维护任务
+   - 定期检查缓存统计信息
+   - 监控日志文件大小
+
+### 开发环境建议
+
+1. **调试配置**
+   - 启用 `enable_performance_logging`
+   - 设置较小的 `auto_cleanup_interval` 进行测试
+   - 使用较短的 `cache_expiry_days`
+
+2. **测试验证**
+   - 定期执行 `python cache_manager.py stats`
+   - 测试备份和恢复功能
+   - 验证自动清理机制
+
+## 版本历史
+
+- **v1.0.0**: 基础缓存功能
+- **v1.1.0**: 添加自动清理和监控
+- **v1.2.0**: 增加备份恢复功能
+- **v1.3.0**: 实现配置文件支持
+- **v1.4.0**: 完善命令行工具和自动化脚本
+
+## 技术支持
+
+如有问题或建议，请：
+1. 检查本文档的故障排除部分
+2. 查看日志文件获取详细错误信息
+3. 提交Issue或联系技术支持团队
+
+---
+
+**注意**: 本缓存系统设计为向后兼容，即使没有配置文件也能正常工作，但建议使用配置文件以获得最佳性能和灵活性。
+
+---
+## EXCEL_FEATURES.md
+
+# Excel智能处理功能详细文档
+
+## 📋 概述
+
+chatExcel 提供了一套完整的Excel智能处理功能，专为复杂Excel文件的智能解析、数据处理和分析而设计。本文档详细介绍了所有Excel相关的MCP工具和功能。
+
+## 🔧 核心功能模块
+
+### 1. Excel元数据读取 (`read_excel_metadata`)
+
+**功能描述**: 智能读取Excel文件的元数据信息，包括工作表结构、列信息、数据类型等。
+
+**主要特性**:
+- 自动检测文件编码
+- 智能识别多级表头
+- 提供数据质量评估
+- 支持复杂Excel格式
+
+**使用场景**:
+- 快速了解Excel文件结构
+- 数据质量初步评估
+- 为后续处理提供参数建议
+
+### 2. Excel代码执行引擎 (`run_excel_code`)
+
+**功能描述**: 在安全沙箱环境中执行针对Excel数据的Python代码。
+
+**主要特性**:
+- 安全代码执行环境
+- 支持复杂参数传递
+- 智能错误处理和诊断
+- 支持多种数据处理库
+
+**支持的库**:
+- pandas: 数据处理和分析
+- numpy: 数值计算
+- matplotlib: 数据可视化
+- seaborn: 统计图表
+
+### 3. Excel参数智能推荐 (`suggest_excel_read_parameters_tool`)
+
+**功能描述**: 基于Excel文件结构自动推荐最佳的读取参数。
+
+**推荐参数包括**:
+- `header`: 表头行位置
+- `skiprows`: 跳过的行数
+- `usecols`: 使用的列范围
+- `sheet_name`: 工作表名称
+
+**智能检测功能**:
+- 多级表头检测
+- 空行识别
+- 数据区域定位
+- 格式异常检测
+
+### 4. Excel文件结构检测 (`detect_excel_file_structure_tool`)
+
+**功能描述**: 深度分析Excel文件的内部结构和格式特征。
+
+**检测内容**:
+- 工作表数量和名称
+- 每个工作表的数据范围
+- 表头结构分析
+- 数据类型分布
+- 空值分布情况
+
+### 5. Excel读取模板生成 (`create_excel_read_template_tool`)
+
+**功能描述**: 根据Excel文件特征生成优化的读取代码模板。
+
+**模板特性**:
+- 自动优化的参数配置
+- 错误处理代码
+- 数据验证逻辑
+- 性能优化建议
+
+## 🎯 高级功能
+
+### 多级表头智能处理
+
+**技术特点**:
+- 自动识别复杂表头结构
+- 智能合并多级列名
+- 处理不规则表头格式
+- 提供表头重构建议
+
+**应用场景**:
+- 财务报表处理
+- 统计数据分析
+- 复杂业务报告
+
+### 智能编码检测
+
+**功能优势**:
+- 自动检测文件编码格式
+- 缓存编码信息提升性能
+- 支持多种字符集
+- 错误编码自动修复
+
+### 参数优化引擎
+
+**优化策略**:
+- 基于文件结构的参数推荐
+- 性能优化建议
+- 内存使用优化
+- 读取速度优化
+
+## 📊 数据可视化集成
+
+### 交互式图表生成
+
+支持的图表类型:
+- **柱状图** (`bar_chart_to_html`): 适用于分类数据比较
+- **饼图** (`pie_chart_to_html`): 适用于比例数据展示
+- **折线图** (`line_chart_to_html`): 适用于趋势数据分析
+
+### 图表特性
+- 基于Plotly的交互式图表
+- 响应式设计，支持移动端
+- 丰富的交互功能
+- 支持数据导出
+
+## 🔍 数据验证功能
+
+### 综合数据验证 (`comprehensive_data_verification_tool`)
+
+**验证维度**:
+- 数据完整性检查
+- 数据类型验证
+- 数值范围检查
+- 重复数据检测
+- 异常值识别
+
+### 批量数据验证 (`batch_data_verification_tool`)
+
+**批量处理能力**:
+- 多文件同时验证
+- 批量报告生成
+- 统一标准应用
+- 结果汇总分析
+
+## 🚀 性能优化
+
+### 缓存机制
+- 编码信息缓存
+- 文件结构缓存
+- 参数推荐缓存
+- 智能缓存清理
+
+### 内存优化
+- 分块读取大文件
+- 智能内存管理
+- 垃圾回收优化
+- 内存使用监控
+
+### 并发处理
+- 多线程文件处理
+- 异步I/O操作
+- 并发安全保证
+- 资源池管理
+
+## 🛡️ 安全特性
+
+### 代码执行安全
+- 沙箱环境隔离
+- 危险函数黑名单
+- 资源使用限制
+- 执行时间控制
+
+### 文件安全
+- 文件大小限制
+- 文件类型验证
+- 路径安全检查
+- 权限控制
+
+## 📝 使用示例
+
+### 基础使用
+
+```python
+# 读取Excel元数据
+result = read_excel_metadata(
+    file_path="data.xlsx",
+    sheet_name="Sheet1"
+)
+
+# 获取参数推荐
+params = suggest_excel_read_parameters_tool(
+    file_path="data.xlsx",
+    sheet_name="Sheet1"
+)
+
+# 执行数据处理代码
+code_result = run_excel_code(
+    code="df.describe()",
+    file_path="data.xlsx",
+    sheet_name="Sheet1"
+)
+```
+
+### 高级使用
+
+```python
+# 复杂参数处理
+template = create_excel_read_template_tool(
+    file_path="complex_data.xlsx",
+    sheet_name="Report",
+    skiprows=3,
+    header=[0, 1],
+    usecols="A:J"
+)
+
+# 数据验证
+verification = comprehensive_data_verification_tool(
+    file_path="data.xlsx",
+    reference_file="template.xlsx"
+)
+```
+
+## 🔧 配置选项
+
+### 全局配置
+- 最大文件大小限制
+- 缓存目录设置
+- 日志级别配置
+- 安全策略设置
+
+### 性能配置
+- 内存使用限制
+- 并发线程数
+- 缓存大小限制
+- 超时时间设置
+
+## 📈 最佳实践
+
+### 文件处理建议
+1. 大文件使用分块读取
+2. 复杂格式先进行结构分析
+3. 使用参数推荐功能优化性能
+4. 定期清理缓存文件
+
+### 代码执行建议
+1. 避免使用危险函数
+2. 合理设置执行超时
+3. 使用异常处理机制
+4. 监控内存使用情况
+
+### 数据验证建议
+1. 建立标准数据模板
+2. 定期执行数据质量检查
+3. 使用批量验证提高效率
+4. 保存验证报告用于追踪
+
+## 🐛 故障排除
+
+### 常见问题
+
+**问题1**: Excel文件读取失败
+- 检查文件路径是否正确
+- 确认文件格式是否支持
+- 验证文件是否损坏
+
+**问题2**: 编码检测错误
+- 清理编码缓存
+- 手动指定编码格式
+- 检查文件原始编码
+
+**问题3**: 参数推荐不准确
+- 检查文件结构是否规范
+- 手动调整参数设置
+- 使用结构检测功能分析
+
+### 调试技巧
+1. 启用详细日志记录
+2. 使用结构检测功能分析问题
+3. 分步骤测试功能模块
+4. 查看缓存文件状态
+
+## 📚 相关文档
+
+- [README.md](README.md) - 项目总体介绍
+- [CACHE_OPTIMIZATION_README.md](CACHE_OPTIMIZATION_README.md) - 缓存优化指南
+- [PANDAS_FIX_GUIDE.md](PANDAS_FIX_GUIDE.md) - Pandas问题解决方案
+
+## 🔄 版本更新
+
+### v2.0.0 (2025-01-27)
+- ✅ 增强多级列头检测系统
+- ✅ 优化参数推荐算法
+- ✅ 完善数据验证功能
+- ✅ 提升缓存性能
+- ✅ 增强安全特性
+
+---
+
+**chatExcel** - 让Excel数据处理更智能、更高效！ 🚀
+
+---
+## MCP_SETUP_GUIDE.md
+
+# ChatExcel MCP 配置指南
+
+## 问题诊断
+
+你遇到的错误：
+```
+/Library/Frameworks/Python.framework/Versions/3.11/Resources/Python.app/Contents/MacOS/Python: can't open file '/Users/wangdada/Downloads/mcp/excel-mcp/chatExcel-mcp-server/server.py': [Errno 2] No such file or directory
+```
+
+**问题原因**：配置中的路径不正确，`server.py` 文件实际位于项目根目录，而不是 `chatExcel-mcp-server` 子目录中。
+
+## 解决方案
+
+### 方案1：使用生成的配置文件（推荐）
+
+我们已经为你生成了三种配置文件：
+
+#### 1. 灵活配置（推荐）
+文件：`mcp_config_flexible.json`
+```json
+{
+  "mcpServers": {
+    "chatExcel": {
+      "command": "python3",
+      "args": ["server.py"],
+      "cwd": "/Users/wangdada/Downloads/mcp/chatExcel-mcp",
+      "env": {
+        "PATH": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/venv/bin:/usr/local/bin:/usr/bin:/bin",
+        "VIRTUAL_ENV": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/venv",
+        "PYTHONPATH": "/Users/wangdada/Downloads/mcp/chatExcel-mcp"
+      }
+    }
+  }
+}
+```
+
+#### 2. 绝对路径配置（兼容性最好）
+文件：`mcp_config_absolute.json`
+```json
+{
+  "mcpServers": {
+    "chatExcel": {
+      "command": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/venv/bin/python",
+      "args": [
+        "/Users/wangdada/Downloads/mcp/chatExcel-mcp/server.py"
+      ]
+    }
+  }
+}
+```
+
+#### 3. 相对路径配置
+文件：`mcp_config_relative.json`
+```json
+{
+  "mcpServers": {
+    "chatExcel": {
+      "command": "./venv/bin/python",
+      "args": ["./server.py"],
+      "cwd": "/Users/wangdada/Downloads/mcp/chatExcel-mcp"
+    }
+  }
+}
+```
+
+### 方案2：修复原配置
+
+将你的原配置修改为：
+```json
+{
+  "mcpServers": {
+    "chatExcel": {
+      "command": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/venv/bin/python3.11",
+      "args": [
+        "/Users/wangdada/Downloads/mcp/chatExcel-mcp/server.py"
+      ]
+    }
+  }
+}
+```
+
+**关键修改**：
+- 移除了错误的 `chatExcel-mcp-server/` 路径
+- 使用虚拟环境中的Python解释器
+- 指向正确的 `server.py` 文件位置
+
+## 使用工具
+
+### 1. 自动诊断工具
+```bash
+python3 diagnose_mcp_setup.py
+```
+这个工具会：
+- 检查所有必要文件是否存在
+- 验证Python环境和MCP包
+- 生成推荐的配置
+- 提供修复建议
+
+### 2. 配置生成工具
+```bash
+python3 generate_mcp_config.py
+```
+这个工具会自动生成三种不同类型的配置文件。
+
+### 3. 服务器启动脚本
+```bash
+./start_mcp_server.sh
+```
+这个脚本会：
+- 自动检测项目路径
+- 激活虚拟环境
+- 检查依赖
+- 启动MCP服务器
+
+## 测试配置
+
+### 1. 测试服务器启动
+```bash
+cd /Users/wangdada/Downloads/mcp/chatExcel-mcp
+source venv/bin/activate
+python server.py
+```
+
+### 2. 检查MCP包
+```bash
+source venv/bin/activate
+python -c "import mcp; print('MCP包正常')"
+```
+
+### 3. 验证配置文件
+```bash
+python3 -c "import json; print(json.load(open('mcp_config_flexible.json')))"
+```
+
+## 常见问题解决
+
+### 问题1：虚拟环境不存在
+```bash
+cd /Users/wangdada/Downloads/mcp/chatExcel-mcp
+python3.11 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+### 问题2：MCP包未安装
+```bash
+source venv/bin/activate
+pip install mcp
+```
+
+### 问题3：权限问题
+```bash
+chmod +x start_mcp_server.sh
+chmod +x generate_mcp_config.py
+chmod +x diagnose_mcp_setup.py
+```
+
+### 问题4：路径包含空格或特殊字符
+确保所有路径都用引号包围，或者移动项目到不包含空格的路径。
+
+## 推荐使用流程
+
+1. **运行诊断**：
+   ```bash
+   python3 diagnose_mcp_setup.py
+   ```
+
+2. **选择配置**：
+   - 优先使用 `mcp_config_flexible.json`
+   - 如果有问题，尝试 `mcp_config_absolute.json`
+
+3. **测试启动**：
+   ```bash
+   ./start_mcp_server.sh
+   ```
+
+4. **应用配置**：
+   将选定的配置内容复制到你的MCP客户端配置文件中
+
+## 配置文件位置
+
+根据你使用的MCP客户端，配置文件可能位于：
+- Claude Desktop: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- 其他客户端：查看相应文档
+
+## 技术说明
+
+### 路径解析优先级
+1. **绝对路径**：最可靠，但不够灵活
+2. **相对路径 + cwd**：灵活且可靠
+3. **环境变量**：最灵活，适合不同环境
+
+### 环境变量说明
+- `PATH`：确保找到正确的Python解释器
+- `VIRTUAL_ENV`：指定虚拟环境路径
+- `PYTHONPATH`：确保Python能找到项目模块
+
+## 故障排除
+
+如果配置仍然不工作：
+
+1. 检查文件权限
+2. 确认虚拟环境激活
+3. 验证Python版本兼容性
+4. 查看MCP客户端日志
+5. 使用诊断工具获取详细信息
+
+需要帮助时，请提供：
+- 使用的配置内容
+- 错误信息
+- 诊断工具输出
+- 操作系统和Python版本
+
+---
+## PANDAS_FIX_GUIDE.md
+
+# pandas NameError 问题解决方案
+
+## 问题描述
+在使用 `run_excel_code` 工具时可能遇到 `NameError: name 'pd' is not defined` 错误。
+
+## 解决方案
+
+### 1. 应用修复补丁
+```bash
+python3 pandas_fix_patch.py
+```
+
+### 2. 重启 MCP 服务器
+```bash
+python3 server.py
+```
+
+### 3. 使用增强的错误处理
+修复后的 `run_excel_code` 工具包含：
+- 增强的 pandas/numpy 导入机制
+- 更详细的错误信息和建议
+- 安全的执行环境
+- 自动重试机制
+
+### 4. 最佳实践
+
+#### 推荐的代码写法：
+```python
+# 基本操作
+print(f"数据形状: {df.shape}")
+print(f"列名: {list(df.columns)}")
+
+# 数据处理
+result = df.groupby('列名').sum()
+```
+
+#### 如果仍然遇到问题，可以显式导入：
+```python
+import pandas as pd
+import numpy as np
+
+# 然后进行操作
+result = df.describe()
+```
+
+### 5. 故障排除
+
+如果问题仍然存在：
+
+1. **检查环境**：
+   ```bash
+   python3 enhanced_run_excel_code.py
+   ```
+
+2. **检查依赖**：
+   ```bash
+   pip install pandas numpy openpyxl xlrd
+   ```
+
+3. **重新安装依赖**：
+   ```bash
+   pip uninstall pandas numpy
+   pip install pandas numpy
+   ```
+
+4. **检查虚拟环境**：
+   确保在正确的虚拟环境中运行
+
+### 6. 错误信息解读
+
+- `NameError: name 'pd' is not defined`：pandas 导入失败
+- `NameError: name 'np' is not defined`：numpy 导入失败
+- `NameError: name 'df' is not defined`：DataFrame 加载失败
+
+每种错误都会提供具体的解决建议。
+
+### 7. 联系支持
+
+如果问题仍然无法解决，请提供：
+- 错误的完整信息
+- 使用的代码
+- 环境诊断结果
+
+---
+
+# chatExcel - Excel智能处理与数据分析MCP服务器
+
+[![Python Version](https://img.shields.io/badge/python-3.11+-blue.svg)](https://python.org)
+[![MCP Protocol](https://img.shields.io/badge/MCP-2024--11--05-green.svg)](https://modelcontextprotocol.io)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![NumPy](https://img.shields.io/badge/NumPy-1.26.4-orange.svg)](https://numpy.org)
+[![Pandas](https://img.shields.io/badge/Pandas-2.3.0-blue.svg)](https://pandas.pydata.org)
+[![Plotly](https://img.shields.io/badge/Plotly-5.17.0-red.svg)](https://plotly.com)
 [![功能验证](https://img.shields.io/badge/功能验证-通过-green.svg)](#功能验证)
 
 chatExcel - 基于模型上下文协议（MCP）的Excel智能处理与数据分析服务器，专为Excel文件智能解析、数据处理、代码执行以及交互式图表生成而设计。支持复杂Excel格式处理、智能参数推荐、代码模板生成和高级数据可视化。
@@ -131,10 +1044,34 @@ chatExcel - 基于模型上下文协议（MCP）的Excel智能处理与数据分
 
 ### 快速安装
 
+#### 方式一：使用 uvx（推荐）
+
 ```bash
 # 1. 克隆项目到本地
 git clone <repository-url>
-cd chatExcel-mcp-server
+cd chatExcel-mcp
+
+# 2. 使用 uvx 创建虚拟环境
+uvx --python 3.11 venv venv
+source venv/bin/activate  # macOS/Linux
+# 或 Windows: venv\Scripts\activate
+
+# 3. 安装项目依赖
+pip install -r requirements.txt
+
+# 4. 运行健康检查
+python scripts/health_check.py
+
+# 5. 启动MCP服务器
+python server.py
+```
+
+#### 方式二：传统方式
+
+```bash
+# 1. 克隆项目到本地
+git clone <repository-url>
+cd chatExcel-mcp
 
 # 2. 创建Python 3.11虚拟环境
 python3.11 -m venv venv
@@ -188,7 +1125,7 @@ sudo yum install python3.11 python3.11-venv
 ```bash
 # 克隆项目
 git clone <repository-url>
-cd chatExcel-mcp-server
+cd chatExcel-mcp
 
 # 创建虚拟环境
 python3.11 -m venv venv
@@ -532,9 +1469,9 @@ After=network.target
 [Service]
 Type=simple
 User=your_username
-WorkingDirectory=/path/to/chatExcel-mcp-server
-Environment=PATH=/path/to/chatExcel-mcp-server/venv/bin
-ExecStart=/path/to/chatExcel-mcp-server/venv/bin/python server.py
+WorkingDirectory=/path/to/chatExcel-mcp
+Environment=PATH=/path/to/chatExcel-mcp/venv/bin
+ExecStart=/path/to/chatExcel-mcp/venv/bin/python server.py
 Restart=always
 RestartSec=10
 
@@ -741,11 +1678,11 @@ chmod +x monitor_performance.py
       "isActive": true,
       "command": "python",
       "args": [
-        "/Users/wangdada/Downloads/mcp/excel-mcp/chatExcel-mcp-server/server.py"
+        "/Users/wangdada/Downloads/mcp/chatExcel-mcp/server.py"
       ],
       "env": {
-        "PYTHONPATH": "/Users/wangdada/Downloads/mcp/excel-mcp/chatExcel-mcp-server",
-        "PATH": "/Users/wangdada/Downloads/mcp/excel-mcp/chatExcel-mcp-server/venv/bin:/usr/local/bin:/usr/bin:/bin"
+        "PYTHONPATH": "/Users/wangdada/Downloads/mcp/chatExcel-mcp",
+        "PATH": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/venv/bin:/usr/local/bin:/usr/bin:/bin"
       }
     }
   }
@@ -773,9 +1710,9 @@ python test_mcp_config.py
   "mcpServers": {
     "chatexcel-mcp-server": {
       "command": "python",
-      "args": ["/Users/wangdada/Downloads/mcp/excel-mcp/chatExcel-mcp-server/server.py"],
+      "args": ["/Users/wangdada/Downloads/mcp/chatExcel-mcp/server.py"],
       "env": {
-        "PYTHONPATH": "/Users/wangdada/Downloads/mcp/excel-mcp/chatExcel-mcp-server"
+        "PYTHONPATH": "/Users/wangdada/Downloads/mcp/chatExcel-mcp"
       }
     }
   }

@@ -32,10 +32,6 @@ if TYPE_CHECKING:
 logger = get_logger(__name__)
 
 
-def _proxy_passthrough():
-    pass
-
-
 class ProxyTool(Tool):
     def __init__(self, client: Client, **kwargs):
         super().__init__(**kwargs)
@@ -48,7 +44,6 @@ class ProxyTool(Tool):
             name=tool.name,
             description=tool.description,
             parameters=tool.inputSchema,
-            fn=_proxy_passthrough,
         )
 
     async def run(
@@ -69,6 +64,9 @@ class ProxyTool(Tool):
 
 
 class ProxyResource(Resource):
+    _client: Client
+    _value: str | bytes | None = None
+
     def __init__(self, client: Client, *, _value: str | bytes | None = None, **kwargs):
         super().__init__(**kwargs)
         self._client = client
@@ -114,7 +112,6 @@ class ProxyTemplate(ResourceTemplate):
             uri_template=template.uriTemplate,
             name=template.name,
             description=template.description,
-            fn=_proxy_passthrough,
             parameters={},
         )
 
@@ -146,12 +143,13 @@ class ProxyTemplate(ResourceTemplate):
             name=self.name,
             description=self.description,
             mime_type=result[0].mimeType,
-            contents=result,
             _value=value,
         )
 
 
 class ProxyPrompt(Prompt):
+    _client: Client
+
     def __init__(self, client: Client, **kwargs):
         super().__init__(**kwargs)
         self._client = client
@@ -163,7 +161,6 @@ class ProxyPrompt(Prompt):
             name=prompt.name,
             description=prompt.description,
             arguments=[a.model_dump() for a in prompt.arguments or []],
-            fn=_proxy_passthrough,
         )
 
     async def render(self, arguments: dict[str, Any]) -> list[PromptMessage]:

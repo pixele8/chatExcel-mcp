@@ -22,7 +22,7 @@ def create_test_excel():
     df = pd.DataFrame(data)
     
     # 创建Excel文件路径
-    excel_path = '/Users/wangdada/Downloads/mcp/excel-mcp/chatExcel-mcp-server/sample_data.xlsx'
+    excel_path = '/Users/wangdada/Downloads/mcp/chatExcel-mcp/sample_data.xlsx'
     
     # 使用ExcelWriter创建包含多个工作表的Excel文件
     with pd.ExcelWriter(excel_path, engine='openpyxl') as writer:

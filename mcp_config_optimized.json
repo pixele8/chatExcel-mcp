@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "chatExcel": {
+      "command": "python3",
+      "args": [
+        "server.py"
+      ],
+      "cwd": "/Users/wangdada/Downloads/mcp/chatExcel-mcp",
+      "env": {
+        "PATH": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/venv/bin:/usr/local/bin:/usr/bin:/bin",
+        "VIRTUAL_ENV": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/venv",
+        "PYTHONPATH": "/Users/wangdada/Downloads/mcp/chatExcel-mcp"
+      }
+    }
+  }
+}

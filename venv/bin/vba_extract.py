@@ -1,4 +1,4 @@
-#!/Users/wangdada/Downloads/mcp/excel-mcp/venv/bin/python3.11
+#!/Users/wangdada/Downloads/mcp/chatExcel-mcp/venv/bin/python3.11
 
 ##############################################################################
 #

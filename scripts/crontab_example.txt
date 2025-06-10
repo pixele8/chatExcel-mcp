@@ -8,16 +8,16 @@
 # 注意：请根据实际项目路径修改脚本路径
 
 # 每天凌晨2点执行缓存维护
-0 2 * * * /Users/wangdada/Downloads/mcp/excel-mcp/chatExcel-mcp-server/scripts/cache_maintenance.sh maintain
+0 2 * * * /Users/wangdada/Downloads/mcp/chatExcel-mcp/scripts/cache_maintenance.sh maintain
 
 # 每周日凌晨3点执行缓存维护（推荐）
-0 3 * * 0 /Users/wangdada/Downloads/mcp/excel-mcp/chatExcel-mcp-server/scripts/cache_maintenance.sh maintain
+0 3 * * 0 /Users/wangdada/Downloads/mcp/chatExcel-mcp/scripts/cache_maintenance.sh maintain
 
 # 每天中午12点创建缓存备份
-0 12 * * * /Users/wangdada/Downloads/mcp/excel-mcp/chatExcel-mcp-server/scripts/cache_maintenance.sh backup
+0 12 * * * /Users/wangdada/Downloads/mcp/chatExcel-mcp/scripts/cache_maintenance.sh backup
 
 # 每小时检查缓存状态（仅用于调试，生产环境不推荐）
-# 0 * * * * /Users/wangdada/Downloads/mcp/excel-mcp/chatExcel-mcp-server/scripts/cache_maintenance.sh stats
+# 0 * * * * /Users/wangdada/Downloads/mcp/chatExcel-mcp/scripts/cache_maintenance.sh stats
 
 # 时间格式说明：
 # 分钟(0-59) 小时(0-23) 日期(1-31) 月份(1-12) 星期(0-7，0和7都表示星期日)
