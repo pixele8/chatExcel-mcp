@@ -27,6 +27,7 @@ from excel_smart_tools import suggest_excel_read_parameters, detect_excel_file_s
 from enhanced_excel_helper import smart_read_excel, detect_file_encoding, validate_excel_data_integrity
 from comprehensive_data_verification import ComprehensiveDataVerifier
 from data_verification import verify_data_processing_result, DataVerificationEngine
+from excel_enhanced_tools import ExcelEnhancedProcessor, get_excel_processor
 
 # 统一常量定义
 MAX_FILE_SIZE = 100 * 1024 * 1024  # 100MB
@@ -1729,6 +1730,316 @@ def batch_data_verification_tool(
         return {
             "success": False,
             "error": f"批量验证过程中发生错误: {str(e)}"
+        }
+
+
+@mcp.tool()
+def excel_read_enhanced(
+    file_path: str,
+    sheet_name: str = None,
+    start_row: int = None,
+    end_row: int = None,
+    start_col: str = None,
+    end_col: str = None,
+    use_go_service: bool = True
+) -> dict:
+    """
+    增强版 Excel 读取工具，集成 Go excelize 库提供高性能处理
+    
+    Args:
+        file_path: Excel 文件路径
+        sheet_name: 工作表名称（可选）
+        start_row: 起始行号（可选）
+        end_row: 结束行号（可选）
+        start_col: 起始列（如 'A'，可选）
+        end_col: 结束列（如 'Z'，可选）
+        use_go_service: 是否优先使用 Go 服务（默认 True）
+        
+    Returns:
+        dict: 读取结果，包含数据和性能信息
+    """
+    try:
+        processor = get_excel_processor()
+        result = processor.read_excel_enhanced(
+            file_path=file_path,
+            sheet_name=sheet_name,
+            start_row=start_row,
+            end_row=end_row,
+            start_col=start_col,
+            end_col=end_col,
+            use_go=use_go_service
+        )
+        return result
+    except Exception as e:
+        return {
+            "success": False,
+            "error": f"增强 Excel 读取失败: {str(e)}",
+            "suggestion": "请检查文件路径和参数设置"
+        }
+
+
+@mcp.tool()
+def excel_write_enhanced(
+    file_path: str,
+    data: list,
+    sheet_name: str = None,
+    start_row: int = None,
+    start_col: str = None,
+    use_go_service: bool = True
+) -> dict:
+    """
+    增强版 Excel 写入工具，集成 Go excelize 库提供高性能处理
+    
+    Args:
+        file_path: Excel 文件路径
+        data: 要写入的数据（字典列表格式）
+        sheet_name: 工作表名称（可选）
+        start_row: 起始行号（可选）
+        start_col: 起始列（如 'A'，可选）
+        use_go_service: 是否优先使用 Go 服务（默认 True）
+        
+    Returns:
+        dict: 写入结果，包含性能信息
+    """
+    try:
+        if not isinstance(data, list):
+            return {
+                "success": False,
+                "error": "数据格式错误，需要字典列表格式",
+                "suggestion": "请提供 [{column1: value1, column2: value2}, ...] 格式的数据"
+            }
+        
+        processor = get_excel_processor()
+        result = processor.write_excel_enhanced(
+            file_path=file_path,
+            data=data,
+            sheet_name=sheet_name,
+            start_row=start_row,
+            start_col=start_col,
+            use_go=use_go_service
+        )
+        return result
+    except Exception as e:
+        return {
+            "success": False,
+            "error": f"增强 Excel 写入失败: {str(e)}",
+            "suggestion": "请检查文件路径和数据格式"
+        }
+
+
+@mcp.tool()
+def excel_chart_enhanced(
+    file_path: str,
+    chart_type: str,
+    data_range: str,
+    sheet_name: str = None,
+    title: str = None,
+    x_axis_title: str = None,
+    y_axis_title: str = None
+) -> dict:
+    """
+    增强版 Excel 图表创建工具，使用 Go excelize 库提供高性能图表生成
+    
+    Args:
+        file_path: Excel 文件路径
+        chart_type: 图表类型（'col', 'line', 'pie', 'bar', 'area', 'scatter' 等）
+        data_range: 数据范围（如 'A1:B10'）
+        sheet_name: 工作表名称（可选）
+        title: 图表标题（可选）
+        x_axis_title: X轴标题（可选）
+        y_axis_title: Y轴标题（可选）
+        
+    Returns:
+        dict: 图表创建结果
+    """
+    try:
+        # 验证图表类型
+        valid_chart_types = ['col', 'line', 'pie', 'bar', 'area', 'scatter', 'doughnut']
+        if chart_type not in valid_chart_types:
+            return {
+                "success": False,
+                "error": f"不支持的图表类型: {chart_type}",
+                "suggestion": f"支持的图表类型: {', '.join(valid_chart_types)}"
+            }
+        
+        processor = get_excel_processor()
+        result = processor.create_chart_enhanced(
+            file_path=file_path,
+            chart_type=chart_type,
+            data_range=data_range,
+            sheet_name=sheet_name,
+            chart_title=title,
+            x_axis_title=x_axis_title,
+            y_axis_title=y_axis_title
+        )
+        return result
+    except Exception as e:
+        return {
+            "success": False,
+            "error": f"增强图表创建失败: {str(e)}",
+            "suggestion": "请检查文件路径、数据范围和图表参数"
+        }
+
+
+@mcp.tool()
+def excel_info_enhanced(file_path: str) -> dict:
+    """
+    增强版 Excel 文件信息获取工具，使用 Go excelize 库提供详细文件分析
+    
+    Args:
+        file_path: Excel 文件路径
+        
+    Returns:
+        dict: 详细的文件信息，包括工作表、行列数等
+    """
+    try:
+        processor = get_excel_processor()
+        result = processor.get_file_info_enhanced(file_path)
+        return result
+    except Exception as e:
+        return {
+            "success": False,
+            "error": f"获取文件信息失败: {str(e)}",
+            "suggestion": "请检查文件路径是否正确"
+        }
+
+
+@mcp.tool()
+def excel_performance_comparison(
+    file_path: str,
+    operation: str = "read",
+    test_data: list = None
+) -> dict:
+    """
+    Excel 性能对比工具，比较 Go 服务和 pandas 的性能差异
+    
+    Args:
+        file_path: Excel 文件路径
+        operation: 操作类型（'read' 或 'write'）
+        test_data: 测试数据（写入操作时需要）
+        
+    Returns:
+        dict: 性能对比结果
+    """
+    try:
+        import time
+        
+        results = {
+            "success": True,
+            "operation": operation,
+            "file_path": file_path,
+            "performance_comparison": {},
+            "recommendation": ""
+        }
+        
+        processor = get_excel_processor()
+        
+        if operation == "read":
+            # 测试 Go 服务性能
+            start_time = time.time()
+            go_result = processor.read_excel_enhanced(file_path, use_go=True)
+            go_time = time.time() - start_time
+            
+            # 测试 pandas 性能
+            start_time = time.time()
+            pandas_result = processor.read_excel_enhanced(file_path, use_go=False)
+            pandas_time = time.time() - start_time
+            
+            results["performance_comparison"] = {
+                "go_service": {
+                    "time_seconds": round(go_time, 4),
+                    "success": go_result.get("success", False),
+                    "method": go_result.get("data", {}).get("method", "unknown")
+                },
+                "pandas": {
+                    "time_seconds": round(pandas_time, 4),
+                    "success": pandas_result.get("success", False),
+                    "method": pandas_result.get("data", {}).get("method", "unknown")
+                }
+            }
+            
+            # 性能提升计算
+            if go_time > 0 and pandas_time > 0:
+                speedup = pandas_time / go_time
+                results["performance_comparison"]["speedup"] = round(speedup, 2)
+                
+                if speedup > 2:
+                    results["recommendation"] = f"Go 服务比 pandas 快 {speedup:.1f} 倍，建议使用 Go 服务"
+                elif speedup < 0.8:
+                    results["recommendation"] = "pandas 性能更好，建议使用 pandas"
+                else:
+                    results["recommendation"] = "两种方法性能相近，可根据需要选择"
+        
+        elif operation == "write":
+            if not test_data:
+                return {
+                    "success": False,
+                    "error": "写入测试需要提供 test_data 参数",
+                    "suggestion": "请提供测试数据列表"
+                }
+            
+            # 创建临时文件进行测试
+            import tempfile
+            
+            with tempfile.NamedTemporaryFile(suffix='.xlsx', delete=False) as tmp1, \
+                 tempfile.NamedTemporaryFile(suffix='.xlsx', delete=False) as tmp2:
+                
+                # 测试 Go 服务性能
+                start_time = time.time()
+                go_result = processor.write_excel_enhanced(tmp1.name, test_data, use_go=True)
+                go_time = time.time() - start_time
+                
+                # 测试 pandas 性能
+                start_time = time.time()
+                pandas_result = processor.write_excel_enhanced(tmp2.name, test_data, use_go=False)
+                pandas_time = time.time() - start_time
+                
+                # 清理临时文件
+                try:
+                    os.unlink(tmp1.name)
+                    os.unlink(tmp2.name)
+                except:
+                    pass
+                
+                results["performance_comparison"] = {
+                    "go_service": {
+                        "time_seconds": round(go_time, 4),
+                        "success": go_result.get("success", False),
+                        "method": go_result.get("data", {}).get("method", "unknown")
+                    },
+                    "pandas": {
+                        "time_seconds": round(pandas_time, 4),
+                        "success": pandas_result.get("success", False),
+                        "method": pandas_result.get("data", {}).get("method", "unknown")
+                    }
+                }
+                
+                # 性能提升计算
+                if go_time > 0 and pandas_time > 0:
+                    speedup = pandas_time / go_time
+                    results["performance_comparison"]["speedup"] = round(speedup, 2)
+                    
+                    if speedup > 2:
+                        results["recommendation"] = f"Go 服务比 pandas 快 {speedup:.1f} 倍，建议使用 Go 服务"
+                    elif speedup < 0.8:
+                        results["recommendation"] = "pandas 性能更好，建议使用 pandas"
+                    else:
+                        results["recommendation"] = "两种方法性能相近，可根据需要选择"
+        
+        else:
+            return {
+                "success": False,
+                "error": f"不支持的操作类型: {operation}",
+                "suggestion": "支持的操作类型: 'read', 'write'"
+            }
+        
+        return results
+        
+    except Exception as e:
+        return {
+            "success": False,
+            "error": f"性能对比测试失败: {str(e)}",
+            "suggestion": "请检查文件路径和参数设置"
         }
 
 

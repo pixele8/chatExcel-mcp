@@ -4,28 +4,57 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "chatExcel"
-version = "0.1.0"
-description = "chatExcel - Excel智能处理与数据分析MCP服务器"
+version = "1.3.0"
+description = "chatExcel - Excel智能处理与数据分析MCP服务器 - 支持22个MCP工具的企业级解决方案（含安全增强、健康监控、依赖管理）"
 requires-python = ">=3.11"
 dependencies = [
-    "fastmcp>=0.1.0",
-    "pandas>=2.0.0",
-    "chardet>=5.0.0",
-    "openpyxl>=3.1.0",
-    "seaborn>=0.12.0",
-    "matplotlib>=3.6.0",
-    "numpy>=1.24.0",
+    "fastmcp==0.3.0",
+    "mcp==1.1.0",
+    "pandas==2.2.3",
+    "numpy==2.2.1",
+    "openpyxl==3.1.5",
+    "xlrd==2.0.1",
+    "XlsxWriter==3.2.3",
+    "chardet==5.2.0",
+    "scipy==1.15.3",
+    "matplotlib==3.10.0",
+    "seaborn==0.13.2",
+    "plotly==5.24.1",
+    "requests==2.32.4",
+    "pydantic==2.11.5",
 ]
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=7.0.0",
+    "pytest==8.4.0",
     "black>=23.0.0",
     "flake8>=6.0.0",
+    "rich==14.0.0",
+    "typer==0.16.0",
+]
+web = [
+    "uvicorn==0.34.3",
+    "starlette==0.47.0",
+    "httpx==0.28.1",
+    "websockets==15.0.1",
 ]
 
 [tool.setuptools]
-py-modules = ["server", "config"]
+py-modules = [
+    "server", 
+    "config", 
+    "comprehensive_data_verification", 
+    "data_verification",
+    "excel_enhanced_tools",
+    "excel_smart_tools",
+    "excel_go_client"
+]
 
 [tool.setuptools.package-data]
-"*" = ["templates/*.html", "static/**/*"]
+"*" = [
+    "templates/*.html", 
+    "static/**/*", 
+    "charts/*.html",
+    "*.json",
+    "*.md"
+]
