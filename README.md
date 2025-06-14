@@ -177,6 +177,33 @@ pip install -r requirements.txt
 
 # 3. 启动服务器
 python3 server.py
+
+# 4.mcp server 脚本部署
+{
+  "mcpServers": {
+    "chatExcel": {
+      "command": "/Path/mcp/chatExcel-mcp/venv/bin/python",
+      "args": [
+        "/Path/mcp/chatExcel-mcp/server.py"
+      ],
+      "env": {
+        "PYTHONPATH": "/Path/mcp/chatExcel-mcp"
+      },
+      "description": "chatExcel MCP服务器 - 支持24个Excel智能处理与数据分析工具",
+      "version": "1.4.0",
+      "capabilities": [
+        "Excel文件读写和分析,Excel函数公式解析/写入",
+        "数据验证和完整性检查",
+        "交互式图表生成",
+        "代码执行和性能分析",
+        "智能参数推荐",
+        "批量数据处理"
+      ],
+      "tools_count": 24,
+      "supported_formats": ["xlsx", "xls", "csv", "json", "html"]
+    }
+  }
+}
 ```
 
 ### Docker部署
