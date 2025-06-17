@@ -1,6 +1,0 @@
-Collecting scipy
-  Downloading scipy-1.15.3-cp311-cp311-macosx_14_0_x86_64.whl (25.2 MB)
-     ━━━━━━━━━━━━━━━━━━ 25.2/25.2 MB 661.2 kB/s eta 0:00:00
-Requirement already satisfied: numpy<2.5,>=1.23.5 in /Users/wangdada/Downloads/mcp/excel-mcp/venv/lib/python3.11/site-packages (from scipy) (2.2.6)
-Installing collected packages: scipy
-Successfully installed scipy-1.15.3

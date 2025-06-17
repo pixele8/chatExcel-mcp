@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/xuri/excelize/v2"
@@ -231,8 +232,8 @@ func (s *ExcelService) writeExcel(c *gin.Context) {
 	c.JSON(http.StatusOK, Response{
 		Success: true,
 		Data: map[string]interface{}{
-			"file_path":   req.FilePath,
-			"sheet_name":  sheetName,
+			"file_path":    req.FilePath,
+			"sheet_name":   sheetName,
 			"rows_written": len(req.Data),
 		},
 		Message: "Excel file written successfully",
@@ -283,7 +284,7 @@ func (s *ExcelService) createChart(c *gin.Context) {
 	default:
 		chartType = excelize.Col
 	}
-	
+
 	if err := f.AddChart(sheetName, "E1", &excelize.Chart{
 		Type: chartType,
 		Series: []excelize.ChartSeries{{
@@ -295,11 +296,11 @@ func (s *ExcelService) createChart(c *gin.Context) {
 			Text: req.Title,
 		}},
 		PlotArea: excelize.ChartPlotArea{
-			ShowCatName:  false,
+			ShowCatName:     false,
 			ShowLeaderLines: false,
-			ShowPercent:  true,
-			ShowSerName:  true,
-			ShowVal:      true,
+			ShowPercent:     true,
+			ShowSerName:     true,
+			ShowVal:         true,
 		},
 	}); err != nil {
 		c.JSON(http.StatusInternalServerError, Response{
@@ -368,9 +369,112 @@ func (s *ExcelService) getFileInfo(c *gin.Context) {
 	// 获取工作表信息
 	sheetList := f.GetSheetList()
 	sheetInfo := make(map[string]interface{})
+	totalMergedCells := 0
+	sheetsWithMultiHeaders := 0
+	complexStructureDetected := false
 
 	for _, sheetName := range sheetList {
 		rows, _ := f.GetRows(sheetName)
+
+		// 分析合并单元格
+		mergedCells, _ := f.GetMergeCells(sheetName)
+		mergedCellsInfo := make([]map[string]interface{}, 0)
+		for _, mergeCell := range mergedCells {
+			// 解析合并单元格范围
+			startCol, startRow, _ := excelize.CellNameToCoordinates(mergeCell.GetStartAxis())
+			endCol, endRow, _ := excelize.CellNameToCoordinates(mergeCell.GetEndAxis())
+
+			mergedCellsInfo = append(mergedCellsInfo, map[string]interface{}{
+				"range":     fmt.Sprintf("%s:%s", mergeCell.GetStartAxis(), mergeCell.GetEndAxis()),
+				"start_row": startRow,
+				"end_row":   endRow,
+				"start_col": startCol,
+				"end_col":   endCol,
+				"span_rows": endRow - startRow + 1,
+				"span_cols": endCol - startCol + 1,
+			})
+
+			// 限制返回前10个合并单元格
+			if len(mergedCellsInfo) >= 10 {
+				break
+			}
+		}
+		totalMergedCells += len(mergedCells)
+
+		// 简单的多级表头检测逻辑
+		multiHeaderDetected := false
+		headerCandidates := make([]int, 0)
+		structureType := "single_level"
+		confidence := 0.0
+
+		// 检测前几行是否可能是表头
+		if len(rows) > 1 {
+			// 检查前5行的内容特征
+			maxCheckRows := 5
+			if len(rows) < maxCheckRows {
+				maxCheckRows = len(rows)
+			}
+
+			for i := 0; i < maxCheckRows; i++ {
+				if len(rows[i]) > 0 {
+					// 计算非空单元格数量
+					nonEmptyCount := 0
+					textCount := 0
+
+					for _, cell := range rows[i] {
+						if cell != "" {
+							nonEmptyCount++
+							// 简单判断是否为文本（非纯数字）
+							if _, err := strconv.ParseFloat(cell, 64); err != nil {
+								textCount++
+							}
+						}
+					}
+
+					// 如果文本比例高且非空单元格适中，可能是表头
+					if nonEmptyCount > 1 && textCount > nonEmptyCount/2 {
+						headerCandidates = append(headerCandidates, i+1) // 转换为1基索引
+					}
+				}
+			}
+
+			// 如果有多个表头候选行，可能是多级表头
+			if len(headerCandidates) > 1 {
+				// 检查是否有相邻的候选行
+				for i := 0; i < len(headerCandidates)-1; i++ {
+					if headerCandidates[i+1]-headerCandidates[i] <= 2 {
+						multiHeaderDetected = true
+						structureType = "multi_level"
+						confidence = 0.7
+						break
+					}
+				}
+			}
+
+			// 如果检测到合并单元格在前几行，增加多级表头的可能性
+			if len(mergedCells) > 0 {
+				for _, mergeCell := range mergedCells {
+					_, startRow, _ := excelize.CellNameToCoordinates(mergeCell.GetStartAxis())
+					if startRow <= 3 { // 前3行有合并单元格
+						multiHeaderDetected = true
+						structureType = "merged_header"
+						confidence = 0.8
+						break
+					}
+				}
+			}
+		}
+
+		if multiHeaderDetected {
+			sheetsWithMultiHeaders++
+			complexStructureDetected = true
+		}
+
+		if len(mergedCells) > 0 {
+			complexStructureDetected = true
+		}
+
+		// 构建工作表信息
 		sheetInfo[sheetName] = map[string]interface{}{
 			"row_count": len(rows),
 			"col_count": func() int {
@@ -379,19 +483,38 @@ func (s *ExcelService) getFileInfo(c *gin.Context) {
 				}
 				return 0
 			}(),
+			"has_data": len(rows) > 0,
+			// 新增：多级表头信息
+			"multi_level_header": map[string]interface{}{
+				"detected":          multiHeaderDetected,
+				"structure_type":    structureType,
+				"confidence":        confidence,
+				"header_candidates": headerCandidates,
+			},
+			// 新增：合并单元格信息
+			"merged_cells": map[string]interface{}{
+				"count":  len(mergedCells),
+				"ranges": mergedCellsInfo,
+			},
 		}
 	}
 
 	c.JSON(http.StatusOK, Response{
 		Success: true,
 		Data: map[string]interface{}{
-			"file_name":    filepath.Base(filePath),
-			"file_size":    fileInfo.Size(),
+			"file_name":     filepath.Base(filePath),
+			"file_size":     fileInfo.Size(),
 			"modified_time": fileInfo.ModTime(),
-			"sheet_count":  len(sheetList),
-			"sheets":       sheetInfo,
+			"sheet_count":   len(sheetList),
+			"sheets":        sheetInfo,
+			// 新增：整体文件结构分析
+			"file_structure_summary": map[string]interface{}{
+				"total_merged_cells":         totalMergedCells,
+				"sheets_with_multi_headers":  sheetsWithMultiHeaders,
+				"complex_structure_detected": complexStructureDetected,
+			},
 		},
-		Message: "File info retrieved successfully",
+		Message: "Enhanced file info retrieved successfully with structure analysis",
 	})
 }
 

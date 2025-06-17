@@ -461,14 +461,25 @@ def smart_read_excel(file_path: str,
                 new_columns = []
                 for col in df.columns:
                     if isinstance(col, tuple):
-                        # 将元组列名转换为字符串，取最后一个非空元素
-                        col_parts = [str(part).strip() for part in col if part is not None and str(part).strip()]
+                        # 将元组列名转换为字符串，确保所有元素都是字符串类型
+                        col_parts = []
+                        for part in col:
+                            if part is not None:
+                                part_str = str(part).strip()
+                                if part_str:  # 只添加非空字符串
+                                    col_parts.append(part_str)
+                        
                         if col_parts:
-                            new_columns.append(col_parts[-1])
+                            # 使用下划线连接多级列名，或取最后一个非空元素
+                            if len(col_parts) > 1:
+                                new_columns.append('_'.join(col_parts))
+                            else:
+                                new_columns.append(col_parts[0])
                         else:
                             new_columns.append(str(col))
                     else:
-                        new_columns.append(col)
+                        # 确保单级列名也是字符串
+                        new_columns.append(str(col))
                 df.columns = new_columns
             
             result['success'] = True

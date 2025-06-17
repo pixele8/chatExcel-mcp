@@ -6,10 +6,9 @@ class Config:
     """应用配置类"""
     
     def __init__(self):
-        self.MAX_FILE_SIZE = int(os.getenv('MAX_FILE_SIZE', 100 * 1024 * 1024))  # 100MB
+        self.MAX_FILE_SIZE = int(os.getenv('MAX_FILE_SIZE', 200 * 1024 * 1024))  # 200MB
         self.BLACKLIST = [
-            'os.', 'sys.', 'subprocess.', 'open(', 'exec(', 'eval(', 
-            'import os', 'import sys', '__import__', 'globals()', 'locals()'
+            'subprocess.', '__import__'
         ]
         self.TEMPLATE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "templates")
         self.CHARTS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "charts")

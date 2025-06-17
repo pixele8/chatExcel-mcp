@@ -1,0 +1,42 @@
+{
+  "service": {
+    "name": "chatexcel-mcp",
+    "host": "localhost",
+    "port": 8080,
+    "debug": false,
+    "workers": 1,
+    "max_connections": 1000,
+    "timeout": 30,
+    "keep_alive": 2,
+    "health_check_enabled": true,
+    "health_check_interval": 30,
+    "health_check_timeout": 5,
+    "health_check_retries": 3,
+    "auto_restart": true,
+    "max_restart_attempts": 3,
+    "restart_delay": 10,
+    "graceful_shutdown_timeout": 30,
+    "dependencies": ["go-excel-service"],
+    "environment": {
+      "PYTHONPATH": ".",
+      "PATH": "/usr/local/bin:/usr/bin:/bin"
+    }
+  },
+  "go_service": {
+    "name": "go-excel-service",
+    "host": "localhost",
+    "port": 8081,
+    "debug": false,
+    "timeout": 30,
+    "health_check_enabled": true,
+    "health_check_interval": 15,
+    "health_check_timeout": 3,
+    "health_check_retries": 3,
+    "auto_restart": true,
+    "max_restart_attempts": 5,
+    "restart_delay": 5,
+    "graceful_shutdown_timeout": 15,
+    "build_command": "go build -o excel_service main.go",
+    "executable_path": "./excel_service"
+  }
+}

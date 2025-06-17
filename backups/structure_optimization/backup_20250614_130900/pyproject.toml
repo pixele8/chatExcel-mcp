@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools>=65.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chatExcel"
+version = "1.4.0"
+description = "chatExcel - Excel智能处理与数据分析MCP服务器 - 支持24个MCP工具的企业级解决方案（含安全增强、健康监控、依赖管理、Excel公式引擎）"
+requires-python = ">=3.11"
+dependencies = [
+    "fastmcp==0.3.0",
+    "mcp==1.1.0",
+    "pandas==2.2.3",
+    "numpy==2.2.1",
+    "openpyxl==3.1.5",
+    "xlrd==2.0.1",
+    "XlsxWriter==3.2.3",
+    "chardet==5.2.0",
+    "scipy==1.15.3",
+    "matplotlib==3.10.0",
+    "seaborn==0.13.2",
+    "plotly==5.24.1",
+    "requests==2.32.4",
+    "pydantic==2.11.5",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest==8.4.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+    "rich==14.0.0",
+    "typer==0.16.0",
+]
+web = [
+    "uvicorn==0.34.3",
+    "starlette==0.47.0",
+    "httpx==0.28.1",
+    "websockets==15.0.1",
+]
+
+[tool.setuptools]
+py-modules = [
+    "server", 
+    "config", 
+    "comprehensive_data_verification", 
+    "data_verification",
+    "excel_enhanced_tools",
+    "excel_smart_tools",
+    "excel_go_client"
+]
+
+[tool.setuptools.package-data]
+"*" = [
+    "templates/*.html", 
+    "static/**/*", 
+    "charts/*.html",
+    "*.json",
+    "*.md"
+]

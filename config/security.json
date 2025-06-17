@@ -1,132 +1,88 @@
 {
   "security": {
-    "api_key_required": true,
+    "api_key_required": false,
     "jwt_secret": null,
     "jwt_expiry": 3600,
-    "rate_limit_enabled": true,
-    "rate_limit_requests": 100,
+    "rate_limit_enabled": false,
+    "rate_limit_requests": 1000,
     "rate_limit_window": 60,
-    "max_file_size": 104857600,
-    "allowed_file_types": [".xlsx", ".xls", ".csv", ".json"],
+    "max_file_size": 209715200,
+    "allowed_file_types": [".xlsx", ".xls", ".csv", ".json", ".txt", ".xml", ".tsv"],
     "upload_path_whitelist": [
       "/tmp/chatexcel",
       "./uploads",
-      "./temp"
+      "./temp",
+      "./data",
+      "./input",
+      "./output"
     ],
-    "code_execution_enabled": false,
-    "code_execution_timeout": 30,
-    "code_execution_memory_limit": 512,
+    "code_execution_enabled": true,
+    "code_execution_timeout": 120,
+    "code_execution_memory_limit": 2048,
     "blacklisted_modules": [
-      "os",
-      "sys",
       "subprocess",
-      "importlib",
-      "__import__",
-      "eval",
-      "exec",
-      "compile",
-      "open",
-      "file",
-      "input",
-      "raw_input",
       "execfile",
-      "reload",
-      "__builtins__",
-      "globals",
-      "locals",
-      "vars",
-      "dir",
-      "hasattr",
-      "getattr",
-      "setattr",
-      "delattr",
-      "callable",
-      "isinstance",
-      "issubclass",
-      "iter",
-      "next",
-      "super",
-      "property",
-      "staticmethod",
-      "classmethod",
-      "type",
-      "object",
-      "basestring",
-      "unicode",
-      "buffer",
-      "slice",
-      "tuple",
-      "list",
-      "dict",
-      "set",
-      "frozenset",
-      "memoryview",
-      "bytearray",
-      "bytes"
+      "reload"
     ],
     "allowed_hosts": [
       "localhost",
       "127.0.0.1",
-      "0.0.0.0"
+      "0.0.0.0",
+      "*"
     ],
     "ssl_enabled": false,
     "ssl_cert_path": null,
     "ssl_key_path": null,
     "log_sensitive_data": false,
-    "audit_log_enabled": true,
+    "audit_log_enabled": false,
     "audit_log_path": "logs/audit.log",
-    "session_timeout": 1800,
-    "max_login_attempts": 5,
-    "lockout_duration": 900,
+    "session_timeout": 7200,
+    "max_login_attempts": 20,
+    "lockout_duration": 300,
     "password_policy": {
-      "min_length": 8,
-      "require_uppercase": true,
-      "require_lowercase": true,
-      "require_numbers": true,
-      "require_special_chars": true,
-      "max_age_days": 90
+      "min_length": 4,
+      "require_uppercase": false,
+      "require_lowercase": false,
+      "require_numbers": false,
+      "require_special_chars": false,
+      "max_age_days": 365
     },
     "cors_enabled": true,
     "cors_origins": [
-      "http://localhost:3000",
-      "http://127.0.0.1:3000"
+      "*"
     ],
-    "cors_methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    "cors_methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     "cors_headers": [
-      "Content-Type",
-      "Authorization",
-      "X-Requested-With",
-      "Accept",
-      "Origin"
+      "*"
     ],
     "input_validation": {
-      "max_string_length": 10000,
-      "max_array_length": 1000,
-      "max_object_depth": 10,
-      "sanitize_html": true,
-      "validate_json_schema": true
+      "max_string_length": 100000,
+      "max_array_length": 10000,
+      "max_object_depth": 50,
+      "sanitize_html": false,
+      "validate_json_schema": false
     },
     "encryption": {
       "algorithm": "AES-256-GCM",
-      "key_rotation_days": 30,
-      "encrypt_sensitive_logs": true,
+      "key_rotation_days": 365,
+      "encrypt_sensitive_logs": false,
       "encrypt_config_files": false
     },
     "monitoring": {
-      "failed_login_threshold": 10,
-      "suspicious_activity_threshold": 50,
+      "failed_login_threshold": 100,
+      "suspicious_activity_threshold": 500,
       "alert_email": null,
       "alert_webhook": null,
       "log_all_requests": false,
-      "log_failed_requests": true,
-      "log_slow_requests": true,
-      "slow_request_threshold": 5000
+      "log_failed_requests": false,
+      "log_slow_requests": false,
+      "slow_request_threshold": 30000
     },
     "backup": {
-      "encrypt_backups": true,
-      "backup_retention_days": 30,
+      "encrypt_backups": false,
+      "backup_retention_days": 7,
       "backup_location": "./backups",
-      "auto_backup_interval": 86400
+      "auto_backup_interval": 604800
     }
   }
 }

@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "chatexcel": {
+      "command": "./venv/bin/python3",
+      "args": ["server.py"],
+      "cwd": "/Users/wangdada/Downloads/mcp/chatExcel-mcp",
+      "env": {
+        "PYTHONPATH": "/Users/wangdada/Downloads/mcp/chatExcel-mcp"
+      }
+    }
+  }
+}

@@ -6,7 +6,7 @@
 [![FastMCP](https://img.shields.io/badge/FastMCP-0.3.0-green.svg)](https://github.com/jlowin/fastmcp)
 [![Go Version](https://img.shields.io/badge/go-1.24%2B-00ADD8.svg)](https://golang.org)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.4.0-orange.svg)](pyproject.toml)
+[![Version](https://img.shields.io/badge/version-2.0.0-orange.svg)](pyproject.toml)
 [![Formulas](https://img.shields.io/badge/formulas-1.2.10-blue.svg)](https://pypi.org/project/formulas/)
 [![Security](https://img.shields.io/badge/security-enhanced-green.svg)](#-安全考虑)
 [![Performance](https://img.shields.io/badge/performance-optimized-brightgreen.svg)](#-性能优化)
@@ -18,9 +18,10 @@ ChatExcel MCP Server 是一个功能强大的模型上下文协议(MCP)服务器
 
 ### 🎯 核心特性
 
-- **24个专业MCP工具** - 覆盖数据读取、处理、验证、可视化、公式计算全流程
+- **31个专业MCP工具** - 覆盖数据读取、处理、验证、可视化、公式计算、数据质量控制全流程
 - **双引擎架构** - Python pandas + Go excelize 混合处理引擎
 - **Excel公式引擎** - 基于formulas库的完整Excel公式解析、编译和执行系统
+- **数据质量控制** - 7个专业数据质量工具，支持高级数据清洗和验证
 - **智能参数推荐** - 自动检测Excel文件结构并推荐最佳读取参数
 - **企业级安全** - 多层安全机制，代码沙箱执行环境，公式安全验证
 - **性能优化** - 缓存机制、并发处理、内存优化
@@ -29,7 +30,7 @@ ChatExcel MCP Server 是一个功能强大的模型上下文协议(MCP)服务器
 
 ## 🛠️ MCP工具列表
 
-本项目提供 **24个专业MCP工具**，覆盖Excel数据处理、分析、验证和公式计算的完整生命周期。
+本项目提供 **31个专业MCP工具**，覆盖Excel数据处理、分析、验证、公式计算和数据质量控制的完整生命周期。
 
 ### 📊 数据读取与元数据工具 (4个)
 | 工具名称 | 功能描述 | 主要特性 |
@@ -70,7 +71,7 @@ ChatExcel MCP Server 是一个功能强大的模型上下文协议(MCP)服务器
 | `detect_excel_file_structure_tool` | Excel文件结构检测 | 多级表头、数据区域识别 |
 | `create_excel_read_template_tool` | Excel读取代码模板生成 | 智能模板、参数配置 |
 
-### 🧮 Excel公式处理工具 (5个) - **新增**
+### 🧮 Excel公式处理工具 (5个)
 | 工具名称 | 功能描述 | 主要特性 |
 |---------|----------|----------|
 | `parse_formula` | Excel公式解析器 | AST解析、语法分析、安全验证 |
@@ -78,6 +79,17 @@ ChatExcel MCP Server 是一个功能强大的模型上下文协议(MCP)服务器
 | `execute_formula` | Excel公式执行引擎 | 安全执行、上下文支持、结果验证 |
 | `analyze_dependencies` | Excel公式依赖分析 | 依赖图生成、循环检测、影响分析 |
 | `validate_formula` | Excel公式验证器 | 安全检查、语法验证、风险评估 |
+
+### 🔍 数据质量控制工具 (7个) - **新增**
+| 工具名称 | 功能描述 | 主要特性 |
+|---------|----------|----------|
+| `enhanced_data_quality_check` | 增强数据质量检查 | 多级质量检查、综合报告 |
+| `extract_cell_content_advanced` | 高级单元格内容提取 | 多类型提取、格式化内容 |
+| `convert_character_formats` | 字符格式自动化转换 | 批量转换、规则配置 |
+| `extract_multi_condition_data` | 多条件数据提取 | 复杂条件、灵活筛选 |
+| `merge_multiple_tables` | 多表格数据合并 | 智能合并、配置化处理 |
+| `clean_excel_data` | Excel数据清洗 | 全面清洗、质量提升 |
+| `batch_process_excel_files` | 批量Excel文件处理 | 并行处理、统一配置 |
 
 ---
 
@@ -141,57 +153,198 @@ result = validate_formula("=SUM(A1:A10)")
 
 ---
 
+## 📋 版本更新日志
+
+### v2.0.0 (2020-06-18)
+
+**🎉 重大更新**
+- ✅ **解除tabulate库限制**: 完全移除对tabulate库的安全限制，支持表格格式化功能
+- ✅ **安全配置优化**: 更新security.json配置，将tabulate添加到安全模块列表
+- ✅ **代码执行增强**: 优化secure_code_executor.py，提升代码执行安全性
+- ✅ **测试覆盖完善**: 新增tabulate库独立测试和MCP集成测试
+- ✅ **文档更新**: 完善README和requirements.txt版本信息
+
+**🔧 技术改进**
+- 修复了tabulate库在MCP环境中的兼容性问题
+- 优化了安全沙箱的模块加载机制
+- 提升了表格数据格式化的性能和稳定性
+
 ## 🚀 快速开始
 
-### 环境要求
+### 📋 环境要求
 
-- **Python**: 3.11+
-- **操作系统**: macOS, Linux, Windows
-- **内存**: 建议4GB+
-- **磁盘空间**: 500MB+
+| 组件 | 版本要求 | 说明 |
+|------|----------|------|
+| **Python** | 3.11+ | 推荐使用 Python 3.11 或更高版本 |
+| **操作系统** | macOS, Linux, Windows | 全平台支持 |
+| **内存** | 4GB+ | 建议8GB以获得更好性能 |
+| **磁盘空间** | 1GB+ | 包含依赖和缓存空间 |
+| **Go** | 1.21+ (可选) | 用于高性能Excel处理 |
 
-### 一键部署
+### ⚡ 一键部署 (推荐)
 
 ```bash
-# 克隆项目
-git clone <repository-url>
-cd chatExcel-mcp
+# 1. 克隆项目
+git clone https://github.com/Lillard01/chatExcel-mcp2.0.git
+cd chatExcel-mcp2.0
 
-# 一键部署（推荐）
+# 2. 一键部署（自动安装依赖、配置环境、启动服务）
 ./start.sh --deploy
 
-# 启动增强版服务器
+# 3. 启动增强版服务器
 ./start.sh
 ```
 
-### 手动安装
+### 🔧 手动安装
 
+#### 步骤1: 环境准备
 ```bash
-# 1. 创建虚拟环境
+# 克隆项目
+git clone https://github.com/Lillard01/chatExcel-mcp2.0.git
+cd chatExcel-mcp2.0
+
+# 创建虚拟环境
 python3 -m venv venv
+
+# 激活虚拟环境
 source venv/bin/activate  # macOS/Linux
 # venv\Scripts\activate  # Windows
-
-# 2. 安装依赖
-pip install -r requirements.txt
-
-# 3. 启动服务器
-python3 server.py
 ```
 
-### Docker部署
+#### 步骤2: 安装依赖
+```bash
+# 升级pip
+pip install --upgrade pip
 
+# 安装项目依赖
+pip install -r requirements.txt
+
+# 验证安装
+python3 check_dependencies.py
+```
+
+#### 步骤3: 配置服务
+```bash
+# 生成MCP配置文件
+python3 generate_mcp_config.py
+
+# 检查环境配置
+python3 check_env.py
+```
+
+#### 步骤4: 启动服务
+```bash
+# 启动标准服务器
+python3 server.py
+
+# 或启动增强版服务器（推荐）
+python3 enhanced_server.py
+
+# 后台运行
+nohup python3 server.py > chatexcel.log 2>&1 &
+```
+
+### 🐳 Docker部署
+
+#### 使用预构建镜像
+```bash
+# 拉取镜像
+docker pull chatexcel/mcp-server:latest
+
+# 运行容器
+docker run -d \
+  --name chatexcel-mcp \
+  -p 8080:8080 \
+  -v $(pwd)/data:/app/data \
+  -v $(pwd)/config:/app/config \
+  chatexcel/mcp-server:latest
+```
+
+#### 本地构建
 ```bash
 # 构建镜像
 docker build -t chatexcel-mcp .
 
 # 运行容器
-docker run -p 8080:8080 -v $(pwd)/data:/app/data chatexcel-mcp
+docker run -d \
+  --name chatexcel-mcp \
+  -p 8080:8080 \
+  -v $(pwd)/data:/app/data \
+  chatexcel-mcp
+```
+
+### 🔍 安装验证
+
+```bash
+# 运行健康检查
+python3 scripts/health_check.py
+
+# 运行功能测试
+python3 test/quick_test.py
+
+# 验证MCP工具
+python3 comprehensive_mcp_test.py
+
+# 检查服务状态
+curl http://localhost:8080/health
+```
+
+## 🔧 MCP配置与集成
+
+### MCP客户端配置
+
+#### Claude Desktop配置
+
+在 `~/Library/Application Support/Claude/claude_desktop_config.json` 中添加：
+
+```json
+{
+  "mcpServers": {
+    "chatexcel": {
+      "command": "python3",
+      "args": ["/path/to/chatExcel-mcp2.0/server.py"],
+      "env": {
+        "PYTHONPATH": "/path/to/chatExcel-mcp2.0"
+      }
+    }
+  }
+}
+```
+
+#### 自动配置生成
+
+```bash
+# 生成MCP配置文件
+python3 generate_mcp_config.py
+
+# 查看生成的配置
+cat mcp_config_absolute.json
+```
+
+### 环境变量配置
+
+创建 `.env` 文件：
+
+```bash
+# 服务配置
+MCP_SERVER_HOST=localhost
+MCP_SERVER_PORT=8080
+MCP_LOG_LEVEL=INFO
+
+# Excel处理配置
+EXCEL_MAX_FILE_SIZE=100MB
+EXCEL_CACHE_ENABLED=true
+EXCEL_GO_SERVICE_URL=http://localhost:8081
+
+# 安全配置
+CODE_EXECUTION_TIMEOUT=30
+MAX_MEMORY_USAGE=1GB
+SECURE_MODE=true
 ```
 
 ## 📖 使用示例
 
-### 基础Excel读取
+### 🔍 基础Excel读取
 
 ```python
 # 使用MCP工具读取Excel文件
@@ -202,14 +355,15 @@ result = await mcp_client.call_tool(
 
 print(f"工作表数量: {result['sheets_count']}")
 print(f"数据行数: {result['total_rows']}")
+print(f"编码格式: {result['encoding']}")
 ```
 
-### 智能参数推荐
+### 🤖 智能参数推荐
 
 ```python
 # 获取最佳读取参数
 params = await mcp_client.call_tool(
-    "suggest_excel_read_parameters",
+    "suggest_excel_read_parameters_tool",
     {"file_path": "/path/to/complex.xlsx"}
 )
 
@@ -221,9 +375,11 @@ data = await mcp_client.call_tool(
         **params["recommended_params"]
     }
 )
+
+print(f"读取成功，数据形状: {data['shape']}")
 ```
 
-### 数据处理与分析
+### 📊 数据处理与分析
 
 ```python
 # 执行数据分析代码
@@ -237,14 +393,20 @@ analysis = await mcp_client.call_tool(
         summary = df_clean.describe()
         correlation = df_clean.corr()
         
-        print("数据摘要:")
+        # 数据质量检查
+        missing_data = df.isnull().sum()
+        duplicate_rows = df.duplicated().sum()
+        
+        print("=== 数据摘要 ===")
         print(summary)
+        print(f"\n缺失数据: {missing_data.sum()}")
+        print(f"重复行数: {duplicate_rows}")
         """
     }
 )
 ```
 
-### 可视化图表生成
+### 📈 可视化图表生成
 
 ```python
 # 生成交互式柱状图
@@ -254,15 +416,84 @@ chart = await mcp_client.call_tool(
         "labels": ["Q1", "Q2", "Q3", "Q4"],
         "datasets": [
             {
-                "label": "销售额",
-                "data": [120, 150, 180, 200]
+                "label": "销售额(万元)",
+                "data": [120, 150, 180, 200],
+                "backgroundColor": "rgba(54, 162, 235, 0.6)"
             }
         ],
-        "title": "季度销售报告"
+        "title": "2024年季度销售报告",
+        "options": {
+            "responsive": True,
+            "plugins": {
+                "legend": {"display": True}
+            }
+        }
     }
 )
 
 print(f"图表已生成: {chart['filepath']}")
+```
+
+### 🧮 Excel公式处理
+
+```python
+# 解析Excel公式
+formula_result = await mcp_client.call_tool(
+    "parse_formula",
+    {
+        "formula": "=SUM(A1:A10)*0.1+AVERAGE(B1:B10)",
+        "validate_security": True
+    }
+)
+
+print(f"公式解析成功: {formula_result['is_valid']}")
+print(f"引用单元格: {formula_result['references']}")
+
+# 执行公式
+execute_result = await mcp_client.call_tool(
+    "execute_formula",
+    {
+        "formula": "=A1+B1",
+        "context": '{"A1": 10, "B1": 20}'
+    }
+)
+
+print(f"计算结果: {execute_result['result']}")
+```
+
+### 🔍 数据质量控制
+
+```python
+# 增强数据质量检查
+quality_check = await mcp_client.call_tool(
+    "enhanced_data_quality_check",
+    {
+        "file_path": "/path/to/data.xlsx",
+        "check_types": ["completeness", "consistency", "accuracy"],
+        "generate_report": True
+    }
+)
+
+print(f"数据质量评分: {quality_check['quality_score']}")
+print(f"发现问题: {len(quality_check['issues'])}")
+
+# 批量数据验证
+batch_verification = await mcp_client.call_tool(
+    "batch_data_verification_tool",
+    {
+        "file_paths": [
+            "/path/to/file1.xlsx",
+            "/path/to/file2.xlsx"
+        ],
+        "verification_rules": {
+            "check_duplicates": True,
+            "validate_formats": True,
+            "check_completeness": True
+        }
+    }
+)
+
+print(f"批量验证完成，处理文件数: {batch_verification['processed_count']}")
 ```
 
 ## 🏗️ 项目架构
@@ -722,59 +953,241 @@ logrotate config/logrotate.conf
 
 ## 🐛 故障排除
 
-### 常见问题
+### 📋 快速诊断
 
-#### 1. 服务启动失败
+```bash
+# 运行全面诊断工具
+python3 diagnose_mcp_setup.py
+
+# 检查系统健康状态
+python3 scripts/health_check.py --detailed
+
+# 验证所有依赖
+python3 check_dependencies.py
+```
+
+### 🔧 常见问题解决方案
+
+#### 1. 🚫 服务启动失败
+
+**问题症状**: 服务无法启动或立即退出
 
 ```bash
 # 检查端口占用
 lsof -i :8080
+# 如果端口被占用，杀死进程或更换端口
+kill -9 <PID>
 
-# 检查依赖
+# 检查Python环境
+which python3
+python3 --version
+
+# 检查依赖完整性
 pip check
+pip list | grep -E "fastmcp|pandas|openpyxl"
 
-# 查看详细错误
+# 查看详细错误日志
 python3 server.py --debug
+# 或查看日志文件
+tail -f chatExcel.log
 ```
 
-#### 2. Excel读取失败
+**解决方案**:
+```bash
+# 重新安装依赖
+pip install --upgrade --force-reinstall -r requirements.txt
+
+# 清理缓存
+pip cache purge
+python3 -c "import shutil; shutil.rmtree('.encoding_cache', ignore_errors=True)"
+
+# 使用不同端口启动
+MCP_SERVER_PORT=8081 python3 server.py
+```
+
+#### 2. 📊 Excel读取失败
+
+**问题症状**: 无法读取Excel文件或读取结果异常
 
 ```bash
-# 检查文件权限
+# 检查文件权限和格式
 ls -la /path/to/file.xlsx
-
-# 验证文件格式
 file /path/to/file.xlsx
 
-# 测试读取
-python3 simple_test.py /path/to/file.xlsx
+# 验证文件完整性
+python3 -c "import openpyxl; wb=openpyxl.load_workbook('/path/to/file.xlsx'); print('文件正常')"
+
+# 测试基础读取功能
+python3 test/simple_test.py /path/to/file.xlsx
 ```
 
-#### 3. Go服务连接失败
+**解决方案**:
+```bash
+# 修复文件权限
+chmod 644 /path/to/file.xlsx
+
+# 使用不同的读取引擎
+python3 -c "
+import pandas as pd
+# 尝试不同引擎
+for engine in ['openpyxl', 'xlrd']:
+    try:
+        df = pd.read_excel('/path/to/file.xlsx', engine=engine)
+        print(f'{engine} 引擎成功')
+        break
+    except Exception as e:
+        print(f'{engine} 引擎失败: {e}')
+"
+
+# 检查编码问题
+python3 utils/encoding_detector.py /path/to/file.xlsx
+```
+
+#### 3. 🔗 Go服务连接失败
+
+**问题症状**: Go excelize服务无法连接或响应超时
 
 ```bash
 # 检查Go服务状态
 ps aux | grep excel-service
+lsof -i :8081
 
-# 重启Go服务
-cd excel-service && ./excel-service
-
-# 测试连接
-curl http://localhost:8081/health
+# 测试Go服务连接
+curl -v http://localhost:8081/health
+telnet localhost 8081
 ```
 
-### 调试工具
+**解决方案**:
+```bash
+# 重新编译Go服务
+cd excel-service
+go mod tidy
+go build -o excel-service main.go
+
+# 启动Go服务
+./excel-service &
+
+# 如果Go不可用，禁用Go服务
+export EXCEL_GO_SERVICE_ENABLED=false
+python3 server.py
+```
+
+#### 4. 🔒 权限和安全问题
+
+**问题症状**: 代码执行被阻止或安全检查失败
 
 ```bash
-# 简单调试
-python3 simple_debug.py
+# 检查安全配置
+cat config/security.json
 
-# 全面诊断
-python3 diagnose_mcp_setup.py
-
-# 性能分析
-python3 -m cProfile server.py
+# 测试安全模式
+python3 -c "
+from security.secure_code_executor import SecureCodeExecutor
+executor = SecureCodeExecutor()
+result = executor.execute('print(\"Hello World\")')
+print(result)
+"
 ```
+
+**解决方案**:
+```bash
+# 调整安全配置（谨慎操作）
+vim config/security.json
+
+# 临时禁用严格模式（仅用于调试）
+export SECURE_MODE=false
+python3 server.py
+
+# 检查黑名单配置
+python3 -c "from config import SECURITY_CONFIG; print(SECURITY_CONFIG['blacklisted_modules'])"
+```
+
+#### 5. 💾 内存和性能问题
+
+**问题症状**: 处理大文件时内存不足或响应缓慢
+
+```bash
+# 监控内存使用
+top -p $(pgrep -f server.py)
+
+# 检查缓存状态
+python3 cache_manager.py --stats
+
+# 清理缓存
+python3 cache_manager.py --clean
+```
+
+**解决方案**:
+```bash
+# 调整内存限制
+export MAX_MEMORY_USAGE=2GB
+export EXCEL_MAX_FILE_SIZE=50MB
+
+# 启用分块处理
+export CHUNK_SIZE=10000
+python3 server.py
+
+# 优化缓存配置
+vim cache_config.json
+```
+
+### 🔍 调试工具
+
+#### 基础调试
+```bash
+# 简单功能测试
+python3 test/simple_debug.py
+
+# MCP工具测试
+python3 comprehensive_mcp_test.py
+
+# 快速验证
+python3 test/quick_test.py
+```
+
+#### 高级调试
+```bash
+# 性能分析
+python3 -m cProfile -o profile.stats server.py
+python3 -c "import pstats; p=pstats.Stats('profile.stats'); p.sort_stats('cumulative').print_stats(10)"
+
+# 内存分析
+python3 -m memory_profiler server.py
+
+# 网络调试
+netstat -tulpn | grep :8080
+ss -tulpn | grep :8080
+```
+
+#### 日志分析
+```bash
+# 实时日志监控
+tail -f chatExcel.log | grep -E "ERROR|WARNING"
+
+# 日志统计分析
+python3 scripts/log_analyzer.py --date today --level ERROR
+
+# 清理旧日志
+find . -name "*.log" -mtime +7 -delete
+```
+
+### 📞 获取帮助
+
+如果以上解决方案无法解决问题，请：
+
+1. **收集诊断信息**:
+   ```bash
+   python3 diagnose_mcp_setup.py > diagnosis.txt
+   python3 --version >> diagnosis.txt
+   pip list >> diagnosis.txt
+   ```
+
+2. **创建最小复现示例**:
+   ```bash
+   python3 test/create_minimal_test.py
+   ```
+
+3. **提交Issue**: 访问 [GitHub Issues](https://github.com/Lillard01/chatExcel-mcp2.0/issues) 并附上诊断信息
 
 ## 📄 许可证
 

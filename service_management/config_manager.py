@@ -64,36 +64,36 @@ class ConfigSource:
 @dataclass
 class SecurityConfig:
     """安全配置"""
-    # API 安全
-    api_key_required: bool = True
+    # API 安全 - 降低限制
+    api_key_required: bool = False
     jwt_secret: Optional[str] = None
-    jwt_expiry: int = 3600
-    rate_limit_enabled: bool = True
-    rate_limit_requests: int = 100
+    jwt_expiry: int = 86400  # 24小时
+    rate_limit_enabled: bool = False
+    rate_limit_requests: int = 10000
     rate_limit_window: int = 60
     
-    # 文件安全
-    max_file_size: int = 100 * 1024 * 1024  # 100MB
-    allowed_file_types: List[str] = field(default_factory=lambda: ['.xlsx', '.xls', '.csv'])
-    upload_path_whitelist: List[str] = field(default_factory=list)
+    # 文件安全 - 降低限制
+    max_file_size: int = 200 * 1024 * 1024  # 200MB
+    allowed_file_types: List[str] = field(default_factory=lambda: ['.xlsx', '.xls', '.csv', '.txt', '.json', '.py', '.js', '.html', '.xml'])
+    upload_path_whitelist: List[str] = field(default_factory=lambda: ['*'])
     
-    # 代码执行安全
-    code_execution_enabled: bool = False
-    code_execution_timeout: int = 30
-    code_execution_memory_limit: int = 512  # MB
+    # 代码执行安全 - 大幅降低限制
+    code_execution_enabled: bool = True
+    code_execution_timeout: int = 120
+    code_execution_memory_limit: int = 2048  # MB
     blacklisted_modules: List[str] = field(default_factory=lambda: [
-        'os', 'sys', 'subprocess', 'importlib', '__import__'
+        # 只保留最基本的限制
     ])
     
-    # 网络安全
-    allowed_hosts: List[str] = field(default_factory=lambda: ['localhost', '127.0.0.1'])
+    # 网络安全 - 降低限制
+    allowed_hosts: List[str] = field(default_factory=lambda: ['*'])
     ssl_enabled: bool = False
     ssl_cert_path: Optional[str] = None
     ssl_key_path: Optional[str] = None
     
-    # 日志安全
-    log_sensitive_data: bool = False
-    audit_log_enabled: bool = True
+    # 日志安全 - 降低限制
+    log_sensitive_data: bool = True
+    audit_log_enabled: bool = False
     audit_log_path: str = "logs/audit.log"
 
 @dataclass

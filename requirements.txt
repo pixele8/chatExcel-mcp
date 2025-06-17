@@ -1,42 +1,60 @@
 # chatExcel - Excel智能处理与数据分析MCP服务器依赖包列表
-# ChatExcel MCP Server - 企业级增强版
+# ChatExcel MCP Server - 企业级增强版 v2.0.0
 # Python 3.11+ 兼容版本
-# 支持Excel智能处理、数据分析、代码执行和可视化功能
+# 支持Excel智能处理、数据分析、代码执行、可视化和公式计算功能
 # 版本更新日期: 2025-01-27
 # NumPy和Pandas功能完备性验证通过
 # 增强多级列头检测系统已修复并正常运行
+# 新增Excel公式处理引擎 (formulas==1.2.10)
 # 新增安全机制、健康监控、依赖管理等企业级功能
 
 # ========================================
 # MCP工具功能映射说明 - 企业级增强版
 # ========================================
-# 本项目提供以下22个MCP工具 (新增3个安全和管理工具):
+# 本项目提供以下31个MCP工具 (包含Excel公式处理和数据质量控制工具):
 
-# 📊 数据处理工具 (16个)
+# 📊 核心数据处理工具 (12个)
 # 1. read_metadata - CSV文件元数据读取和智能分析
 # 2. verify_data_integrity - 数据完整性验证和比对核准
 # 3. read_excel_metadata - Excel文件元数据读取和智能编码检测
 # 4. run_excel_code - Excel代码执行引擎(支持复杂格式参数,安全沙箱)
 # 5. run_code - CSV代码执行引擎(安全沙箱环境)
-# 6. batch_data_verification_tool - 批量数据验证工具
-# 7. excel_read_enhanced - 增强Excel读取工具(智能参数推荐)
-# 8. excel_write_enhanced - 增强Excel写入工具(格式优化)
-# 9. excel_chart_enhanced - 增强Excel图表生成工具
-# 10. excel_info_enhanced - 增强Excel信息分析工具
-# 11. excel_performance_comparison - Excel性能对比分析工具
-# 12. bar_chart_to_html - 交互式柱状图生成(Chart.js)
-# 13. pie_chart_to_html - 交互式饼图生成(Chart.js)
-# 14. line_chart_to_html - 交互式折线图生成(Chart.js)
-# 15. validate_data_quality - 数据质量验证和改进建议
-# 16. suggest_excel_read_parameters_tool - Excel读取参数智能推荐
-# 17. detect_excel_file_structure_tool - Excel文件结构检测
-# 18. create_excel_read_template_tool - Excel读取代码模板生成
-# 19. comprehensive_data_verification_tool - 综合数据验证和核准
+# 6. validate_data_quality - 数据质量验证和改进建议
+# 7. suggest_excel_read_parameters_tool - Excel读取参数智能推荐
+# 8. detect_excel_file_structure_tool - Excel文件结构检测
+# 9. create_excel_read_template_tool - Excel读取代码模板生成
+# 10. comprehensive_data_verification_tool - 综合数据验证和核准
+# 11. batch_data_verification_tool - 批量数据验证工具
 
-# 🔒 安全和管理工具 (3个新增)
-# 20. security_audit_tool - 安全审计和漏洞扫描
-# 21. health_monitor_tool - 服务健康监控和状态检查
-# 22. dependency_analysis_tool - 依赖分析和版本管理
+# 🚀 增强Excel处理工具 (5个)
+# 12. excel_read_enhanced - 增强Excel读取工具(Go服务集成)
+# 13. excel_write_enhanced - 增强Excel写入工具(高性能写入)
+# 14. excel_chart_enhanced - 增强Excel图表生成工具(Go服务支持)
+# 15. excel_info_enhanced - 增强Excel信息分析工具(详细分析)
+# 16. excel_performance_comparison - Excel性能对比分析工具(Go vs pandas)
+
+# 📈 数据可视化工具 (3个)
+# 17. bar_chart_to_html - 交互式柱状图生成(Chart.js)
+# 18. pie_chart_to_html - 交互式饼图生成(Chart.js)
+# 19. line_chart_to_html - 交互式折线图生成(Chart.js)
+
+# 🧮 Excel公式处理工具 (5个)
+# 20. parse_formula - Excel公式解析器(AST解析、语法分析、安全验证)
+# 21. compile_workbook - Excel工作簿编译器(公式编译、代码生成、依赖分析)
+# 22. execute_formula - Excel公式执行引擎(安全执行、上下文支持、结果验证)
+# 23. analyze_dependencies - Excel公式依赖分析(依赖图生成、循环检测、影响分析)
+# 24. validate_formula - Excel公式验证器(安全检查、语法验证、风险评估)
+
+# 🔍 数据质量控制工具 (7个) - 新增
+# 25. enhanced_data_quality_check - 增强数据质量检查(多级质量检查、综合报告)
+# 26. extract_cell_content_advanced - 高级单元格内容提取(多类型提取、格式化内容)
+# 27. convert_character_formats - 字符格式自动化转换(批量转换、规则配置)
+# 28. extract_multi_condition_data - 多条件数据提取(复杂条件、灵活筛选)
+# 29. merge_multiple_tables - 多表格数据合并(智能合并、配置化处理)
+# 30. clean_excel_data - Excel数据清洗(全面清洗、质量提升)
+# 31. batch_process_excel_files - 批量Excel文件处理(并行处理、统一配置)
+
+# 注意: 安全和管理工具已集成到核心功能中，不作为独立MCP工具提供
 
 # 🏥 增强功能特性:
 # - 安全代码执行: 基于AST分析的代码安全检查
@@ -59,15 +77,19 @@ mcp==1.1.0        # 模型上下文协议核心库
 # 支持工具: read_metadata, read_excel_metadata, run_excel_code, run_code, verify_data_integrity
 pandas==2.2.3     # 数据分析核心库
 numpy==2.2.1      # 数值计算基础库
+tabulate==0.9.0   # 表格格式化库 (支持pandas.to_markdown())
 
 # Excel文件处理（智能分析功能核心依赖）
 # 支持工具: read_excel_metadata, run_excel_code, excel_read_enhanced, excel_write_enhanced
+# 数据质量控制工具: enhanced_data_quality_check, extract_cell_content_advanced, clean_excel_data
 openpyxl==3.1.5   # Excel文件读写库
 xlrd==2.0.1       # Excel文件读取库
 XlsxWriter==3.2.3 # Excel文件写入库
+formulas==1.2.10   # Excel公式解析和执行库
 
 # 文件编码检测和统计分析
 # 支持工具: read_metadata, read_excel_metadata, comprehensive_data_verification_tool
+# 数据质量控制工具: enhanced_data_quality_check, extract_multi_condition_data
 chardet==5.2.0    # 智能编码检测库
 scipy==1.15.3     # 统计分析和科学计算库
 
@@ -76,6 +98,7 @@ scipy==1.15.3     # 统计分析和科学计算库
 # ========================================
 # 图表生成库 - 支持交互式图表工具
 # 支持工具: bar_chart_to_html, pie_chart_to_html, line_chart_to_html, excel_chart_enhanced
+# 数据质量控制工具: enhanced_data_quality_check (质量报告可视化)
 matplotlib==3.10.0  # 静态图表生成库
 seaborn==0.13.2     # 统计图表美化库
 plotly==5.24.1      # 交互式图表核心库 - Chart.js模板支持
@@ -249,7 +272,7 @@ pycparser>=2.22        # 当前版本: 2.22
 # 版本: 2.1.0
 # 更新日期: 2025-06-10
 # 描述: Excel智能处理与数据分析MCP服务器的完整依赖配置
-# 支持14个专业MCP工具，包含数据处理、可视化和验证功能
+# 支持31个专业MCP工具，包含数据处理、可视化、验证、公式处理和数据质量控制功能
 
 # ========================================
 # 🚀 快速安装指南
@@ -324,6 +347,15 @@ pycparser>=2.22        # 当前版本: 2.22
 # - read_excel_metadata: pandas + openpyxl + numpy
 # - run_excel_code: pandas + numpy + matplotlib + seaborn
 
+# 数据质量控制功能:
+# - enhanced_data_quality_check: pandas + numpy + scipy
+# - extract_cell_content_advanced: openpyxl + pandas
+# - convert_character_formats: pandas + openpyxl
+# - extract_multi_condition_data: pandas + numpy
+# - merge_multiple_tables: pandas + openpyxl
+# - clean_excel_data: pandas + numpy + scipy
+# - batch_process_excel_files: pandas + concurrent.futures
+
 # 数据可视化功能:
 # - bar_chart_to_html: plotly
 # - pie_chart_to_html: plotly
@@ -363,11 +395,13 @@ pycparser>=2.22        # 当前版本: 2.22
 
 # 📊 项目状态
 # ================================================
-# - 核心功能: ✅ 完全实现 (14个MCP工具)
-# - Excel处理: ✅ 支持复杂格式和多级表头
+# - 核心功能: ✅ 完全实现 (31个MCP工具)
+# - Excel处理: ✅ 支持复杂格式和多级表头，Go服务增强
+# - Excel公式: ✅ 完整的公式解析、编译和执行系统
+# - 数据质量控制: ✅ 7个专业数据质量工具，全面数据清洗
 # - 数据验证: ✅ 综合验证系统和批量处理
 # - 可视化: ✅ 交互式图表 (柱状图/饼图/折线图)
-# - 性能优化: ✅ 缓存和并发处理
+# - 性能优化: ✅ Go服务集成，缓存和并发处理
 # - 错误处理: ✅ 完善的异常处理机制
 # - 文档: ✅ 完整的使用文档和配置指南
 # - 测试: ✅ 保留核心测试，清理冗余脚本

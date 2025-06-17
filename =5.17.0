@@ -1,3 +1,0 @@
-Requirement already satisfied: plotly in /Users/wangdada/Downloads/mcp/excel-mcp/venv/lib/python3.11/site-packages (6.1.2)
-Requirement already satisfied: narwhals>=1.15.1 in /Users/wangdada/Downloads/mcp/excel-mcp/venv/lib/python3.11/site-packages (from plotly) (1.41.0)
-Requirement already satisfied: packaging in /Users/wangdada/Downloads/mcp/excel-mcp/venv/lib/python3.11/site-packages (from plotly) (25.0)

@@ -1,0 +1,45 @@
+{
+  "quick_check": {
+    "dependency": {
+      "description": "依赖审计",
+      "result": {
+        "success": false,
+        "error": "执行超时"
+      },
+      "timestamp": "2025-06-14T13:08:35.726746"
+    },
+    "security": {
+      "description": "安全扫描",
+      "result": {
+        "success": false,
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "  File \"/Users/wangdada/Downloads/mcp/chatExcel-mcp/scripts/security_enhancer.py\", line 125\n    'hardcoded_password': r'password\\s*=\\s*[\"\\'][^\"\\'\n                          ^\nSyntaxError: unterminated string literal (detected at line 125)\n",
+        "command": "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3 /Users/wangdada/Downloads/mcp/chatExcel-mcp/scripts/security_enhancer.py --scan"
+      },
+      "timestamp": "2025-06-14T13:08:35.791419"
+    },
+    "structure": {
+      "description": "结构分析",
+      "result": {
+        "success": true,
+        "returncode": 0,
+        "stdout": "🚀 开始项目结构优化...\n📊 开始项目结构分析...\n🔍 查找重复文件...\n📁 查找空目录...\n📏 查找大文件...\n🗑️ 查找临时文件...\n⚙️ 查找冗余配置文件...\n🖼️ 查找未使用的资源文件...\n🏗️ 分析项目结构模式...\n🔧 开始结构优化...\n💾 创建项目备份...\n✅ 备份已创建: /Users/wangdada/Downloads/mcp/chatExcel-mcp/backups/structure_optimization/backup_20250614_130900\n📊 优化报告已保存到: /Users/wangdada/Downloads/mcp/chatExcel-mcp/structure_optimization_report.md\n📊 详细数据已保存到: /Users/wangdada/Downloads/mcp/chatExcel-mcp/structure_optimization_report.json\n\n📊 结构分析摘要:\n- 重复文件: 72 组\n- 空目录: 2 个\n- 大文件: 5 个\n- 临时文件: 12 个\n- 冗余配置: 4 组\n- 未使用资源: 88 个\n\n🔧 优化执行摘要:\n- 已执行操作: 17 项\n- 需手动处理: 81 项\n- 备份已创建: 是\n",
+        "stderr": "",
+        "command": "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3 /Users/wangdada/Downloads/mcp/chatExcel-mcp/scripts/structure_optimizer.py --analyze"
+      },
+      "timestamp": "2025-06-14T13:09:00.621300"
+    },
+    "config": {
+      "description": "配置检查",
+      "result": {
+        "success": false,
+        "returncode": 2,
+        "stdout": "",
+        "stderr": "usage: config_optimizer.py [-h] [--project-root PROJECT_ROOT]\n                           {analyze,optimize} ...\nconfig_optimizer.py: error: unrecognized arguments: --analyze\n",
+        "command": "/Library/Frameworks/Python.framework/Versions/3.11/bin/python3 /Users/wangdada/Downloads/mcp/chatExcel-mcp/scripts/config_optimizer.py --analyze"
+      },
+      "timestamp": "2025-06-14T13:09:00.763766"
+    }
+  }
+}

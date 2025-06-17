@@ -28,12 +28,39 @@ from enhanced_excel_helper import smart_read_excel, detect_file_encoding, valida
 from comprehensive_data_verification import ComprehensiveDataVerifier
 from data_verification import verify_data_processing_result, DataVerificationEngine
 from excel_enhanced_tools import ExcelEnhancedProcessor, get_excel_processor
+# 导入 Excel 公式处理工具
+from formulas_tools import (
+    parse_excel_formula,
+    compile_excel_workbook,
+    execute_excel_formula,
+    analyze_excel_dependencies,
+    validate_excel_formula
+)
+# 导入 Excel 数据质量工具
+from excel_data_quality_tools import (
+    ExcelDataQualityController,
+    ExcelCellContentExtractor,
+    ExcelCharacterConverter,
+    ExcelMultiConditionExtractor,
+    ExcelMultiTableMerger,
+    ExcelDataCleaner,
+    ExcelBatchProcessor
+)
 
-# 统一常量定义
-MAX_FILE_SIZE = 100 * 1024 * 1024  # 100MB
-BLACKLIST = ['os.', 'sys.', 'subprocess.', 'open(', 'exec(', 'eval(', 'import os', 'import sys']
+# 统一常量定义 - 降低安全限制
+MAX_FILE_SIZE = 200 * 1024 * 1024  # 200MB
+BLACKLIST = ['subprocess.']  # 大幅减少黑名单，完全解除tabulate库限制
 TEMPLATE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "templates")
 CHARTS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "charts")
+
+# 初始化数据质量工具实例
+data_quality_controller = ExcelDataQualityController()
+cell_content_extractor = ExcelCellContentExtractor()
+character_converter = ExcelCharacterConverter()
+multi_condition_extractor = ExcelMultiConditionExtractor()
+multi_table_merger = ExcelMultiTableMerger()
+data_cleaner = ExcelDataCleaner()
+batch_processor = ExcelBatchProcessor()
 
 # 错误类型常量
 ERROR_TYPES = {
@@ -321,8 +348,8 @@ def read_metadata(file_path: str) -> dict:
 
 
 @mcp.tool()
-def verify_data_integrity(original_file: str, processed_data: str = None, 
-                         comparison_file: str = None, verification_type: str = "basic") -> dict:
+def verify_data_integrity(original_file: str, processed_data: Optional[str] = None, 
+                         comparison_file: Optional[str] = None, verification_type: str = "basic") -> dict:
     """数据完整性验证和比对核准工具。
     
     Args:
@@ -368,6 +395,23 @@ def verify_data_integrity(original_file: str, processed_data: str = None,
                 name1=os.path.basename(original_file),
                 name2=os.path.basename(comparison_file)
             )
+            
+            # 添加增强的数据质量检查
+            quality_result1 = data_quality_controller.comprehensive_quality_check(
+                original_file, "comprehensive"
+            )
+            quality_result2 = data_quality_controller.comprehensive_quality_check(
+                comparison_file, "comprehensive"
+            )
+            
+            comparison_result["enhanced_quality_analysis"] = {
+                "original_file_quality": quality_result1,
+                "comparison_file_quality": quality_result2,
+                "quality_comparison": {
+                    "score_difference": quality_result1.get("overall_score", 0) - quality_result2.get("overall_score", 0),
+                    "better_quality_file": "original" if quality_result1.get("overall_score", 0) > quality_result2.get("overall_score", 0) else "comparison"
+                }
+            }
             
             return {
                 "success": True,
@@ -509,11 +553,21 @@ def read_excel_metadata(file_path: str) -> dict:
                 "encoding_info": encoding_info
             }
         
-        df = read_result['data']
-        read_params = read_result['parameters']
+        df = read_result['dataframe']  # 修复：使用正确的键名
+        read_params = read_result.get('info', {}).get('read_params', {})  # 修复：获取正确的参数信息
         
         # 数据完整性验证
         integrity_result = validate_excel_data_integrity(file_path, df)
+        
+        # 增强的数据质量检查
+        quality_result = data_quality_controller.comprehensive_quality_check(
+            file_path, "comprehensive"
+        )
+        
+        # 高级单元格内容分析
+        cell_analysis = cell_content_extractor.extract_cell_content_advanced(
+            file_path, extract_type="all"
+        )
         
         # 获取所有工作表信息
         workbook = openpyxl.load_workbook(file_path, read_only=True)
@@ -593,6 +647,8 @@ def read_excel_metadata(file_path: str) -> dict:
             "suggested_params": suggested_params,
             "columns_metadata": columns_metadata,
             "integrity_check": integrity_result,
+            "enhanced_quality_analysis": quality_result,
+            "cell_content_analysis": cell_analysis,
             "warnings": {
                 "message": "Data quality issues detected" if (
                     df.isnull().any().any() or 
@@ -648,7 +704,8 @@ def run_excel_code(
     header: int = None, 
     usecols: str = None, 
     encoding: str = None,
-    auto_detect: bool = True
+    auto_detect: bool = True,
+    allow_file_write: bool = False
 ) -> dict:
     """增强版Excel代码执行工具，具备强化的pandas导入和错误处理机制。
     
@@ -661,19 +718,30 @@ def run_excel_code(
         usecols: 可选，要解析的列。可以是列名列表、列索引列表或字符串
         encoding: 指定编码（可选，自动检测时忽略）
         auto_detect: 是否启用智能检测和参数优化
+        allow_file_write: 是否允许在代码中写入文件
         
     Returns:
         dict: 执行结果或错误信息
     """
     
     # 增强的安全检查
-    for forbidden in BLACKLIST:
+    security_blacklist = BLACKLIST.copy()
+    if not allow_file_write:
+        # 如果不允许文件写入，添加更多限制
+        security_blacklist.extend([
+            'to_excel(', 'to_csv(', 'to_json(', 'to_pickle(',
+            '.save(', '.write(', 'open(', 'with open('
+        ])
+    
+    for forbidden in security_blacklist:
         if forbidden in code:
             return {
                 "error": {
                     "type": "SECURITY_VIOLATION",
                     "message": f"Forbidden operation detected: {forbidden}",
-                    "solution": "Remove restricted operations from your code"
+                    "solution": "Remove restricted operations from your code" + 
+                               (" or set allow_file_write=True" if not allow_file_write and 
+                                forbidden in ['to_excel(', 'to_csv(', 'to_json(', 'to_pickle(', '.save(', '.write(', 'open(', 'with open('] else "")
                 }
             }
 
@@ -739,6 +807,11 @@ def run_excel_code(
         # 智能编码检测
         encoding_info = detect_file_encoding(file_path)
         
+        # 数据质量预检查
+        quality_precheck = data_quality_controller.comprehensive_quality_check(
+            file_path, "basic"
+        )
+        
         # 构建读取参数
         read_kwargs = {}
         if sheet_name is not None:
@@ -766,15 +839,19 @@ def run_excel_code(
             # 2. 检查是否检测到多级列头
             is_multi_level = suggestions.get('analysis', {}).get('multi_level_header_detected', False)
             
-            # 3. 智能参数选择
-            if is_multi_level:
-                # 多级列头：使用建议参数
+            # 3. 智能参数选择 - 用户参数优先
+            if header is not None:
+                # 用户明确指定了header参数，优先使用用户设置
+                final_params = read_kwargs.copy()
+                # 不覆盖用户的header设置
+            elif is_multi_level:
+                # 多级列头且用户未指定header：使用建议参数
                 final_params = recommended_params.copy()
                 final_params.update(read_kwargs)
             else:
-                # 简单列头：强制使用header=0
+                # 简单列头且用户未指定header：使用header=0
                 final_params = read_kwargs.copy()
-                final_params['header'] = 0  # 对于简单列头，始终使用header=0
+                final_params['header'] = 0
             
             # 4. 执行读取
             read_result = smart_read_excel(file_path, auto_detect_params=False, **final_params)
@@ -852,19 +929,35 @@ def run_excel_code(
         'sum': sum, 'max': max, 'min': min, 'abs': abs, 'round': round
     })
     
+    # 如果允许文件写入，添加文件操作函数
+    if allow_file_write:
+        local_vars.update({
+            'open': open,
+            'os': __import__('os'),
+            'pathlib': __import__('pathlib')
+        })
+    
     # 创建安全的全局环境
+    builtins_dict = {
+        'len': len, 'str': str, 'int': int, 'float': float,
+        'list': list, 'dict': dict, 'print': print,
+        'range': range, 'enumerate': enumerate, 'zip': zip,
+        'sum': sum, 'max': max, 'min': min, 'abs': abs, 'round': round,
+        'locals': locals, 'globals': globals, 'isinstance': isinstance,
+        'type': type, 'hasattr': hasattr, 'getattr': getattr,
+        'NameError': NameError, 'ValueError': ValueError, 'TypeError': TypeError,
+        'KeyError': KeyError, 'IndexError': IndexError, 'Exception': Exception,
+        '__import__': __import__
+    }
+    
+    # 如果允许文件写入，添加文件操作到全局环境
+    if allow_file_write:
+        builtins_dict.update({
+            'open': open
+        })
+    
     global_vars = {
-        '__builtins__': {
-            'len': len, 'str': str, 'int': int, 'float': float,
-            'list': list, 'dict': dict, 'print': print,
-            'range': range, 'enumerate': enumerate, 'zip': zip,
-            'sum': sum, 'max': max, 'min': min, 'abs': abs, 'round': round,
-            'locals': locals, 'globals': globals, 'isinstance': isinstance,
-            'type': type, 'hasattr': hasattr, 'getattr': getattr,
-            'NameError': NameError, 'ValueError': ValueError, 'TypeError': TypeError,
-            'KeyError': KeyError, 'IndexError': IndexError, 'Exception': Exception,
-            '__import__': __import__
-        }
+        '__builtins__': builtins_dict
     }
 
     stdout_capture = StringIO()
@@ -872,9 +965,69 @@ def run_excel_code(
     sys.stdout = stdout_capture
 
     try:
-        # 执行用户代码（使用增强的环境）
-        exec(code, global_vars, local_vars)
-        result = local_vars.get('result', None)
+        # 使用安全代码执行器执行用户代码
+        from security.secure_code_executor import SecureCodeExecutor
+        secure_executor = SecureCodeExecutor(
+            max_memory_mb=256,
+            max_execution_time=30,
+            enable_ast_analysis=False  # 禁用 AST 分析以提高成功率
+        )
+        
+        # 准备执行上下文
+        context = local_vars.copy()
+        context.update(global_vars)
+        
+        # 执行代码并获取结果
+        execution_result = secure_executor.execute_code(code, context)
+        
+        # 如果执行成功，进行数据质量后检查
+        if execution_result.get('success', False):
+            # 检查执行后的数据框是否存在
+            if 'df' in execution_result.get('variables', {}):
+                processed_df = execution_result['variables']['df']
+                
+                # 数据质量后检查
+                post_quality_check = {
+                    "data_shape": processed_df.shape if hasattr(processed_df, 'shape') else None,
+                    "null_values": processed_df.isnull().sum().to_dict() if hasattr(processed_df, 'isnull') else None,
+                    "data_types": processed_df.dtypes.to_dict() if hasattr(processed_df, 'dtypes') else None,
+                    "memory_usage": processed_df.memory_usage(deep=True).sum() if hasattr(processed_df, 'memory_usage') else None
+                }
+                
+                # 添加数据清洗建议
+                cleaning_suggestions = data_cleaner.suggest_cleaning_operations(
+                    processed_df if hasattr(processed_df, 'shape') else df
+                )
+                
+                execution_result["data_quality_analysis"] = {
+                    "pre_execution_quality": quality_precheck if auto_detect else None,
+                    "post_execution_check": post_quality_check,
+                    "cleaning_suggestions": cleaning_suggestions
+                }
+        
+        if not execution_result['success']:
+            return {
+                "error": execution_result.get('error', '代码执行失败'),
+                "output": execution_result.get('output', stdout_capture.getvalue()),
+                "suggestion": execution_result.get('suggestion', '请检查代码语法和逻辑错误'),
+                "details": execution_result.get('message', ''),
+                "traceback": execution_result.get('traceback', '')
+            }
+        
+        # 从执行结果中获取result
+        result = execution_result.get('result', None)
+        
+        # 检查局部变量中是否有 result
+        if result is None and 'result' in local_vars:
+            result = local_vars['result']
+        
+        # 如果仍然没有 result，从安全执行器的上下文中获取
+        if result is None:
+            execution_context = execution_result.get('context', {})
+            if 'result' in execution_context:
+                result = execution_context['result']
+            elif 'locals' in execution_result and 'result' in execution_result['locals']:
+                result = execution_result['locals']['result']
 
         if result is None:
             return {
@@ -1003,14 +1156,41 @@ def run_code(code: str, file_path: str) -> dict:
                 "suggestion": "Please check the file path and ensure the file exists."
             }
         
-        # Read CSV file
+        # Read CSV file with intelligent encoding detection
         try:
-            df = pd.read_csv(file_path)
+            # 首先尝试检测文件编码
+            encoding_info = detect_file_encoding(file_path)
+            detected_encoding = encoding_info.get('encoding', 'utf-8')
+            
+            # 尝试使用检测到的编码读取CSV文件
+            try:
+                df = pd.read_csv(file_path, encoding=detected_encoding)
+            except UnicodeDecodeError:
+                # 如果检测到的编码失败，尝试常见编码
+                common_encodings = ['utf-8', 'gbk', 'gb2312', 'gb18030', 'big5', 'latin1', 'cp1252']
+                df = None
+                last_error = None
+                
+                for enc in common_encodings:
+                    try:
+                        df = pd.read_csv(file_path, encoding=enc)
+                        break
+                    except (UnicodeDecodeError, UnicodeError) as e:
+                        last_error = e
+                        continue
+                
+                if df is None:
+                    return {
+                        "success": False,
+                        "error": f"Failed to read CSV file with any encoding. Last error: {str(last_error)}",
+                        "suggestion": "Please check the file encoding. Try converting the file to UTF-8 format or specify the correct encoding."
+                    }
+                    
         except Exception as e:
             return {
                 "success": False,
                 "error": f"Failed to read CSV file: {str(e)}",
-                "suggestion": "Please ensure the file is a valid CSV format."
+                "suggestion": "Please ensure the file is a valid CSV format and check the file encoding."
             }
         
         # Capture stdout
@@ -1018,17 +1198,35 @@ def run_code(code: str, file_path: str) -> dict:
         sys.stdout = captured_output = StringIO()
         
         try:
-            # Execute the code
-            local_vars = {'df': df, 'pd': pd}
-            exec(code, {"__builtins__": {}}, local_vars)
+            # 使用安全代码执行器执行代码
+            from security.secure_code_executor import SecureCodeExecutor
+            secure_executor = SecureCodeExecutor(
+                max_memory_mb=256,
+                max_execution_time=30,
+                enable_ast_analysis=False  # 禁用 AST 分析以提高成功率
+            )
             
-            # Get the output
-            output = captured_output.getvalue()
+            # 准备执行上下文
+            context = {'df': df, 'pd': pd}
             
-            # Check if there's a result variable
+            # 执行代码
+            execution_result = secure_executor.execute_code(code, context)
+            
+            if not execution_result['success']:
+                return {
+                    "success": False,
+                    "error": f"代码执行失败: {execution_result.get('error', '未知错误')}",
+                    "output": execution_result.get('output', captured_output.getvalue()),
+                    "suggestion": execution_result.get('suggestion', '')
+                }
+            
+            # 从执行结果获取输出
+            output = execution_result.get('output', '')
+            
+            # 检查是否有result变量
             result_data = None
-            if 'result' in local_vars:
-                result = local_vars['result']
+            result = execution_result.get('result', None)
+            if result is not None:
                 if isinstance(result, pd.DataFrame):
                     result_data = {
                         "type": "DataFrame",
@@ -1495,7 +1693,7 @@ def detect_excel_file_structure_tool(file_path: str) -> dict:
     return detect_excel_file_structure(file_path)
 
 @mcp.tool()
-def create_excel_read_template_tool(file_path: str, sheet_name: str = None, skiprows: int = None, header: int = None, usecols: str = None) -> dict:
+def create_excel_read_template_tool(file_path: str, sheet_name: Optional[str] = None, skiprows: Optional[int] = None, header: Optional[int] = None, usecols: Optional[str] = None) -> dict:
     """生成Excel读取代码模板
     
     Args:
@@ -2041,6 +2239,212 @@ def excel_performance_comparison(
             "error": f"性能对比测试失败: {str(e)}",
             "suggestion": "请检查文件路径和参数设置"
         }
+
+
+# 注册 Excel 公式处理工具
+@mcp.tool()
+def parse_formula(formula: str, validate_security: bool = False) -> str:
+    """解析 Excel 公式
+    
+    Args:
+        formula: Excel 公式字符串
+        validate_security: 是否进行安全验证
+        
+    Returns:
+        str: JSON 格式的解析结果
+    """
+    return parse_excel_formula(formula, validate_security)
+
+@mcp.tool()
+def compile_workbook(file_path: str, output_format: str = 'python') -> str:
+    """编译 Excel 工作簿为代码
+    
+    Args:
+        file_path: Excel 文件路径
+        output_format: 输出格式 ('python' 或 'json')
+        
+    Returns:
+        str: JSON 格式的编译结果
+    """
+    return compile_excel_workbook(file_path, output_format)
+
+@mcp.tool()
+def execute_formula(formula: str, context: str = '{}') -> str:
+    """执行 Excel 公式
+    
+    Args:
+        formula: Excel 公式字符串
+        context: JSON 格式的上下文数据
+        
+    Returns:
+        str: JSON 格式的执行结果
+    """
+    return execute_excel_formula(formula, context)
+
+@mcp.tool()
+def analyze_dependencies(file_path: str) -> str:
+    """分析 Excel 文件的公式依赖关系
+    
+    Args:
+        file_path: Excel 文件路径
+        
+    Returns:
+        str: JSON 格式的依赖分析结果
+    """
+    return analyze_excel_dependencies(file_path)
+
+@mcp.tool()
+def validate_formula(formula: str) -> str:
+    """验证 Excel 公式的安全性和有效性
+    
+    Args:
+        formula: Excel 公式字符串
+        
+    Returns:
+        str: JSON 格式的验证结果
+    """
+    return validate_excel_formula(formula)
+
+
+# 增强的Excel数据质量控制工具
+@mcp.tool()
+def enhanced_data_quality_check(file_path: str, quality_level: str = "comprehensive") -> dict:
+    """增强的Excel数据质量检查工具
+    
+    Args:
+        file_path: Excel文件路径
+        quality_level: 质量检查级别 ("basic", "standard", "comprehensive")
+        
+    Returns:
+        dict: 数据质量检查结果
+    """
+    try:
+        return data_quality_controller.comprehensive_quality_check(file_path, quality_level)
+    except Exception as e:
+        return create_error_response("QUALITY_CHECK_ERROR", str(e))
+
+
+@mcp.tool()
+def extract_cell_content_advanced(file_path: str, cell_range: Optional[str] = None, sheet_name: Optional[str] = None, 
+                                 extract_type: str = "all") -> dict:
+    """高级单元格内容提取工具
+    
+    Args:
+        file_path: Excel文件路径
+        cell_range: 单元格范围 (如 "A1:C10")
+        sheet_name: 工作表名称
+        extract_type: 提取类型 ("all", "text", "numbers", "formulas", "formatted")
+        
+    Returns:
+        dict: 提取的单元格内容
+    """
+    try:
+        return cell_content_extractor.extract_cell_content_advanced(
+            file_path, cell_range, sheet_name, extract_type
+        )
+    except Exception as e:
+        return create_error_response("CELL_EXTRACTION_ERROR", str(e))
+
+
+@mcp.tool()
+def convert_character_formats(file_path: str, conversion_rules: dict, output_path: Optional[str] = None) -> dict:
+    """字符格式自动化转换工具
+    
+    Args:
+        file_path: Excel文件路径
+        conversion_rules: 转换规则字典
+        output_path: 输出文件路径
+        
+    Returns:
+        dict: 转换结果
+    """
+    try:
+        return character_converter.batch_character_conversion(
+            file_path, conversion_rules, output_path
+        )
+    except Exception as e:
+        return create_error_response("CHARACTER_CONVERSION_ERROR", str(e))
+
+
+@mcp.tool()
+def extract_multi_condition_data(file_path: str, conditions: list, sheet_name: Optional[str] = None) -> dict:
+    """多条件数据提取工具
+    
+    Args:
+        file_path: Excel文件路径
+        conditions: 条件列表
+        sheet_name: 工作表名称
+        
+    Returns:
+        dict: 提取的数据
+    """
+    try:
+        return multi_condition_extractor.extract_with_multiple_conditions(
+            file_path, conditions, sheet_name
+        )
+    except Exception as e:
+        return create_error_response("MULTI_CONDITION_EXTRACTION_ERROR", str(e))
+
+
+@mcp.tool()
+def merge_multiple_tables(file_paths: list, merge_config: dict, output_path: Optional[str] = None) -> dict:
+    """多表格数据合并工具
+    
+    Args:
+        file_paths: Excel文件路径列表
+        merge_config: 合并配置
+        output_path: 输出文件路径
+        
+    Returns:
+        dict: 合并结果
+    """
+    try:
+        return multi_table_merger.merge_multiple_excel_files(
+            file_paths, merge_config, output_path
+        )
+    except Exception as e:
+        return create_error_response("TABLE_MERGE_ERROR", str(e))
+
+
+@mcp.tool()
+def clean_excel_data(file_path: str, cleaning_options: dict, output_path: Optional[str] = None) -> dict:
+    """Excel数据清洗工具
+    
+    Args:
+        file_path: Excel文件路径
+        cleaning_options: 清洗选项
+        output_path: 输出文件路径
+        
+    Returns:
+        dict: 清洗结果
+    """
+    try:
+        return data_cleaner.clean_excel_data(
+            file_path=file_path, 
+            cleaning_config=cleaning_options, 
+            output_file=output_path
+        )
+    except Exception as e:
+        return create_error_response("DATA_CLEANING_ERROR", str(e))
+
+
+@mcp.tool()
+def batch_process_excel_files(file_paths: list, processing_config: dict) -> dict:
+    """批量Excel文件处理工具
+    
+    Args:
+        file_paths: Excel文件路径列表
+        processing_config: 处理配置
+        
+    Returns:
+        dict: 批量处理结果
+    """
+    try:
+        return batch_processor.batch_process_files(
+            file_paths, processing_config
+        )
+    except Exception as e:
+        return create_error_response("BATCH_PROCESSING_ERROR", str(e))
 
 
 if __name__ == "__main__":

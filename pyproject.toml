@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "chatExcel"
-version = "1.4.0"
+version = "2.0.0"
 description = "chatExcel - Excel智能处理与数据分析MCP服务器 - 支持24个MCP工具的企业级解决方案（含安全增强、健康监控、依赖管理、Excel公式引擎）"
 requires-python = ">=3.11"
 dependencies = [

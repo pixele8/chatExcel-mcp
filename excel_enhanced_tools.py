@@ -162,6 +162,29 @@ class ExcelEnhancedProcessor:
             try:
                 logger.info(f"Using pandas to read Excel file: {file_path}")
                 
+                # 首先获取所有工作表名称
+                try:
+                    excel_file = pd.ExcelFile(file_path)
+                    available_sheets = excel_file.sheet_names
+                    logger.info(f"Available sheets: {available_sheets}")
+                    
+                    # 如果指定了工作表名称但不存在，提供建议
+                    if sheet_name and sheet_name not in available_sheets:
+                        return create_error_response(
+                            "SHEET_NOT_FOUND",
+                            f"Worksheet named '{sheet_name}' not found. Available sheets: {', '.join(available_sheets)}",
+                            f"找不到名为 '{sheet_name}' 的工作表。可用工作表: {', '.join(available_sheets)}"
+                        )
+                    
+                    # 如果没有指定工作表名称，使用第一个工作表
+                    if not sheet_name:
+                        sheet_name = available_sheets[0]
+                        logger.info(f"No sheet specified, using first sheet: {sheet_name}")
+                        
+                except Exception as e:
+                    logger.warning(f"Failed to get sheet names: {e}")
+                    # 如果无法获取工作表名称，继续使用原有逻辑
+                
                 # 构建 pandas 参数
                 kwargs = {}
                 if sheet_name:
@@ -195,17 +218,27 @@ class ExcelEnhancedProcessor:
                     "data": {
                         "rows": rows,
                         "sheet_name": sheet_name or "Sheet1",
-                        "total_rows": len(rows)
+                        "total_rows": len(rows),
+                        "available_sheets": available_sheets if 'available_sheets' in locals() else []
                     },
                     "performance": "standard"
                 }, "Excel file read successfully using pandas")
                 
             except Exception as e:
-                return create_error_response(
-                    "PANDAS_READ_ERROR",
-                    str(e),
-                    "pandas 读取 Excel 文件失败"
-                )
+                error_msg = str(e)
+                # 提供更具体的错误信息
+                if "Worksheet named" in error_msg and "not found" in error_msg:
+                    return create_error_response(
+                        "SHEET_NOT_FOUND",
+                        error_msg,
+                        "指定的工作表不存在，请检查工作表名称"
+                    )
+                else:
+                    return create_error_response(
+                        "PANDAS_READ_ERROR",
+                        error_msg,
+                        "pandas 读取 Excel 文件失败"
+                    )
         
         return create_error_response(
             "NO_AVAILABLE_METHOD",
@@ -480,28 +513,96 @@ class ExcelEnhancedProcessor:
                     excel_file = pd.ExcelFile(file_path)
                     sheet_names = excel_file.sheet_names
                     
-                    # 获取每个工作表的基本信息
+                    # 获取每个工作表的详细信息
                     sheets_info = {}
                     for sheet in sheet_names:
                         try:
-                            df = pd.read_excel(file_path, sheet_name=sheet, nrows=0)
+                            # 读取完整数据以获取行数
+                            df = pd.read_excel(file_path, sheet_name=sheet)
+                            
+                            # 使用多级表头检测器获取详细结构信息
+                            try:
+                                from enhanced_multiheader_detector import EnhancedMultiHeaderDetector
+                                with EnhancedMultiHeaderDetector(file_path, sheet) as detector:
+                                    structure_analysis = detector.suggest_optimal_parameters()
+                                    merged_cells_info = detector.analyze_merged_cells()
+                                    
+                                    # 构建完整的工作表信息
+                                    sheets_info[sheet] = {
+                                        "row_count": len(df),
+                                        "col_count": len(df.columns),
+                                        "column_names": df.columns.tolist(),
+                                        "has_data": len(df) > 0,
+                                        # 新增：多级表头和合并单元格信息
+                                        "multi_level_header": {
+                                            "detected": structure_analysis['analysis']['multi_level_header_detected'],
+                                            "structure_type": structure_analysis['analysis']['structure_type'],
+                                            "confidence": structure_analysis['analysis']['confidence'],
+                                            "header_candidates": structure_analysis['analysis']['header_candidates']
+                                        },
+                                        "merged_cells": {
+                                            "count": len(merged_cells_info),
+                                            "ranges": [{
+                                                "range": cell_info['range'],
+                                                "start_row": cell_info['min_row'],
+                                                "end_row": cell_info['max_row'],
+                                                "start_col": cell_info['min_col'],
+                                                "end_col": cell_info['max_col'],
+                                                "span_rows": cell_info['span_rows'],
+                                                "span_cols": cell_info['span_cols']
+                                            } for cell_info in merged_cells_info[:10]]  # 限制返回前10个合并单元格
+                                        },
+                                        "empty_rows": structure_analysis['analysis']['empty_rows'][:5],  # 限制返回前5个空行
+                                        "structure_warnings": structure_analysis.get('warnings', []),
+                                        "read_suggestions": structure_analysis.get('tips', [])
+                                    }
+                            except Exception as detector_error:
+                                logger.warning(f"Multi-header detector failed for sheet {sheet}: {detector_error}")
+                                # 回退到基本信息
+                                sheets_info[sheet] = {
+                                    "row_count": len(df),
+                                    "col_count": len(df.columns),
+                                    "column_names": df.columns.tolist(),
+                                    "has_data": len(df) > 0,
+                                    "multi_level_header": {
+                                        "detected": False,
+                                        "error": str(detector_error)
+                                    },
+                                    "merged_cells": {
+                                        "count": 0,
+                                        "error": "检测失败"
+                                    }
+                                }
+                                
+                        except Exception as e:
                             sheets_info[sheet] = {
-                                "columns": len(df.columns),
-                                "column_names": df.columns.tolist()
+                                "error": f"Could not read sheet: {str(e)}",
+                                "row_count": 0,
+                                "col_count": 0,
+                                "has_data": False,
+                                "multi_level_header": {"detected": False, "error": "读取失败"},
+                                "merged_cells": {"count": 0, "error": "读取失败"}
                             }
-                        except:
-                            sheets_info[sheet] = {"error": "Could not read sheet"}
                     
+                    # 修复：添加文件修改时间和更完整的信息结构
+                    import datetime
                     return create_success_response({
-                        "method": "pandas_fallback",
+                        "method": "pandas_fallback_enhanced",
                         "data": {
-                            "file_path": file_path,
+                            "file_name": os.path.basename(file_path),
                             "file_size": file_size,
-                            "sheet_names": sheet_names,
-                            "sheets_info": sheets_info
+                            "modified_time": datetime.datetime.fromtimestamp(file_stat.st_mtime).isoformat(),
+                            "sheet_count": len(sheet_names),
+                            "sheets": sheets_info,
+                            # 新增：整体文件结构分析
+                            "file_structure_summary": {
+                                "total_merged_cells": sum(sheet.get('merged_cells', {}).get('count', 0) for sheet in sheets_info.values() if isinstance(sheet, dict)),
+                                "sheets_with_multi_headers": sum(1 for sheet in sheets_info.values() if isinstance(sheet, dict) and sheet.get('multi_level_header', {}).get('detected', False)),
+                                "complex_structure_detected": any(sheet.get('multi_level_header', {}).get('detected', False) or sheet.get('merged_cells', {}).get('count', 0) > 0 for sheet in sheets_info.values() if isinstance(sheet, dict))
+                            }
                         },
-                        "performance": "standard"
-                    }, "File info retrieved successfully using pandas")
+                        "performance": "enhanced"
+                    }, "Enhanced file info retrieved successfully using pandas with structure analysis")
                     
                 except Exception as e:
                     return create_error_response(

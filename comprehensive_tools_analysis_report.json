@@ -1,0 +1,967 @@
+{
+  "分析时间": "2025-06-16 10:05:49",
+  "工具详情": [
+    {
+      "name": "read_metadata",
+      "docstring": "读取CSV文件元数据并返回MCP兼容格式\n\nArgs:\n    file_path: CSV文件的绝对路径\n    \nReturns:\n    dict: 包含列信息、文件信息和状态的结构化元数据",
+      "args": [
+        {
+          "name": "file_path",
+          "annotation": "str"
+        }
+      ],
+      "return_type": "dict",
+      "start_line": 162,
+      "end_line": 326,
+      "complexity": {
+        "lines": 165,
+        "branches": 8,
+        "loops": 1,
+        "try_blocks": 2,
+        "nested_functions": 0
+      },
+      "potential_issues": [],
+      "category": "数据读取"
+    },
+    {
+      "name": "verify_data_integrity",
+      "docstring": "数据完整性验证和比对核准工具。\n\nArgs:\n    original_file: 原始Excel文件路径\n    processed_data: 处理后的数据（JSON字符串格式）或文件路径\n    comparison_file: 用于比较的另一个Excel文件路径（可选）\n    verification_type: 验证类型 (\"basic\", \"detailed\", \"statistical\")\n\nReturns:\n    dict: 验证结果报告",
+      "args": [
+        {
+          "name": "original_file",
+          "annotation": "str"
+        },
+        {
+          "name": "processed_data",
+          "annotation": "str"
+        },
+        {
+          "name": "comparison_file",
+          "annotation": "str"
+        },
+        {
+          "name": "verification_type",
+          "annotation": "str"
+        }
+      ],
+      "return_type": "dict",
+      "start_line": 332,
+      "end_line": 489,
+      "complexity": {
+        "lines": 158,
+        "branches": 8,
+        "loops": 1,
+        "try_blocks": 2,
+        "nested_functions": 0
+      },
+      "potential_issues": [],
+      "category": "数据验证"
+    },
+    {
+      "name": "read_excel_metadata",
+      "docstring": "增强版Excel文件元数据读取，支持智能编码检测和完整性验证。\n\nArgs:\n    file_path: Excel文件路径\n\nReturns:\n    dict: 包含文件元数据、编码信息、完整性验证结果的字典",
+      "args": [
+        {
+          "name": "file_path",
+          "annotation": "str"
+        }
+      ],
+      "return_type": "dict",
+      "start_line": 492,
+      "end_line": 646,
+      "complexity": {
+        "lines": 155,
+        "branches": 8,
+        "loops": 2,
+        "try_blocks": 1,
+        "nested_functions": 0
+      },
+      "potential_issues": [],
+      "category": "数据读取"
+    },
+    {
+      "name": "run_excel_code",
+      "docstring": "增强版Excel代码执行工具，具备强化的pandas导入和错误处理机制。\n\nArgs:\n    code: 要执行的数据处理代码字符串\n    file_path: Excel文件路径\n    sheet_name: 可选，工作表名称\n    skiprows: 可选，跳过的行数\n    header: 可选，用作列名的行号。可以是整数、整数列表或None\n    usecols: 可选，要解析的列。可以是列名列表、列索引列表或字符串\n    encoding: 指定编码（可选，自动检测时忽略）\n    auto_detect: 是否启用智能检测和参数优化\n    \nReturns:\n    dict: 执行结果或错误信息",
+      "args": [
+        {
+          "name": "file_path",
+          "annotation": "str"
+        },
+        {
+          "name": "code",
+          "annotation": "str"
+        },
+        {
+          "name": "sheet_name",
+          "annotation": "str"
+        },
+        {
+          "name": "skiprows",
+          "annotation": "int"
+        },
+        {
+          "name": "header",
+          "annotation": "int"
+        },
+        {
+          "name": "usecols",
+          "annotation": "str"
+        },
+        {
+          "name": "encoding",
+          "annotation": "str"
+        },
+        {
+          "name": "auto_detect",
+          "annotation": "bool"
+        }
+      ],
+      "return_type": "dict",
+      "start_line": 651,
+      "end_line": 1022,
+      "complexity": {
+        "lines": 372,
+        "branches": 35,
+        "loops": 1,
+        "try_blocks": 8,
+        "nested_functions": 2
+      },
+      "potential_issues": [],
+      "category": "代码执行"
+    },
+    {
+      "name": "run_code",
+      "docstring": "在CSV文件上执行数据处理代码，具备安全检查功能。\n\nArgs:\n    code: 要执行的数据处理代码字符串。\n    file_path: CSV文件路径。\n\nReturns:\n    dict: 执行结果，包含数据、输出或错误信息。",
+      "args": [
+        {
+          "name": "code",
+          "annotation": "str"
+        },
+        {
+          "name": "file_path",
+          "annotation": "str"
+        }
+      ],
+      "return_type": "dict",
+      "start_line": 1026,
+      "end_line": 1164,
+      "complexity": {
+        "lines": 139,
+        "branches": 7,
+        "loops": 2,
+        "try_blocks": 5,
+        "nested_functions": 0
+      },
+      "potential_issues": [],
+      "category": "代码执行"
+    },
+    {
+      "name": "bar_chart_to_html",
+      "docstring": "Generate interactive HTML bar chart using Chart.js template.\n\nArgs:\n    categories: List of category names for x-axis\n    values: List of numeric values for y-axis\n    title: Chart title (default: \"Interactive Chart\")\n    x_label: Label for X-axis (default: \"Categories\")\n    y_label: Label for Y-axis (default: \"Values\")\n    \nReturns:\n    dict: Contains file path and status information\n    \nExample:\n    >>> bar_chart_to_html(\n    ...     categories=['Electronics', 'Clothing', 'Home Goods', 'Sports Equipment'],\n    ...     values=[120000, 85000, 95000, 60000],\n    ...     title=\"Q1 Sales by Product Category\"\n    ... )\n    {\n        \"status\": \"SUCCESS\",\n        \"filepath\": \"/absolute/path/to/plotXXXXXX.html\",\n    }",
+      "args": [
+        {
+          "name": "categories",
+          "annotation": "list"
+        },
+        {
+          "name": "values",
+          "annotation": "list"
+        },
+        {
+          "name": "title",
+          "annotation": "str"
+        }
+      ],
+      "return_type": "dict",
+      "start_line": 1168,
+      "end_line": 1268,
+      "complexity": {
+        "lines": 101,
+        "branches": 1,
+        "loops": 0,
+        "try_blocks": 2,
+        "nested_functions": 0
+      },
+      "potential_issues": [
+        {
+          "category": "编码问题",
+          "type": "缺少编码检测",
+          "description": "函数处理文件但可能缺少智能编码检测机制",
+          "severity": "medium"
+        },
+        {
+          "category": "参数验证问题",
+          "type": "缺少参数验证",
+          "description": "多参数函数缺少输入验证",
+          "severity": "medium"
+        }
+      ],
+      "category": "图表生成"
+    },
+    {
+      "name": "pie_chart_to_html",
+      "docstring": "Generate interactive HTML pie chart using Chart.js template.\n\nArgs:\n    labels: List of label names for each pie slice\n    values: List of numeric values for each slice\n    title: Chart title (default: \"Interactive Pie Chart\")\n    \nReturns:\n    dict: Contains file path and status information\n    \nExample:\n    >>> pie_chart_to_html(\n    ...     labels=['Electronics', 'Clothing', 'Home Goods'],\n    ...     values=[120000, 85000, 95000],\n    ...     title=\"Q1 Sales Distribution\"\n    ... )\n    {\n        \"status\": \"SUCCESS\",\n        \"filepath\": \"/absolute/path/to/plotXXXXXX.html\",\n    }",
+      "args": [
+        {
+          "name": "labels",
+          "annotation": "list"
+        },
+        {
+          "name": "values",
+          "annotation": "list"
+        },
+        {
+          "name": "title",
+          "annotation": "str"
+        }
+      ],
+      "return_type": "dict",
+      "start_line": 1272,
+      "end_line": 1364,
+      "complexity": {
+        "lines": 93,
+        "branches": 1,
+        "loops": 0,
+        "try_blocks": 2,
+        "nested_functions": 0
+      },
+      "potential_issues": [
+        {
+          "category": "编码问题",
+          "type": "缺少编码检测",
+          "description": "函数处理文件但可能缺少智能编码检测机制",
+          "severity": "medium"
+        },
+        {
+          "category": "参数验证问题",
+          "type": "缺少参数验证",
+          "description": "多参数函数缺少输入验证",
+          "severity": "medium"
+        }
+      ],
+      "category": "图表生成"
+    },
+    {
+      "name": "line_chart_to_html",
+      "docstring": "Generate interactive HTML line chart using Chart.js template.\n\nArgs:\n    labels: List of label names for x-axis\n    datasets: List of datasets, each containing:\n        - label: Name of the dataset\n        - data: List of numeric values (3 dimensions: [x, y, z])\n    title: Chart title (default: \"Interactive Line Chart\")\n    \nReturns:\n    dict: Contains file path and status information\n    \nExample:\n    >>> line_chart_to_html(\n    ...     labels=['Jan', 'Feb', 'Mar'],\n    ...     datasets=[\n    ...         {'label': 'Sales', 'data': [[100, 200, 300], [150, 250, 350], [200, 300, 400]]},\n    ...         {'label': 'Expenses', 'data': [[50, 100, 150], [75, 125, 175], [100, 150, 200]]}\n    ...     ],\n    ...     title=\"Monthly Performance\"\n    ... )\n    {\n        \"status\": \"SUCCESS\",\n        \"filepath\": \"/absolute/path/to/plotXXXXXX.html\",\n    }",
+      "args": [
+        {
+          "name": "labels",
+          "annotation": "list"
+        },
+        {
+          "name": "datasets",
+          "annotation": "list"
+        },
+        {
+          "name": "title",
+          "annotation": "str"
+        }
+      ],
+      "return_type": "dict",
+      "start_line": 1367,
+      "end_line": 1504,
+      "complexity": {
+        "lines": 138,
+        "branches": 1,
+        "loops": 1,
+        "try_blocks": 2,
+        "nested_functions": 0
+      },
+      "potential_issues": [
+        {
+          "category": "编码问题",
+          "type": "缺少编码检测",
+          "description": "函数处理文件但可能缺少智能编码检测机制",
+          "severity": "medium"
+        },
+        {
+          "category": "参数验证问题",
+          "type": "缺少参数验证",
+          "description": "多参数函数缺少输入验证",
+          "severity": "medium"
+        }
+      ],
+      "category": "图表生成"
+    },
+    {
+      "name": "validate_data_quality",
+      "docstring": "验证数据质量并提供改进建议\n\nArgs:\n    file_path: 数据文件路径\n    \nReturns:\n    dict: 数据质量报告和改进建议",
+      "args": [
+        {
+          "name": "file_path",
+          "annotation": "str"
+        }
+      ],
+      "return_type": "dict",
+      "start_line": 1508,
+      "end_line": 1563,
+      "complexity": {
+        "lines": 56,
+        "branches": 5,
+        "loops": 1,
+        "try_blocks": 1,
+        "nested_functions": 0
+      },
+      "potential_issues": [],
+      "category": "数据验证"
+    },
+    {
+      "name": "suggest_excel_read_parameters_tool",
+      "docstring": "智能推荐Excel文件读取参数\n\nArgs:\n    file_path: Excel文件的绝对路径\n    \nReturns:\n    dict: 包含推荐参数的结构化响应",
+      "args": [
+        {
+          "name": "file_path",
+          "annotation": "str"
+        }
+      ],
+      "return_type": "dict",
+      "start_line": 1568,
+      "end_line": 1577,
+      "complexity": {
+        "lines": 10,
+        "branches": 0,
+        "loops": 0,
+        "try_blocks": 0,
+        "nested_functions": 0
+      },
+      "potential_issues": [
+        {
+          "category": "错误处理问题",
+          "type": "缺少异常处理",
+          "description": "函数缺少try-except错误处理机制",
+          "severity": "medium"
+        }
+      ],
+      "category": "数据读取"
+    },
+    {
+      "name": "detect_excel_file_structure_tool",
+      "docstring": "检测Excel文件结构\n\nArgs:\n    file_path: Excel文件的绝对路径\n    \nReturns:\n    dict: 包含文件结构信息的响应",
+      "args": [
+        {
+          "name": "file_path",
+          "annotation": "str"
+        }
+      ],
+      "return_type": "dict",
+      "start_line": 1580,
+      "end_line": 1589,
+      "complexity": {
+        "lines": 10,
+        "branches": 0,
+        "loops": 0,
+        "try_blocks": 0,
+        "nested_functions": 0
+      },
+      "potential_issues": [
+        {
+          "category": "错误处理问题",
+          "type": "缺少异常处理",
+          "description": "函数缺少try-except错误处理机制",
+          "severity": "medium"
+        }
+      ],
+      "category": "其他工具"
+    },
+    {
+      "name": "create_excel_read_template_tool",
+      "docstring": "生成Excel读取代码模板\n\nArgs:\n    file_path: Excel文件的绝对路径\n    sheet_name: 工作表名称\n    skiprows: 跳过的行数\n    header: 标题行位置\n    usecols: 使用的列\n    \nReturns:\n    dict: 包含代码模板的响应",
+      "args": [
+        {
+          "name": "file_path",
+          "annotation": "str"
+        },
+        {
+          "name": "sheet_name",
+          "annotation": "str"
+        },
+        {
+          "name": "skiprows",
+          "annotation": "int"
+        },
+        {
+          "name": "header",
+          "annotation": "int"
+        },
+        {
+          "name": "usecols",
+          "annotation": "str"
+        }
+      ],
+      "return_type": "dict",
+      "start_line": 1592,
+      "end_line": 1605,
+      "complexity": {
+        "lines": 14,
+        "branches": 0,
+        "loops": 0,
+        "try_blocks": 0,
+        "nested_functions": 0
+      },
+      "potential_issues": [
+        {
+          "category": "错误处理问题",
+          "type": "缺少异常处理",
+          "description": "函数缺少try-except错误处理机制",
+          "severity": "medium"
+        },
+        {
+          "category": "参数验证问题",
+          "type": "缺少参数验证",
+          "description": "多参数函数缺少输入验证",
+          "severity": "medium"
+        }
+      ],
+      "category": "数据读取"
+    },
+    {
+      "name": "comprehensive_data_verification_tool",
+      "docstring": "综合数据验证和核准工具\n\n提供全面的Excel数据验证、质量评估和比对核准功能。\n支持单文件验证和双文件比较验证模式。\n\nArgs:\n    file_path: 要验证的Excel文件路径\n    reference_file: 参考文件路径（可选，用于比较验证）\n    verification_level: 验证级别\n        - \"basic\": 基础验证（文件结构、基本统计）\n        - \"detailed\": 详细验证（包含数据质量分析）\n        - \"comprehensive\": 综合验证（包含异常检测和深度分析）\n    save_report: 是否保存验证报告到本地\n\nReturns:\n    dict: 包含以下字段的验证结果\n        - overall_status: 总体状态 (EXCELLENT/GOOD/ACCEPTABLE/POOR/CRITICAL/FAILED)\n        - data_quality_score: 数据质量得分 (0-100)\n        - file_analysis: 文件结构分析结果\n        - data_integrity: 数据完整性验证结果\n        - comparison_results: 比较验证结果（如果提供了参考文件）\n        - recommendations: 改进建议列表\n        - detailed_report: 详细报告（详细和综合级别）\n\n功能特点:\n1. 多层次验证：支持基础、详细、综合三个验证级别\n2. 智能编码检测：自动检测文件编码并优化读取\n3. 数据质量评估：计算综合质量得分\n4. 异常检测：识别异常值和数据模式\n5. 比较验证：支持与参考文件的详细比较\n6. 报告生成：自动生成验证报告并可保存\n7. 建议系统：提供针对性的数据改进建议\n\n使用示例:\n- 基础验证: comprehensive_data_verification_tool(\"data.xlsx\", verification_level=\"basic\")\n- 详细验证: comprehensive_data_verification_tool(\"data.xlsx\", verification_level=\"detailed\")\n- 比较验证: comprehensive_data_verification_tool(\"data.xlsx\", \"reference.xlsx\", \"comprehensive\")",
+      "args": [
+        {
+          "name": "file_path",
+          "annotation": "str"
+        },
+        {
+          "name": "reference_file",
+          "annotation": "str"
+        },
+        {
+          "name": "verification_level",
+          "annotation": "str"
+        },
+        {
+          "name": "save_report",
+          "annotation": "bool"
+        }
+      ],
+      "return_type": "dict",
+      "start_line": 1608,
+      "end_line": 1704,
+      "complexity": {
+        "lines": 97,
+        "branches": 2,
+        "loops": 0,
+        "try_blocks": 1,
+        "nested_functions": 0
+      },
+      "potential_issues": [
+        {
+          "category": "参数验证问题",
+          "type": "缺少参数验证",
+          "description": "多参数函数缺少输入验证",
+          "severity": "medium"
+        }
+      ],
+      "category": "数据读取"
+    },
+    {
+      "name": "batch_data_verification_tool",
+      "docstring": "批量数据验证工具\n\n对多个Excel文件进行批量验证和质量评估。\n\nArgs:\n    file_paths: Excel文件路径列表\n    verification_level: 验证级别 (\"basic\", \"detailed\", \"comprehensive\")\n    save_reports: 是否保存验证报告\n\nReturns:\n    dict: 批量验证结果\n        - overall_summary: 总体摘要\n        - individual_results: 各文件验证结果\n        - quality_ranking: 质量排名\n        - batch_recommendations: 批量建议",
+      "args": [
+        {
+          "name": "file_paths",
+          "annotation": "list"
+        },
+        {
+          "name": "verification_level",
+          "annotation": "str"
+        },
+        {
+          "name": "save_reports",
+          "annotation": "bool"
+        }
+      ],
+      "return_type": "dict",
+      "start_line": 1708,
+      "end_line": 1827,
+      "complexity": {
+        "lines": 120,
+        "branches": 7,
+        "loops": 1,
+        "try_blocks": 2,
+        "nested_functions": 0
+      },
+      "potential_issues": [
+        {
+          "category": "参数验证问题",
+          "type": "缺少参数验证",
+          "description": "多参数函数缺少输入验证",
+          "severity": "medium"
+        }
+      ],
+      "category": "数据验证"
+    },
+    {
+      "name": "excel_read_enhanced",
+      "docstring": "增强版 Excel 读取工具，集成 Go excelize 库提供高性能处理\n\nArgs:\n    file_path: Excel 文件路径\n    sheet_name: 工作表名称（可选）\n    start_row: 起始行号（可选）\n    end_row: 结束行号（可选）\n    start_col: 起始列（如 'A'，可选）\n    end_col: 结束列（如 'Z'，可选）\n    use_go_service: 是否优先使用 Go 服务（默认 True）\n    \nReturns:\n    dict: 读取结果，包含数据和性能信息",
+      "args": [
+        {
+          "name": "file_path",
+          "annotation": "str"
+        },
+        {
+          "name": "sheet_name",
+          "annotation": "str"
+        },
+        {
+          "name": "start_row",
+          "annotation": "int"
+        },
+        {
+          "name": "end_row",
+          "annotation": "int"
+        },
+        {
+          "name": "start_col",
+          "annotation": "str"
+        },
+        {
+          "name": "end_col",
+          "annotation": "str"
+        },
+        {
+          "name": "use_go_service",
+          "annotation": "bool"
+        }
+      ],
+      "return_type": "dict",
+      "start_line": 1831,
+      "end_line": 1872,
+      "complexity": {
+        "lines": 42,
+        "branches": 0,
+        "loops": 0,
+        "try_blocks": 1,
+        "nested_functions": 0
+      },
+      "potential_issues": [
+        {
+          "category": "参数验证问题",
+          "type": "缺少参数验证",
+          "description": "多参数函数缺少输入验证",
+          "severity": "medium"
+        }
+      ],
+      "category": "数据读取"
+    },
+    {
+      "name": "excel_write_enhanced",
+      "docstring": "增强版 Excel 写入工具，集成 Go excelize 库提供高性能处理\n\nArgs:\n    file_path: Excel 文件路径\n    data: 要写入的数据（字典列表格式）\n    sheet_name: 工作表名称（可选）\n    start_row: 起始行号（可选）\n    start_col: 起始列（如 'A'，可选）\n    use_go_service: 是否优先使用 Go 服务（默认 True）\n    \nReturns:\n    dict: 写入结果，包含性能信息",
+      "args": [
+        {
+          "name": "file_path",
+          "annotation": "str"
+        },
+        {
+          "name": "data",
+          "annotation": "list"
+        },
+        {
+          "name": "sheet_name",
+          "annotation": "str"
+        },
+        {
+          "name": "start_row",
+          "annotation": "int"
+        },
+        {
+          "name": "start_col",
+          "annotation": "str"
+        },
+        {
+          "name": "use_go_service",
+          "annotation": "bool"
+        }
+      ],
+      "return_type": "dict",
+      "start_line": 1876,
+      "end_line": 1921,
+      "complexity": {
+        "lines": 46,
+        "branches": 1,
+        "loops": 0,
+        "try_blocks": 1,
+        "nested_functions": 0
+      },
+      "potential_issues": [
+        {
+          "category": "参数验证问题",
+          "type": "缺少参数验证",
+          "description": "多参数函数缺少输入验证",
+          "severity": "medium"
+        }
+      ],
+      "category": "数据写入"
+    },
+    {
+      "name": "excel_chart_enhanced",
+      "docstring": "增强版 Excel 图表创建工具，使用 Go excelize 库提供高性能图表生成\n\nArgs:\n    file_path: Excel 文件路径\n    chart_type: 图表类型（'col', 'line', 'pie', 'bar', 'area', 'scatter' 等）\n    data_range: 数据范围（如 'A1:B10'）\n    sheet_name: 工作表名称（可选）\n    title: 图表标题（可选）\n    x_axis_title: X轴标题（可选）\n    y_axis_title: Y轴标题（可选）\n    \nReturns:\n    dict: 图表创建结果",
+      "args": [
+        {
+          "name": "file_path",
+          "annotation": "str"
+        },
+        {
+          "name": "chart_type",
+          "annotation": "str"
+        },
+        {
+          "name": "data_range",
+          "annotation": "str"
+        },
+        {
+          "name": "sheet_name",
+          "annotation": "str"
+        },
+        {
+          "name": "title",
+          "annotation": "str"
+        },
+        {
+          "name": "x_axis_title",
+          "annotation": "str"
+        },
+        {
+          "name": "y_axis_title",
+          "annotation": "str"
+        }
+      ],
+      "return_type": "dict",
+      "start_line": 1925,
+      "end_line": 1975,
+      "complexity": {
+        "lines": 51,
+        "branches": 1,
+        "loops": 0,
+        "try_blocks": 1,
+        "nested_functions": 0
+      },
+      "potential_issues": [
+        {
+          "category": "参数验证问题",
+          "type": "缺少参数验证",
+          "description": "多参数函数缺少输入验证",
+          "severity": "medium"
+        }
+      ],
+      "category": "图表生成"
+    },
+    {
+      "name": "excel_info_enhanced",
+      "docstring": "增强版 Excel 文件信息获取工具，使用 Go excelize 库提供详细文件分析\n\nArgs:\n    file_path: Excel 文件路径\n    \nReturns:\n    dict: 详细的文件信息，包括工作表、行列数等",
+      "args": [
+        {
+          "name": "file_path",
+          "annotation": "str"
+        }
+      ],
+      "return_type": "dict",
+      "start_line": 1979,
+      "end_line": 1998,
+      "complexity": {
+        "lines": 20,
+        "branches": 0,
+        "loops": 0,
+        "try_blocks": 1,
+        "nested_functions": 0
+      },
+      "potential_issues": [],
+      "category": "其他工具"
+    },
+    {
+      "name": "excel_performance_comparison",
+      "docstring": "Excel 性能对比工具，比较 Go 服务和 pandas 的性能差异\n\nArgs:\n    file_path: Excel 文件路径\n    operation: 操作类型（'read' 或 'write'）\n    test_data: 测试数据（写入操作时需要）\n    \nReturns:\n    dict: 性能对比结果",
+      "args": [
+        {
+          "name": "file_path",
+          "annotation": "str"
+        },
+        {
+          "name": "operation",
+          "annotation": "str"
+        },
+        {
+          "name": "test_data",
+          "annotation": "list"
+        }
+      ],
+      "return_type": "dict",
+      "start_line": 2002,
+      "end_line": 2137,
+      "complexity": {
+        "lines": 136,
+        "branches": 9,
+        "loops": 0,
+        "try_blocks": 2,
+        "nested_functions": 0
+      },
+      "potential_issues": [
+        {
+          "category": "参数验证问题",
+          "type": "缺少参数验证",
+          "description": "多参数函数缺少输入验证",
+          "severity": "medium"
+        }
+      ],
+      "category": "数据写入"
+    },
+    {
+      "name": "parse_formula",
+      "docstring": "解析 Excel 公式\n\nArgs:\n    formula: Excel 公式字符串\n    validate_security: 是否进行安全验证\n    \nReturns:\n    str: JSON 格式的解析结果",
+      "args": [
+        {
+          "name": "formula",
+          "annotation": "str"
+        },
+        {
+          "name": "validate_security",
+          "annotation": "bool"
+        }
+      ],
+      "return_type": "str",
+      "start_line": 2142,
+      "end_line": 2152,
+      "complexity": {
+        "lines": 11,
+        "branches": 0,
+        "loops": 0,
+        "try_blocks": 0,
+        "nested_functions": 0
+      },
+      "potential_issues": [
+        {
+          "category": "错误处理问题",
+          "type": "缺少异常处理",
+          "description": "函数缺少try-except错误处理机制",
+          "severity": "medium"
+        }
+      ],
+      "category": "数据验证"
+    },
+    {
+      "name": "compile_workbook",
+      "docstring": "编译 Excel 工作簿为代码\n\nArgs:\n    file_path: Excel 文件路径\n    output_format: 输出格式 ('python' 或 'json')\n    \nReturns:\n    str: JSON 格式的编译结果",
+      "args": [
+        {
+          "name": "file_path",
+          "annotation": "str"
+        },
+        {
+          "name": "output_format",
+          "annotation": "str"
+        }
+      ],
+      "return_type": "str",
+      "start_line": 2155,
+      "end_line": 2165,
+      "complexity": {
+        "lines": 11,
+        "branches": 0,
+        "loops": 0,
+        "try_blocks": 0,
+        "nested_functions": 0
+      },
+      "potential_issues": [
+        {
+          "category": "错误处理问题",
+          "type": "缺少异常处理",
+          "description": "函数缺少try-except错误处理机制",
+          "severity": "medium"
+        }
+      ],
+      "category": "代码执行"
+    },
+    {
+      "name": "execute_formula",
+      "docstring": "执行 Excel 公式\n\nArgs:\n    formula: Excel 公式字符串\n    context: JSON 格式的上下文数据\n    \nReturns:\n    str: JSON 格式的执行结果",
+      "args": [
+        {
+          "name": "formula",
+          "annotation": "str"
+        },
+        {
+          "name": "context",
+          "annotation": "str"
+        }
+      ],
+      "return_type": "str",
+      "start_line": 2168,
+      "end_line": 2178,
+      "complexity": {
+        "lines": 11,
+        "branches": 0,
+        "loops": 0,
+        "try_blocks": 0,
+        "nested_functions": 0
+      },
+      "potential_issues": [
+        {
+          "category": "安全检查问题",
+          "type": "不安全的代码执行",
+          "description": "使用exec/eval但未使用安全执行器",
+          "severity": "high"
+        },
+        {
+          "category": "错误处理问题",
+          "type": "缺少异常处理",
+          "description": "函数缺少try-except错误处理机制",
+          "severity": "medium"
+        }
+      ],
+      "category": "公式处理"
+    },
+    {
+      "name": "analyze_dependencies",
+      "docstring": "分析 Excel 文件的公式依赖关系\n\nArgs:\n    file_path: Excel 文件路径\n    \nReturns:\n    str: JSON 格式的依赖分析结果",
+      "args": [
+        {
+          "name": "file_path",
+          "annotation": "str"
+        }
+      ],
+      "return_type": "str",
+      "start_line": 2181,
+      "end_line": 2190,
+      "complexity": {
+        "lines": 10,
+        "branches": 0,
+        "loops": 0,
+        "try_blocks": 0,
+        "nested_functions": 0
+      },
+      "potential_issues": [
+        {
+          "category": "错误处理问题",
+          "type": "缺少异常处理",
+          "description": "函数缺少try-except错误处理机制",
+          "severity": "medium"
+        }
+      ],
+      "category": "公式处理"
+    },
+    {
+      "name": "validate_formula",
+      "docstring": "验证 Excel 公式的安全性和有效性\n\nArgs:\n    formula: Excel 公式字符串\n    \nReturns:\n    str: JSON 格式的验证结果",
+      "args": [
+        {
+          "name": "formula",
+          "annotation": "str"
+        }
+      ],
+      "return_type": "str",
+      "start_line": 2193,
+      "end_line": 2202,
+      "complexity": {
+        "lines": 10,
+        "branches": 0,
+        "loops": 0,
+        "try_blocks": 0,
+        "nested_functions": 0
+      },
+      "potential_issues": [
+        {
+          "category": "错误处理问题",
+          "type": "缺少异常处理",
+          "description": "函数缺少try-except错误处理机制",
+          "severity": "medium"
+        }
+      ],
+      "category": "数据验证"
+    }
+  ],
+  "优化方案": {
+    "总体统计": {
+      "工具总数": 24,
+      "问题总数": 22,
+      "高优先级问题": 1,
+      "类别分布": {
+        "数据读取": 6,
+        "数据验证": 5,
+        "代码执行": 3,
+        "图表生成": 4,
+        "其他工具": 2,
+        "数据写入": 2,
+        "公式处理": 2
+      }
+    },
+    "问题分布": {
+      "编码问题": 3,
+      "安全检查问题": 1,
+      "执行环境问题": 0,
+      "参数验证问题": 10,
+      "错误处理问题": 8,
+      "性能优化问题": 0,
+      "兼容性问题": 0
+    },
+    "高优先级修复": [
+      {
+        "tool": "execute_formula",
+        "issue": {
+          "category": "安全检查问题",
+          "type": "不安全的代码执行",
+          "description": "使用exec/eval但未使用安全执行器",
+          "severity": "high"
+        }
+      }
+    ],
+    "优化建议": [
+      {
+        "类别": "编码问题",
+        "优先级": "高",
+        "建议": "统一集成智能编码检测机制到所有文件处理工具",
+        "实施方案": [
+          "在所有文件读取工具中集成detect_file_encoding函数",
+          "添加多编码尝试机制和回退策略",
+          "统一编码错误处理和用户提示"
+        ]
+      },
+      {
+        "类别": "安全检查问题",
+        "优先级": "高",
+        "建议": "强化所有代码执行工具的安全机制",
+        "实施方案": [
+          "确保所有代码执行都使用SecureCodeExecutor",
+          "优化AST安全分析器的函数白名单",
+          "添加更细粒度的安全策略配置"
+        ]
+      },
+      {
+        "类别": "错误处理问题",
+        "优先级": "中",
+        "建议": "标准化错误处理机制",
+        "实施方案": [
+          "为所有工具添加统一的异常处理装饰器",
+          "实现分层错误处理和详细错误报告",
+          "添加错误恢复和重试机制"
+        ]
+      },
+      {
+        "类别": "参数验证问题",
+        "优先级": "中",
+        "建议": "实现统一的参数验证框架",
+        "实施方案": [
+          "创建参数验证装饰器",
+          "添加类型检查和范围验证",
+          "实现参数自动转换和清理"
+        ]
+      }
+    ]
+  },
+  "分析总结": {
+    "工具健康度评分": 0,
+    "关键发现": [
+      "发现 24 个MCP工具",
+      "检测到 22 个潜在问题",
+      "其中 1 个高优先级问题需要立即修复",
+      "建议实施 4 项优化措施"
+    ],
+    "下一步行动": [
+      "优先修复高优先级安全问题",
+      "统一实施编码检测机制",
+      "标准化错误处理流程",
+      "建立持续监控机制"
+    ]
+  }
+}
