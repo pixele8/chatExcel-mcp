@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "chatExcel"
-version = "2.0.0"
-description = "chatExcel - Excel智能处理与数据分析MCP服务器 - 支持24个MCP工具的企业级解决方案（含安全增强、健康监控、依赖管理、Excel公式引擎）"
+version = "2.1.0"
+description = "chatExcel - Excel智能处理与数据分析MCP服务器 - 支持31个MCP工具的企业级解决方案（含安全增强、健康监控、依赖管理、Excel公式引擎、tabulate集成）"
 requires-python = ">=3.11"
 dependencies = [
     "fastmcp==0.3.0",
@@ -22,6 +22,8 @@ dependencies = [
     "plotly==5.24.1",
     "requests==2.32.4",
     "pydantic==2.11.5",
+    "tabulate==0.9.0",
+    "formulas==1.2.10",
 ]
 
 [project.optional-dependencies]

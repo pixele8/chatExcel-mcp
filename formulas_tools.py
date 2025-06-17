@@ -18,8 +18,8 @@ ChatExcel MCP Server - Excel 公式处理工具模块
 
 作者: ChatExcel MCP Team
 版本: 2.0.0
-创建日期: 2025-01-27
-更新日期: 2025-01-27
+创建日期: 2025-06-18
+更新日期: 2025-06-18
 """
 
 import json

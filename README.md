@@ -6,7 +6,7 @@
 [![FastMCP](https://img.shields.io/badge/FastMCP-0.3.0-green.svg)](https://github.com/jlowin/fastmcp)
 [![Go Version](https://img.shields.io/badge/go-1.24%2B-00ADD8.svg)](https://golang.org)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-2.0.0-orange.svg)](pyproject.toml)
+[![Version](https://img.shields.io/badge/version-2.1.0-orange.svg)](pyproject.toml)
 [![Formulas](https://img.shields.io/badge/formulas-1.2.10-blue.svg)](https://pypi.org/project/formulas/)
 [![Security](https://img.shields.io/badge/security-enhanced-green.svg)](#-安全考虑)
 [![Performance](https://img.shields.io/badge/performance-optimized-brightgreen.svg)](#-性能优化)
@@ -155,6 +155,23 @@ result = validate_formula("=SUM(A1:A10)")
 
 ## 📋 版本更新日志
 
+### v2.1.0 (2025-06-18)
+
+**🎉 重大更新**
+- ✅ **tabulate库完全集成**: 彻底解决tabulate ImportError问题，支持pandas.to_markdown()功能
+- ✅ **Excel公式引擎增强**: 基于formulas==1.2.10的完整公式处理系统
+- ✅ **31个MCP工具**: 新增7个数据质量控制工具，覆盖完整数据处理生命周期
+- ✅ **安全机制优化**: 增强代码执行沙箱，完善安全验证机制
+- ✅ **性能提升**: Go excelize集成，缓存机制，并发处理优化
+- ✅ **健康监控**: 完整的服务监控、日志记录和错误追踪系统
+
+**🔧 技术改进**
+- 修复了tabulate库在MCP环境中的兼容性问题
+- 优化了安全沙箱的模块加载机制
+- 提升了表格数据格式化的性能和稳定性
+- 增强了Excel公式解析、编译和执行能力
+- 完善了数据质量控制和验证机制
+
 ### v2.0.0 (2020-06-18)
 
 **🎉 重大更新**
@@ -163,11 +180,6 @@ result = validate_formula("=SUM(A1:A10)")
 - ✅ **代码执行增强**: 优化secure_code_executor.py，提升代码执行安全性
 - ✅ **测试覆盖完善**: 新增tabulate库独立测试和MCP集成测试
 - ✅ **文档更新**: 完善README和requirements.txt版本信息
-
-**🔧 技术改进**
-- 修复了tabulate库在MCP环境中的兼容性问题
-- 优化了安全沙箱的模块加载机制
-- 提升了表格数据格式化的性能和稳定性
 
 ## 🚀 快速开始
 
