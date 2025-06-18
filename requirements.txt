@@ -7,7 +7,9 @@
 # NumPy和Pandas功能完备性验证通过
 # 增强多级列头检测系统已修复并正常运行
 # 新增Excel公式处理引擎 (formulas==1.2.10)
+# 新增7个数据质量控制工具，完善企业级功能
 # 新增安全机制、健康监控、依赖管理等企业级功能
+# 虚拟环境兼容性和依赖检查机制完善
 
 # ========================================
 # MCP工具功能映射说明 - 企业级增强版
@@ -83,8 +85,8 @@ tabulate==0.9.0   # 表格格式化库 (支持pandas.to_markdown())
 # Excel文件处理（智能分析功能核心依赖）
 # 支持工具: read_excel_metadata, run_excel_code, excel_read_enhanced, excel_write_enhanced
 # 数据质量控制工具: enhanced_data_quality_check, extract_cell_content_advanced, clean_excel_data
-openpyxl==3.1.5   # Excel文件读写库
-xlrd==2.0.1       # Excel文件读取库
+openpyxl==3.1.5   # Excel文件读写库 (支持.xlsx格式)
+# xlrd==2.0.1     # Excel文件读取库 (已弃用，使用openpyxl替代)
 XlsxWriter==3.2.3 # Excel文件写入库
 formulas==1.2.10   # Excel公式解析和执行库
 

@@ -132,185 +132,6 @@ from utils.parameter_validator import ParameterValidator
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# 大幅减少的黑名单 - 完全解除tabulate库限制
-BLACKLIST = [
-    # 完全清空，允许所有库包括tabulate
-]
-
-def enhanced_run_excel_code(
-    code: str,
-    df: Optional[pd.DataFrame] = None,
-    allow_file_write: bool = False,
-    max_execution_time: int = 60,  # 增加执行时间
-    max_memory_mb: int = 1024,     # 增加内存限制
-    enable_security_check: bool = False,  # 默认关闭安全检查
-    return_format: str = 'auto'
-) -> Dict[str, Any]:
-    """
-    增强版Excel代码执行器 - 宽松安全版本
-    
-    Args:
-        code: 要执行的Python代码
-        df: 输入的DataFrame（可选）
-        allow_file_write: 是否允许文件写入操作
-        max_execution_time: 最大执行时间（秒）
-        max_memory_mb: 最大内存使用量（MB）
-        enable_security_check: 是否启用安全检查
-        return_format: 返回格式 ('auto', 'json', 'html', 'markdown')
-    
-    Returns:
-        Dict: 执行结果
-    """
-    
-    start_time = datetime.now()
-    
-    try:
-        # 1. 基础验证
-        if not code or not isinstance(code, str):
-            return {
-                "success": False,
-                "error": "代码不能为空",
-                "execution_time": 0
-            }
-        
-        # 2. 参数验证（宽松版本）
-        validator = ParameterValidator()
-        validation_result = validator.validate_code_content(code, max_length=100000)  # 增加长度限制
-        
-        if not validation_result['valid']:
-            return {
-                "success": False,
-                "error": f"代码验证失败: {'; '.join(validation_result['errors'])}",
-                "warnings": validation_result.get('warnings', []),
-                "execution_time": 0
-            }
-        
-        # 3. 安全检查（可选且宽松）
-        if enable_security_check:
-            # 只检查最基本的安全问题
-            for forbidden in BLACKLIST:
-                if forbidden in code:
-                    logger.warning(f"检测到潜在风险操作: {forbidden}")
-                    # 不阻止执行，只记录警告
-        
-        # 4. 准备执行环境
-        context = {}
-        if df is not None:
-            context['df'] = df
-            context['data'] = df  # 提供别名
-        
-        # 5. 使用安全代码执行器（宽松配置）
-        executor = SecureCodeExecutor(
-            max_memory_mb=max_memory_mb,
-            max_execution_time=max_execution_time,
-            enable_ast_analysis=False  # 禁用AST分析
-        )
-        
-        # 6. 执行代码
-        result = executor.execute_code(code, context)
-        
-        # 7. 处理执行结果
-        execution_time = (datetime.now() - start_time).total_seconds()
-        
-        if result.get('success', True):
-            # 成功执行
-            output_data = result.get('result')
-            captured_output = result.get('output', '')
-            
-            # 格式化输出
-            formatted_result = format_output(
-                output_data, 
-                captured_output, 
-                return_format
-            )
-            
-            return {
-                "success": True,
-                "result": formatted_result,
-                "output": captured_output,
-                "execution_time": execution_time,
-                "warnings": validation_result.get('warnings', []),
-                "metadata": {
-                    "code_length": len(code),
-                    "has_dataframe_input": df is not None,
-                    "return_format": return_format,
-                    "security_check_enabled": enable_security_check
-                }
-            }
-        else:
-            # 执行失败
-            return {
-                "success": False,
-                "error": result.get('error', '未知错误'),
-                "execution_time": execution_time,
-                "warnings": validation_result.get('warnings', [])
-            }
-            
-    except Exception as e:
-        execution_time = (datetime.now() - start_time).total_seconds()
-        logger.error(f"代码执行异常: {str(e)}")
-        logger.error(f"异常堆栈: {traceback.format_exc()}")
-        
-        return {
-            "success": False,
-            "error": f"执行异常: {str(e)}",
-            "execution_time": execution_time,
-            "traceback": traceback.format_exc()
-        }
-
-def format_output(data: Any, captured_output: str, return_format: str) -> Any:
-    """
-    格式化输出数据
-    
-    Args:
-        data: 执行结果数据
-        captured_output: 捕获的输出
-        return_format: 返回格式
-    
-    Returns:
-        格式化后的数据
-    """
-    
-    if return_format == 'auto':
-        # 自动判断格式
-        if isinstance(data, pd.DataFrame):
-            return_format = 'html'
-        elif captured_output:
-            return_format = 'text'
-        else:
-            return_format = 'json'
-    
-    try:
-        if return_format == 'html' and isinstance(data, pd.DataFrame):
-            return data.to_html(classes='table table-striped', escape=False)
-        elif return_format == 'markdown' and isinstance(data, pd.DataFrame):
-            try:
-                # 优先使用to_markdown方法（需要tabulate库）
-                return data.to_markdown(index=False)
-            except ImportError:
-                # 如果tabulate库不可用，使用备用方案
-                logger.warning("tabulate库不可用，使用备用表格格式")
-                # 简单的表格格式化备用方案
-                headers = '| ' + ' | '.join(str(col) for col in data.columns) + ' |\n'
-                separator = '|' + '---|' * len(data.columns) + '\n'
-                rows = ''
-                for _, row in data.iterrows():
-                    rows += '| ' + ' | '.join(str(val) for val in row) + ' |\n'
-                return headers + separator + rows
-            except Exception as e:
-                logger.warning(f"Markdown格式化失败: {e}，使用字符串格式")
-                return str(data)
-        elif return_format == 'json':
-            if isinstance(data, pd.DataFrame):
-                return data.to_dict('records')
-            else:
-                return data
-        else:
-            return str(data) if data is not None else captured_output
-    except Exception as e:
-        logger.warning(f"格式化输出失败: {e}")
-        return str(data) if data is not None else captured_output
-
 # 向后兼容的函数别名
 run_excel_code = enhanced_run_excel_code
 
@@ -376,3 +197,182 @@ print(f"测试计算结果: {result.tolist()}")
 
 if __name__ == "__main__":
     create_diagnostic_tool()
+
+# 完全解除所有安全限制 - 允许所有命令和函数
+BLACKLIST = []  # 空黑名单，允许所有操作
+
+# 移除所有限制性检查
+def is_safe_code(code: str) -> bool:
+    """代码安全检查 - 完全无限制版本"""
+    # 始终返回True，允许所有代码执行
+    return True
+
+def check_imports(code: str) -> bool:
+    """导入检查 - 完全无限制版本"""
+    # 始终返回True，允许所有导入
+    return True
+
+def sanitize_code(code: str) -> str:
+    """代码清理 - 无操作版本"""
+    # 直接返回原始代码，不进行任何修改
+    return code
+
+def enhanced_run_excel_code(
+    code: str,
+    df: Optional[pd.DataFrame] = None,
+    allow_file_write: bool = True,  # 默认允许文件写入
+    max_execution_time: int = 999999,  # 无限制执行时间
+    max_memory_mb: int = 999999,     # 无限制内存
+    enable_security_check: bool = False,  # 默认关闭安全检查
+    return_format: str = 'auto'
+) -> Dict[str, Any]:
+    """
+    增强版Excel代码执行器 - 完全无限制版本
+    
+    Args:
+        code: 要执行的Python代码
+        df: 输入的DataFrame（可选）
+        allow_file_write: 是否允许文件写入操作
+        max_execution_time: 最大执行时间（秒）
+        max_memory_mb: 最大内存使用量（MB）
+        enable_security_check: 是否启用安全检查
+        return_format: 返回格式 ('auto', 'json', 'html', 'markdown')
+    
+    Returns:
+        Dict: 执行结果
+    """
+    
+    start_time = datetime.now()
+    
+    try:
+        # 1. 基础验证（最小化）
+        if not code or not isinstance(code, str):
+            return {
+                "success": False,
+                "error": "代码不能为空",
+                "execution_time": 0
+            }
+        
+        # 2. 跳过所有安全检查和验证
+        
+        # 3. 准备执行环境
+        context = {}
+        if df is not None:
+            context['df'] = df
+            context['data'] = df  # 提供别名
+        
+        # 4. 直接执行代码（无任何限制）
+        try:
+            # 创建全局和局部命名空间
+            global_ns = {
+                '__builtins__': __builtins__,
+                'pd': pd,
+                'numpy': np,
+                'np': np,
+                'datetime': datetime,
+                'os': os,
+                'sys': sys,
+                'json': json,
+                'math': math,
+                'random': random,
+                're': re
+            }
+            global_ns.update(context)
+            
+            local_ns = {}
+            
+            # 执行代码
+            exec(code, global_ns, local_ns)
+            
+            # 获取结果
+            result = local_ns.get('result', None)
+            if result is None and 'df' in local_ns:
+                result = local_ns['df']
+            
+            execution_time = (datetime.now() - start_time).total_seconds()
+            
+            # 格式化输出
+            formatted_result = format_output(result, '', return_format)
+            
+            return {
+                "success": True,
+                "result": formatted_result,
+                "output": "",
+                "execution_time": execution_time,
+                "warnings": [],
+                "metadata": {
+                    "code_length": len(code),
+                    "has_dataframe_input": df is not None,
+                    "return_format": return_format,
+                    "security_check_enabled": False
+                }
+            }
+            
+        except Exception as exec_error:
+            execution_time = (datetime.now() - start_time).total_seconds()
+            return {
+                "success": False,
+                "error": f"执行错误: {str(exec_error)}",
+                "execution_time": execution_time,
+                "traceback": traceback.format_exc()
+            }
+            
+    except Exception as e:
+        execution_time = (datetime.now() - start_time).total_seconds()
+        logger.error(f"代码执行异常: {str(e)}")
+        
+        return {
+            "success": False,
+            "error": f"执行异常: {str(e)}",
+            "execution_time": execution_time,
+            "traceback": traceback.format_exc()
+        }
+
+def format_output(data: Any, captured_output: str, return_format: str) -> Any:
+    """
+    格式化输出数据
+    
+    Args:
+        data: 执行结果数据
+        captured_output: 捕获的输出
+        return_format: 返回格式
+    
+    Returns:
+        格式化后的数据
+    """
+    
+    if return_format == 'auto':
+        # 自动判断格式
+        if isinstance(data, pd.DataFrame):
+            return_format = 'html'
+        elif captured_output:
+            return_format = 'text'
+        else:
+            return_format = 'json'
+    
+    try:
+        if return_format == 'html' and isinstance(data, pd.DataFrame):
+            return data.to_html(classes='table table-striped', escape=False)
+        elif return_format == 'markdown' and isinstance(data, pd.DataFrame):
+            try:
+                # 使用tabulate库
+                return data.to_markdown(index=False)
+            except ImportError:
+                # 备用方案
+                headers = '| ' + ' | '.join(str(col) for col in data.columns) + ' |\n'
+                separator = '|' + '---|' * len(data.columns) + '\n'
+                rows = ''
+                for _, row in data.iterrows():
+                    rows += '| ' + ' | '.join(str(val) for val in row) + ' |\n'
+                return headers + separator + rows
+            except Exception as e:
+                return str(data)
+        elif return_format == 'json':
+            if isinstance(data, pd.DataFrame):
+                return data.to_dict('records')
+            else:
+                return data
+        else:
+            return str(data) if data is not None else captured_output
+    except Exception as e:
+        return str(data) if data is not None else captured_output

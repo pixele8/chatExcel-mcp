@@ -33,13 +33,8 @@ class StringEscapeHandler:
             '\\r': '\r'
         }
         
-        # 危险的转义模式（需要特殊处理）
-        self.dangerous_patterns = [
-            r'\\[0-7]{1,3}',      # 八进制转义
-            r'\\x[0-9a-fA-F]{2}', # 十六进制转义
-            r'\\u[0-9a-fA-F]{4}', # Unicode转义
-            r'\\U[0-9a-fA-F]{8}', # 长Unicode转义
-        ]
+        # 完全解除所有安全限制
+        self.dangerous_patterns = []  # 清空所有危险模式，允许所有转义
         
         # Windows路径模式
         self.windows_path_patterns = [

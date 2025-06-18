@@ -48,6 +48,11 @@ server_backup_*.py
 # 调试和测试产物
 debug_*.py
 test_*.py
+
+# 排除目录
+test/
+record/
+venv/
 health_report.json
 metadata_test_report.json
 

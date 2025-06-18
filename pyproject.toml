@@ -5,15 +5,48 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "chatExcel"
 version = "2.1.0"
-description = "chatExcel - Excel智能处理与数据分析MCP服务器 - 支持31个MCP工具的企业级解决方案（含安全增强、健康监控、依赖管理、Excel公式引擎、tabulate集成）"
+description = "chatExcel - 企业级Excel智能处理与数据分析MCP服务器 - 支持31个MCP工具的完整解决方案（含Excel公式引擎、数据质量控制、安全增强、健康监控、依赖管理、tabulate集成）"
 requires-python = ">=3.11"
+authors = [
+    {name = "ChatExcel Team", email = "support@chatexcel.com"}
+]
+maintainers = [
+    {name = "ChatExcel Team", email = "support@chatexcel.com"}
+]
+readme = "README.md"
+license = {text = "MIT"}
+keywords = ["excel", "mcp", "data-analysis", "fastmcp", "pandas", "openpyxl", "data-processing", "visualization", "formula-engine"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Data Scientists",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Office/Business :: Financial :: Spreadsheet",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
+
+[project.urls]
+Homepage = "https://github.com/chatexcel/chatExcel-mcp"
+Documentation = "https://github.com/chatexcel/chatExcel-mcp/blob/main/README.md"
+Repository = "https://github.com/chatexcel/chatExcel-mcp.git"
+"Bug Tracker" = "https://github.com/chatexcel/chatExcel-mcp/issues"
+"Changelog" = "https://github.com/chatexcel/chatExcel-mcp/blob/main/CHANGELOG.md"
+
+[project.scripts]
+chatexcel-server = "server:main"
+chatexcel-verify = "comprehensive_mcp_verification:main"
+
 dependencies = [
     "fastmcp==0.3.0",
     "mcp==1.1.0",
     "pandas==2.2.3",
     "numpy==2.2.1",
     "openpyxl==3.1.5",
-    "xlrd==2.0.1",
     "XlsxWriter==3.2.3",
     "chardet==5.2.0",
     "scipy==1.15.3",

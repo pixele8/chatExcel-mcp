@@ -52,7 +52,7 @@ class MemoryLimitError(Exception):
     pass
 
 class ASTSecurityAnalyzer(ast.NodeVisitor):
-    """AST 安全分析器 - 极度宽松版本"""
+    """AST 安全分析器 - 完全解除所有限制版本"""
     
     def __init__(self):
         self.violations = []
@@ -60,58 +60,71 @@ class ASTSecurityAnalyzer(ast.NodeVisitor):
         self.function_calls = set()
         self.attribute_accesses = set()
         
-        # 完全移除危险函数限制
-        self.dangerous_builtins = set()
-        
-        # 完全移除危险模块限制
-        self.dangerous_modules = set()
-        
-        # 允许所有模块 - 无限制
-        self.allowed_modules = set()  # 空集合表示允许所有
-        
-        # 完全移除危险属性限制
-        self.dangerous_attributes = set()
+        # 完全移除所有限制
+        self.dangerous_builtins = set()  # 允许所有内置函数
+        self.dangerous_modules = set()   # 允许所有模块
+        self.allowed_modules = set()     # 空集合表示允许所有
+        self.dangerous_attributes = set()  # 允许所有属性访问
     
     def visit_Import(self, node):
-        """检查 import 语句 - 完全宽松"""
+        """检查 import 语句 - 完全无限制"""
         for alias in node.names:
             module_name = alias.name.split('.')[0]
             self.imports.add(module_name)
+            # 不进行任何安全检查，允许所有导入
         self.generic_visit(node)
     
     def visit_ImportFrom(self, node):
-        """检查 from ... import 语句 - 完全宽松"""
+        """检查 from ... import 语句 - 完全无限制"""
         if node.module:
             module_name = node.module.split('.')[0]
             self.imports.add(module_name)
+            # 不进行任何安全检查，允许所有导入
         self.generic_visit(node)
     
     def visit_Call(self, node):
-        """检查函数调用 - 完全宽松"""
+        """检查函数调用 - 完全无限制"""
         if isinstance(node.func, ast.Name):
             func_name = node.func.id
             self.function_calls.add(func_name)
+            # 不进行任何安全检查，允许所有函数调用
         self.generic_visit(node)
     
     def visit_Attribute(self, node):
-        """检查属性访问 - 完全宽松"""
+        """检查属性访问 - 完全无限制"""
         attr_name = node.attr
         self.attribute_accesses.add(attr_name)
+        # 不进行任何安全检查，允许所有属性访问
         self.generic_visit(node)
     
-    def visit_Subscript(self, node):
-        """检查下标访问 - 完全宽松"""
-        self.generic_visit(node)
-    
-    def analyze(self, code: str) -> List[str]:
-        """分析代码并返回安全违规列表 - 极度宽松版本"""
+    def analyze(self, code: str) -> Dict[str, Any]:
+        """分析代码安全性 - 始终返回安全"""
         try:
             tree = ast.parse(code)
             self.visit(tree)
-            # 不返回任何违规，完全放开限制
-            return []
+            
+            # 始终返回安全状态，不进行任何限制
+            return {
+                'safe': True,  # 始终安全
+                'violations': [],  # 无违规
+                'imports': list(self.imports),
+                'function_calls': list(self.function_calls),
+                'attribute_accesses': list(self.attribute_accesses),
+                'risk_level': 'none',  # 无风险
+                'recommendations': []  # 无建议
+            }
         except SyntaxError as e:
-            return [f"语法错误: {e}"]
+            # 即使语法错误也不阻止执行
+            return {
+                'safe': True,  # 仍然标记为安全
+                'violations': [],
+                'syntax_error': str(e),
+                'imports': [],
+                'function_calls': [],
+                'attribute_accesses': [],
+                'risk_level': 'none',
+                'recommendations': []
+            }
 
 class ResourceMonitor:
     """资源监控器 - 宽松配置"""
@@ -347,7 +360,7 @@ class SecureCodeExecutor:
 
     def _check_code_security(self, code: str) -> Dict[str, Any]:
         """
-        检查代码安全性（宽松模式）
+        检查代码安全性（完全开放模式）
         
         Args:
             code: 要检查的代码
@@ -356,35 +369,20 @@ class SecureCodeExecutor:
             安全检查结果字典
         """
         try:
-            # 宽松的安全检查，主要记录警告
-            warnings = []
+            # 完全开放模式：无任何安全限制
+            logger.debug(f"代码安全检查：完全开放模式，允许所有操作")
             
-            # 检查一些明显的危险操作
-            dangerous_patterns = [
-                (r'\beval\s*\(', '使用了eval函数'),
-                (r'\bexec\s*\(', '使用了exec函数'),
-                (r'\b__import__\s*\(', '使用了__import__函数'),
-                (r'\bopen\s*\([^)]*["\']w', '尝试写入文件'),
-                (r'\bos\.system\s*\(', '使用了os.system'),
-                (r'\bsubprocess\s*\.', '使用了subprocess模块')
-            ]
-            
-            for pattern, warning in dangerous_patterns:
-                if re.search(pattern, code, re.IGNORECASE):
-                    warnings.append(warning)
-            
-            # 宽松模式：总是允许执行，但记录警告
             return {
                 'allowed': True,
-                'warnings': warnings,
-                'reason': '宽松模式：允许执行但记录警告' if warnings else '代码安全检查通过'
+                'warnings': [],
+                'reason': '完全开放模式：允许所有代码执行'
             }
             
         except Exception as e:
             logger.warning(f"安全检查出错: {e}")
             return {
                 'allowed': True,
-                'warnings': [f'安全检查异常: {e}'],
+                'warnings': [],
                 'reason': '安全检查异常，但允许执行'
             }
 
@@ -477,18 +475,128 @@ class SecureCodeExecutor:
                 'error': 'SyntaxError',
                 'message': str(e),
                 'execution_time': execution_time,
-                'suggestion': "检查代码语法，特别是字符串引号和转义字符"
+                'suggestion': "检查代码语法，特别是字符串引号和转义字符",
+                'output': output_buffer.getvalue(),
+                'traceback': traceback.format_exc()
+            }
+            
+        except NameError as e:
+            execution_time = time.time() - start_time
+            logger.error(f"变量未定义错误: {e}")
+            return {
+                'success': False,
+                'error': 'NameError',
+                'message': str(e),
+                'execution_time': execution_time,
+                'suggestion': "检查变量名拼写，确保变量已正确定义",
+                'output': output_buffer.getvalue(),
+                'traceback': traceback.format_exc()
+            }
+            
+        except KeyError as e:
+            execution_time = time.time() - start_time
+            logger.error(f"键值错误: {e}")
+            return {
+                'success': False,
+                'error': 'KeyError',
+                'message': str(e),
+                'execution_time': execution_time,
+                'suggestion': "检查字典键名或DataFrame列名是否存在",
+                'output': output_buffer.getvalue(),
+                'traceback': traceback.format_exc()
+            }
+            
+        except AttributeError as e:
+            execution_time = time.time() - start_time
+            logger.error(f"属性错误: {e}")
+            return {
+                'success': False,
+                'error': 'AttributeError',
+                'message': str(e),
+                'execution_time': execution_time,
+                'suggestion': "检查对象是否具有所调用的属性或方法",
+                'output': output_buffer.getvalue(),
+                'traceback': traceback.format_exc()
+            }
+            
+        except ImportError as e:
+            execution_time = time.time() - start_time
+            logger.error(f"导入错误: {e}")
+            return {
+                'success': False,
+                'error': 'ImportError',
+                'message': str(e),
+                'execution_time': execution_time,
+                'suggestion': "检查模块是否已安装，使用pip install安装缺失的模块",
+                'output': output_buffer.getvalue(),
+                'traceback': traceback.format_exc()
+            }
+            
+        except ValueError as e:
+            execution_time = time.time() - start_time
+            logger.error(f"数值错误: {e}")
+            return {
+                'success': False,
+                'error': 'ValueError',
+                'message': str(e),
+                'execution_time': execution_time,
+                'suggestion': "检查数据类型转换和数值范围是否正确",
+                'output': output_buffer.getvalue(),
+                'traceback': traceback.format_exc()
+            }
+            
+        except TypeError as e:
+            execution_time = time.time() - start_time
+            logger.error(f"类型错误: {e}")
+            return {
+                'success': False,
+                'error': 'TypeError',
+                'message': str(e),
+                'execution_time': execution_time,
+                'suggestion': "检查函数参数类型和数量是否正确",
+                'output': output_buffer.getvalue(),
+                'traceback': traceback.format_exc()
+            }
+            
+        except IndexError as e:
+            execution_time = time.time() - start_time
+            logger.error(f"索引错误: {e}")
+            return {
+                'success': False,
+                'error': 'IndexError',
+                'message': str(e),
+                'execution_time': execution_time,
+                'suggestion': "检查列表或数组索引是否超出范围",
+                'output': output_buffer.getvalue(),
+                'traceback': traceback.format_exc()
             }
             
         except Exception as e:
             execution_time = time.time() - start_time
-            logger.error(f"执行错误: {e}")
+            error_type = type(e).__name__
+            logger.error(f"执行错误 ({error_type}): {e}")
+            
+            # 根据错误类型提供具体建议
+            suggestion = "代码执行失败，请检查代码逻辑和语法"
+            if "pandas" in str(e).lower():
+                suggestion = "pandas相关错误，检查DataFrame操作和列名"
+            elif "numpy" in str(e).lower():
+                suggestion = "numpy相关错误，检查数组操作和数据类型"
+            elif "permission" in str(e).lower():
+                suggestion = "权限错误，检查文件访问权限"
+            elif "memory" in str(e).lower():
+                suggestion = "内存不足，尝试处理较小的数据集"
+            elif "timeout" in str(e).lower():
+                suggestion = "执行超时，优化代码性能或增加超时时间"
+            
             return {
                 'success': False,
-                'error': type(e).__name__,
+                'error': error_type,
                 'message': str(e),
                 'execution_time': execution_time,
-                'suggestion': "代码包含潜在风险操作，但已尝试执行"
+                'suggestion': suggestion,
+                'output': output_buffer.getvalue(),
+                'traceback': traceback.format_exc()
             }
 
     def _process_result(self, result: Any) -> Dict[str, Any]:

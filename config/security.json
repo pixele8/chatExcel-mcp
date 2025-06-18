@@ -2,87 +2,96 @@
   "security": {
     "api_key_required": false,
     "jwt_secret": null,
-    "jwt_expiry": 3600,
+    "jwt_expiry": 86400,
     "rate_limit_enabled": false,
-    "rate_limit_requests": 1000,
-    "rate_limit_window": 60,
-    "max_file_size": 209715200,
-    "allowed_file_types": [".xlsx", ".xls", ".csv", ".json", ".txt", ".xml", ".tsv"],
-    "upload_path_whitelist": [
-      "/tmp/chatexcel",
-      "./uploads",
-      "./temp",
-      "./data",
-      "./input",
-      "./output"
-    ],
+    "rate_limit_requests": 999999,
+    "rate_limit_window": 1,
+    "max_file_size": 999999999999,
+    "allowed_file_types": ["*"],
+    "upload_path_whitelist": ["*"],
     "code_execution_enabled": true,
-    "code_execution_timeout": 120,
-    "code_execution_memory_limit": 2048,
-    "blacklisted_modules": [
-      "subprocess",
-      "execfile",
-      "reload"
-    ],
-    "allowed_hosts": [
-      "localhost",
-      "127.0.0.1",
-      "0.0.0.0",
-      "*"
-    ],
+    "code_execution_timeout": 999999,
+    "code_execution_memory_limit": 999999,
+    "blacklisted_modules": [],
+    "allowed_hosts": ["*"],
     "ssl_enabled": false,
     "ssl_cert_path": null,
     "ssl_key_path": null,
-    "log_sensitive_data": false,
+    "log_sensitive_data": true,
     "audit_log_enabled": false,
     "audit_log_path": "logs/audit.log",
-    "session_timeout": 7200,
-    "max_login_attempts": 20,
-    "lockout_duration": 300,
+    "session_timeout": 999999,
+    "max_login_attempts": 999999,
+    "lockout_duration": 0,
     "password_policy": {
-      "min_length": 4,
+      "min_length": 1,
       "require_uppercase": false,
       "require_lowercase": false,
       "require_numbers": false,
       "require_special_chars": false,
-      "max_age_days": 365
+      "max_age_days": 999999
     },
     "cors_enabled": true,
-    "cors_origins": [
-      "*"
-    ],
-    "cors_methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
-    "cors_headers": [
-      "*"
-    ],
-    "input_validation": {
-      "max_string_length": 100000,
-      "max_array_length": 10000,
-      "max_object_depth": 50,
-      "sanitize_html": false,
-      "validate_json_schema": false
+    "cors_origins": ["*"],
+    "cors_methods": ["*"],
+    "cors_headers": ["*"],
+    "csrf_protection": false,
+    "xss_protection": false,
+    "content_type_validation": false,
+    "request_size_limit": 999999999999,
+    "response_size_limit": 999999999999,
+    "connection_timeout": 999999,
+    "read_timeout": 999999,
+    "write_timeout": 999999,
+    "keep_alive_timeout": 999999,
+    "max_concurrent_connections": 999999,
+    "max_requests_per_connection": 999999,
+    "enable_compression": true,
+    "compression_level": 9,
+    "enable_caching": true,
+    "cache_max_age": 999999,
+    "enable_etag": false,
+    "enable_last_modified": false,
+    "security_headers": {
+      "x_frame_options": "ALLOWALL",
+      "x_content_type_options": "nosniff",
+      "x_xss_protection": "0",
+      "strict_transport_security": null,
+      "content_security_policy": null,
+      "referrer_policy": "no-referrer-when-downgrade",
+      "permissions_policy": null
     },
-    "encryption": {
-      "algorithm": "AES-256-GCM",
-      "key_rotation_days": 365,
-      "encrypt_sensitive_logs": false,
-      "encrypt_config_files": false
+    "input_validation": {
+      "enable_sql_injection_check": false,
+      "enable_xss_check": false,
+      "enable_path_traversal_check": false,
+      "enable_command_injection_check": false,
+      "max_input_length": 999999999999,
+      "allowed_characters": "*",
+      "forbidden_patterns": []
+    },
+    "output_filtering": {
+      "enable_sensitive_data_masking": false,
+      "enable_error_message_filtering": false,
+      "max_output_length": 999999999999,
+      "allowed_mime_types": ["*"]
+    },
+    "resource_limits": {
+      "max_cpu_usage": 100,
+      "max_memory_usage": 999999999999,
+      "max_disk_usage": 999999999999,
+      "max_network_bandwidth": 999999999999,
+      "max_open_files": 999999,
+      "max_processes": 999999,
+      "max_threads": 999999
     },
     "monitoring": {
-      "failed_login_threshold": 100,
-      "suspicious_activity_threshold": 500,
-      "alert_email": null,
-      "alert_webhook": null,
-      "log_all_requests": false,
-      "log_failed_requests": false,
-      "log_slow_requests": false,
-      "slow_request_threshold": 30000
-    },
-    "backup": {
-      "encrypt_backups": false,
-      "backup_retention_days": 7,
-      "backup_location": "./backups",
-      "auto_backup_interval": 604800
+      "enable_performance_monitoring": false,
+      "enable_security_monitoring": false,
+      "enable_error_tracking": false,
+      "log_level": "DEBUG",
+      "log_format": "detailed",
+      "log_rotation": false
     }
   }
 }

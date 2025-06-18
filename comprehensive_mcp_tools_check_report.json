@@ -2,17 +2,17 @@
   "timestamp": "/Users/wangdada/Downloads/mcp/chatExcel-mcp",
   "summary": {
     "total_tools": 31,
-    "total_issues": 0,
+    "total_issues": 1,
     "critical_issues": 0,
     "high_issues": 0,
-    "medium_issues": 0,
+    "medium_issues": 1,
     "modules_checked": 8,
     "modules_with_errors": 0
   },
   "tools_info": {
     "read_metadata": {
       "name": "read_metadata",
-      "lineno": 181,
+      "lineno": 175,
       "args": [
         "file_path"
       ],
@@ -23,59 +23,59 @@
           "object": "mcp",
           "method": "tool",
           "args_count": 0,
-          "lineno": 180
+          "lineno": 174
         },
         {
           "type": "method",
           "object": "logger",
           "method": "info",
           "args_count": 1,
-          "lineno": 190
+          "lineno": 184
         },
         {
           "type": "function",
           "name": "validate_file_access",
           "args_count": 1,
-          "lineno": 194
+          "lineno": 188
         },
         {
           "type": "function",
           "name": "min",
           "args_count": 2,
-          "lineno": 230
+          "lineno": 224
         },
         {
           "type": "method",
           "object": "pd",
           "method": "read_csv",
           "args_count": 1,
-          "lineno": 231
+          "lineno": 225
         },
         {
           "type": "function",
           "name": "open",
           "args_count": 2,
-          "lineno": 199
+          "lineno": 193
         },
         {
           "type": "method",
           "object": "f",
           "method": "read",
           "args_count": 1,
-          "lineno": 200
+          "lineno": 194
         },
         {
           "type": "function",
           "name": "open",
           "args_count": 2,
-          "lineno": 203
+          "lineno": 197
         },
         {
           "type": "method",
           "object": "f",
           "method": "readline",
           "args_count": 0,
-          "lineno": 204
+          "lineno": 198
         },
         {
           "type": "chained_method",
@@ -86,7 +86,7 @@
             "is_numeric_dtype"
           ],
           "args_count": 1,
-          "lineno": 250
+          "lineno": 244
         },
         {
           "type": "chained_method",
@@ -97,7 +97,7 @@
             "is_string_dtype"
           ],
           "args_count": 1,
-          "lineno": 262
+          "lineno": 256
         },
         {
           "type": "chained_method",
@@ -108,39 +108,39 @@
             "is_datetime64_any_dtype"
           ],
           "args_count": 1,
-          "lineno": 268
+          "lineno": 262
         },
         {
           "type": "method",
           "object": "columns_metadata",
           "method": "append",
           "args_count": 1,
-          "lineno": 281
+          "lineno": 275
         },
         {
           "type": "function",
           "name": "sum",
           "args_count": 1,
-          "lineno": 213
+          "lineno": 207
         },
         {
           "type": "method",
           "object": "pd",
           "method": "read_csv",
           "args_count": 1,
-          "lineno": 217
+          "lineno": 211
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 218
+          "lineno": 212
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 238
+          "lineno": 232
         },
         {
           "type": "chained_method",
@@ -151,38 +151,38 @@
             "is_numeric_dtype"
           ],
           "args_count": 1,
-          "lineno": 278
+          "lineno": 272
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 295
+          "lineno": 289
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 296
+          "lineno": 290
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 338
+          "lineno": 332
         },
         {
           "type": "method",
           "object": "traceback",
           "method": "format_exc",
           "args_count": 0,
-          "lineno": 344
+          "lineno": 338
         },
         {
           "type": "function",
           "name": "detect",
           "args_count": 1,
-          "lineno": 201
+          "lineno": 195
         },
         {
           "type": "chained_method",
@@ -193,43 +193,43 @@
             "is_numeric_dtype"
           ],
           "args_count": 1,
-          "lineno": 243
+          "lineno": 237
         },
         {
           "type": "function",
           "name": "infer_dtype",
           "args_count": 1,
-          "lineno": 298
+          "lineno": 292
         },
         {
           "type": "function",
           "name": "type",
           "args_count": 1,
-          "lineno": 337
+          "lineno": 331
         },
         {
           "type": "function",
           "name": "sum",
           "args_count": 1,
-          "lineno": 313
+          "lineno": 307
         },
         {
           "type": "function",
           "name": "sum",
           "args_count": 1,
-          "lineno": 328
+          "lineno": 322
         },
         {
           "type": "function",
           "name": "open",
           "args_count": 2,
-          "lineno": 213
+          "lineno": 207
         },
         {
           "type": "function",
           "name": "sum",
           "args_count": 1,
-          "lineno": 310
+          "lineno": 304
         },
         {
           "type": "chained_method",
@@ -238,25 +238,32 @@
             "tolist"
           ],
           "args_count": 0,
-          "lineno": 320
+          "lineno": 314
         },
         {
           "type": "function",
           "name": "sum",
           "args_count": 1,
-          "lineno": 325
+          "lineno": 319
         },
         {
           "type": "method",
           "object": "df",
           "method": "duplicated",
           "args_count": 0,
-          "lineno": 305
+          "lineno": 299
         },
         {
           "type": "method",
           "object": "df",
           "method": "duplicated",
+          "args_count": 0,
+          "lineno": 316
+        },
+        {
+          "type": "method",
+          "object": "df",
+          "method": "nunique",
           "args_count": 0,
           "lineno": 322
         },
@@ -265,35 +272,35 @@
           "object": "df",
           "method": "nunique",
           "args_count": 0,
-          "lineno": 328
-        },
-        {
-          "type": "method",
-          "object": "df",
-          "method": "nunique",
-          "args_count": 0,
-          "lineno": 306
+          "lineno": 300
         },
         {
           "type": "method",
           "object": "df",
           "method": "isnull",
           "args_count": 0,
-          "lineno": 313
+          "lineno": 307
         },
         {
           "type": "method",
           "object": "df",
           "method": "duplicated",
           "args_count": 0,
-          "lineno": 319
+          "lineno": 313
         },
         {
           "type": "method",
           "object": "df",
           "method": "nunique",
           "args_count": 0,
-          "lineno": 325
+          "lineno": 319
+        },
+        {
+          "type": "method",
+          "object": "df",
+          "method": "isnull",
+          "args_count": 0,
+          "lineno": 298
         },
         {
           "type": "method",
@@ -314,63 +321,56 @@
           "object": "df",
           "method": "isnull",
           "args_count": 0,
-          "lineno": 316
-        },
-        {
-          "type": "method",
-          "object": "df",
-          "method": "isnull",
-          "args_count": 0,
-          "lineno": 315
+          "lineno": 309
         },
         {
           "type": "method",
           "object": "df",
           "method": "duplicated",
           "args_count": 0,
-          "lineno": 320
+          "lineno": 314
         }
       ],
       "imports_used": [
-        "dict",
         "traceback",
-        "rawdata",
-        "first_line",
-        "_",
-        "detect",
-        "e",
-        "total_rows",
-        "df",
+        "validation_result",
+        "file_size",
         "col_meta",
+        "sum",
+        "infer_dtype",
+        "df",
+        "str",
+        "MAX_FILE_SIZE",
+        "col",
+        "first_line",
+        "e",
+        "min",
+        "delimiter",
+        "detect",
+        "mcp",
+        "temp_df",
+        "pd",
+        "columns_metadata",
+        "file_path",
+        "_",
+        "sample_size",
+        "total_rows",
+        "open",
+        "Exception",
+        "validate_file_access",
+        "rawdata",
+        "logger",
+        "len",
         "summary",
         "f",
-        "min",
-        "temp_df",
-        "open",
-        "str",
-        "columns_metadata",
-        "Exception",
-        "validation_result",
-        "logger",
-        "delimiter",
-        "sum",
-        "validate_file_access",
-        "mcp",
-        "file_path",
-        "file_size",
-        "pd",
-        "infer_dtype",
-        "MAX_FILE_SIZE",
-        "sample_size",
         "enc",
-        "type",
-        "col",
-        "len"
+        "dict",
+        "type"
       ]
     },
     "verify_data_integrity": {
       "name": "verify_data_integrity",
-      "lineno": 351,
+      "lineno": 345,
       "args": [
         "original_file",
         "processed_data",
@@ -384,67 +384,67 @@
           "object": "mcp",
           "method": "tool",
           "args_count": 0,
-          "lineno": 350
+          "lineno": 344
         },
         {
           "type": "function",
           "name": "validate_file_access",
           "args_count": 1,
-          "lineno": 368
+          "lineno": 362
         },
         {
           "type": "function",
           "name": "DataVerificationEngine",
           "args_count": 0,
-          "lineno": 377
+          "lineno": 371
         },
         {
           "type": "function",
           "name": "validate_file_access",
           "args_count": 1,
-          "lineno": 381
+          "lineno": 375
         },
         {
           "type": "method",
           "object": "pd",
           "method": "read_excel",
           "args_count": 1,
-          "lineno": 390
+          "lineno": 384
         },
         {
           "type": "method",
           "object": "pd",
           "method": "read_excel",
           "args_count": 1,
-          "lineno": 391
+          "lineno": 385
         },
         {
           "type": "method",
           "object": "verifier",
           "method": "compare_dataframes",
           "args_count": 2,
-          "lineno": 393
+          "lineno": 387
         },
         {
           "type": "method",
           "object": "data_quality_controller",
           "method": "comprehensive_quality_check",
           "args_count": 2,
-          "lineno": 400
+          "lineno": 394
         },
         {
           "type": "method",
           "object": "data_quality_controller",
           "method": "comprehensive_quality_check",
           "args_count": 2,
-          "lineno": 403
+          "lineno": 397
         },
         {
           "type": "method",
           "object": "pd",
           "method": "read_excel",
           "args_count": 1,
-          "lineno": 470
+          "lineno": 464
         },
         {
           "type": "chained_method",
@@ -454,7 +454,7 @@
             "basename"
           ],
           "args_count": 1,
-          "lineno": 395
+          "lineno": 389
         },
         {
           "type": "chained_method",
@@ -464,73 +464,73 @@
             "basename"
           ],
           "args_count": 1,
-          "lineno": 396
+          "lineno": 390
         },
         {
           "type": "method",
           "object": "comparison_result",
           "method": "get",
           "args_count": 2,
-          "lineno": 422
+          "lineno": 416
         },
         {
           "type": "method",
           "object": "comparison_result",
           "method": "get",
           "args_count": 2,
-          "lineno": 423
+          "lineno": 417
         },
         {
           "type": "function",
           "name": "isinstance",
           "args_count": 2,
-          "lineno": 431
+          "lineno": 425
         },
         {
           "type": "function",
           "name": "verify_data_processing_result",
           "args_count": 3,
-          "lineno": 451
+          "lineno": 445
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 521
+          "lineno": 515
         },
         {
           "type": "method",
           "object": "traceback",
           "method": "format_exc",
           "args_count": 0,
-          "lineno": 522
+          "lineno": 516
         },
         {
           "type": "method",
           "object": "quality_result1",
           "method": "get",
           "args_count": 2,
-          "lineno": 411
+          "lineno": 405
         },
         {
           "type": "method",
           "object": "quality_result2",
           "method": "get",
           "args_count": 2,
-          "lineno": 411
+          "lineno": 405
         },
         {
           "type": "method",
           "object": "processed_data",
           "method": "endswith",
           "args_count": 1,
-          "lineno": 432
+          "lineno": 426
         },
         {
           "type": "function",
           "name": "list",
           "args_count": 1,
-          "lineno": 477
+          "lineno": 471
         },
         {
           "type": "chained_method",
@@ -540,172 +540,173 @@
             "to_dict"
           ],
           "args_count": 0,
-          "lineno": 478
+          "lineno": 472
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 481
+          "lineno": 475
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 482
+          "lineno": 476
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 494
+          "lineno": 488
         },
         {
           "type": "method",
           "object": "col_info",
           "method": "update",
           "args_count": 1,
-          "lineno": 501
+          "lineno": 495
         },
         {
           "type": "function",
           "name": "type",
           "args_count": 1,
-          "lineno": 520
+          "lineno": 514
         },
         {
           "type": "method",
           "object": "quality_result1",
           "method": "get",
           "args_count": 2,
-          "lineno": 412
+          "lineno": 406
         },
         {
           "type": "method",
           "object": "quality_result2",
           "method": "get",
           "args_count": 2,
-          "lineno": 412
+          "lineno": 406
         },
         {
           "type": "method",
           "object": "processed_data",
           "method": "endswith",
           "args_count": 1,
-          "lineno": 434
+          "lineno": 428
         },
         {
           "type": "method",
           "object": "json",
           "method": "loads",
           "args_count": 1,
-          "lineno": 441
+          "lineno": 435
         },
         {
           "type": "method",
           "object": "pd",
           "method": "DataFrame",
           "args_count": 1,
-          "lineno": 442
+          "lineno": 436
         },
         {
           "type": "method",
           "object": "pd",
           "method": "read_csv",
           "args_count": 1,
-          "lineno": 435
+          "lineno": 429
         },
         {
           "type": "method",
           "object": "pd",
           "method": "read_excel",
           "args_count": 1,
-          "lineno": 437
+          "lineno": 431
         },
         {
           "type": "method",
           "object": "df",
           "method": "duplicated",
           "args_count": 0,
-          "lineno": 485
+          "lineno": 479
         },
         {
           "type": "method",
           "object": "df",
           "method": "memory_usage",
           "args_count": 0,
-          "lineno": 486
+          "lineno": 480
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 464
+          "lineno": 458
         },
         {
           "type": "method",
           "object": "df",
           "method": "isnull",
           "args_count": 0,
-          "lineno": 483
+          "lineno": 477
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 484
+          "lineno": 478
         },
         {
           "type": "method",
           "object": "df",
           "method": "isnull",
           "args_count": 0,
-          "lineno": 484
+          "lineno": 478
         }
       ],
       "imports_used": [
-        "dict",
         "traceback",
-        "verification_result",
-        "e",
-        "comparison_result",
-        "verifier",
-        "verification_type",
+        "validation_result",
+        "quality_result2",
+        "parse_error",
         "data_quality_controller",
         "df",
+        "str",
+        "col",
+        "os",
+        "isinstance",
+        "verification_result",
+        "e",
+        "verify_data_processing_result",
+        "DataVerificationEngine",
+        "json",
         "original_file",
+        "col_info",
+        "list",
+        "verification_type",
+        "mcp",
+        "data_dict",
+        "verifier",
         "integrity_report",
+        "pd",
         "processed_df",
         "df2",
-        "quality_result2",
-        "str",
         "Exception",
-        "DataVerificationEngine",
-        "isinstance",
-        "list",
-        "validation_result",
-        "quality_result1",
-        "validation_result2",
-        "validate_file_access",
-        "data_dict",
-        "mcp",
-        "pd",
-        "col_info",
-        "json",
-        "processed_data",
-        "type",
-        "parse_error",
-        "df1",
-        "os",
-        "verify_data_processing_result",
         "comparison_file",
-        "col",
-        "len"
+        "validate_file_access",
+        "quality_result1",
+        "len",
+        "comparison_result",
+        "df1",
+        "Optional",
+        "processed_data",
+        "dict",
+        "type",
+        "validation_result2"
       ]
     },
     "read_excel_metadata": {
       "name": "read_excel_metadata",
-      "lineno": 528,
+      "lineno": 522,
       "args": [
         "file_path"
       ],
@@ -716,72 +717,72 @@
           "object": "mcp",
           "method": "tool",
           "args_count": 0,
-          "lineno": 527
+          "lineno": 521
         },
         {
           "type": "function",
           "name": "validate_file_access",
           "args_count": 1,
-          "lineno": 539
+          "lineno": 533
         },
         {
           "type": "function",
           "name": "detect_file_encoding",
           "args_count": 1,
-          "lineno": 544
+          "lineno": 538
         },
         {
           "type": "function",
           "name": "smart_read_excel",
           "args_count": 1,
-          "lineno": 547
+          "lineno": 541
         },
         {
           "type": "function",
           "name": "validate_excel_data_integrity",
           "args_count": 2,
-          "lineno": 560
+          "lineno": 554
         },
         {
           "type": "method",
           "object": "data_quality_controller",
           "method": "comprehensive_quality_check",
           "args_count": 2,
-          "lineno": 563
+          "lineno": 557
         },
         {
           "type": "method",
           "object": "cell_content_extractor",
           "method": "extract_cell_content_advanced",
           "args_count": 1,
-          "lineno": 568
+          "lineno": 562
         },
         {
           "type": "method",
           "object": "openpyxl",
           "method": "load_workbook",
           "args_count": 1,
-          "lineno": 573
+          "lineno": 567
         },
         {
           "type": "method",
           "object": "workbook",
           "method": "close",
           "args_count": 0,
-          "lineno": 584
+          "lineno": 578
         },
         {
           "type": "function",
           "name": "_suggest_excel_read_parameters",
           "args_count": 2,
-          "lineno": 587
+          "lineno": 581
         },
         {
           "type": "method",
           "object": "read_params",
           "method": "get",
           "args_count": 1,
-          "lineno": 587
+          "lineno": 581
         },
         {
           "type": "chained_method",
@@ -792,7 +793,7 @@
             "is_numeric_dtype"
           ],
           "args_count": 1,
-          "lineno": 603
+          "lineno": 597
         },
         {
           "type": "chained_method",
@@ -803,7 +804,7 @@
             "is_string_dtype"
           ],
           "args_count": 1,
-          "lineno": 613
+          "lineno": 607
         },
         {
           "type": "chained_method",
@@ -814,34 +815,34 @@
             "is_datetime64_any_dtype"
           ],
           "args_count": 1,
-          "lineno": 617
+          "lineno": 611
         },
         {
           "type": "method",
           "object": "columns_metadata",
           "method": "append",
           "args_count": 1,
-          "lineno": 627
+          "lineno": 621
         },
         {
           "type": "method",
           "object": "read_result",
           "method": "get",
           "args_count": 2,
-          "lineno": 552
+          "lineno": 546
         },
         {
           "type": "method",
           "object": "read_result",
           "method": "get",
           "args_count": 2,
-          "lineno": 557
+          "lineno": 551
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 593
+          "lineno": 587
         },
         {
           "type": "chained_method",
@@ -852,39 +853,39 @@
             "is_numeric_dtype"
           ],
           "args_count": 1,
-          "lineno": 625
+          "lineno": 619
         },
         {
           "type": "method",
           "object": "read_result",
           "method": "get",
           "args_count": 2,
-          "lineno": 638
+          "lineno": 632
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 639
+          "lineno": 633
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 640
+          "lineno": 634
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 687
+          "lineno": 681
         },
         {
           "type": "method",
           "object": "traceback",
           "method": "format_exc",
           "args_count": 0,
-          "lineno": 693
+          "lineno": 687
         },
         {
           "type": "chained_method",
@@ -895,43 +896,43 @@
             "is_numeric_dtype"
           ],
           "args_count": 1,
-          "lineno": 598
+          "lineno": 592
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 638
+          "lineno": 632
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 642
+          "lineno": 636
         },
         {
           "type": "function",
           "name": "type",
           "args_count": 1,
-          "lineno": 686
+          "lineno": 680
         },
         {
           "type": "function",
           "name": "sum",
           "args_count": 1,
-          "lineno": 663
+          "lineno": 657
         },
         {
           "type": "function",
           "name": "sum",
           "args_count": 1,
-          "lineno": 678
+          "lineno": 672
         },
         {
           "type": "function",
           "name": "sum",
           "args_count": 1,
-          "lineno": 660
+          "lineno": 654
         },
         {
           "type": "chained_method",
@@ -940,25 +941,32 @@
             "tolist"
           ],
           "args_count": 0,
-          "lineno": 670
+          "lineno": 664
         },
         {
           "type": "function",
           "name": "sum",
           "args_count": 1,
-          "lineno": 675
+          "lineno": 669
         },
         {
           "type": "method",
           "object": "df",
           "method": "duplicated",
           "args_count": 0,
-          "lineno": 655
+          "lineno": 649
         },
         {
           "type": "method",
           "object": "df",
           "method": "duplicated",
+          "args_count": 0,
+          "lineno": 666
+        },
+        {
+          "type": "method",
+          "object": "df",
+          "method": "nunique",
           "args_count": 0,
           "lineno": 672
         },
@@ -967,35 +975,35 @@
           "object": "df",
           "method": "nunique",
           "args_count": 0,
-          "lineno": 678
-        },
-        {
-          "type": "method",
-          "object": "df",
-          "method": "nunique",
-          "args_count": 0,
-          "lineno": 656
+          "lineno": 650
         },
         {
           "type": "method",
           "object": "df",
           "method": "isnull",
           "args_count": 0,
-          "lineno": 663
+          "lineno": 657
         },
         {
           "type": "method",
           "object": "df",
           "method": "duplicated",
           "args_count": 0,
-          "lineno": 669
+          "lineno": 663
         },
         {
           "type": "method",
           "object": "df",
           "method": "nunique",
           "args_count": 0,
-          "lineno": 675
+          "lineno": 669
+        },
+        {
+          "type": "method",
+          "object": "df",
+          "method": "isnull",
+          "args_count": 0,
+          "lineno": 648
         },
         {
           "type": "method",
@@ -1016,66 +1024,59 @@
           "object": "df",
           "method": "isnull",
           "args_count": 0,
-          "lineno": 666
-        },
-        {
-          "type": "method",
-          "object": "df",
-          "method": "isnull",
-          "args_count": 0,
-          "lineno": 665
+          "lineno": 659
         },
         {
           "type": "method",
           "object": "df",
           "method": "duplicated",
           "args_count": 0,
-          "lineno": 670
+          "lineno": 664
         }
       ],
       "imports_used": [
-        "dict",
-        "validate_excel_data_integrity",
         "traceback",
-        "cell_content_extractor",
-        "e",
+        "validation_result",
+        "col_meta",
         "quality_result",
+        "suggested_params",
+        "sum",
+        "_suggest_excel_read_parameters",
         "data_quality_controller",
         "df",
-        "col_meta",
-        "summary",
+        "sheet_names",
+        "str",
+        "sheets_info",
+        "sheet_name",
+        "col",
+        "cell_content_extractor",
+        "e",
+        "detect_file_encoding",
+        "mcp",
+        "read_result",
+        "pd",
+        "columns_metadata",
+        "file_path",
+        "workbook",
+        "openpyxl",
+        "Exception",
+        "validate_file_access",
         "encoding_info",
         "cell_analysis",
-        "str",
-        "columns_metadata",
-        "sheet_obj",
-        "Exception",
         "len",
-        "detect_file_encoding",
-        "workbook",
-        "validation_result",
-        "sheet_name",
-        "openpyxl",
-        "integrity_result",
-        "sum",
-        "read_result",
-        "sheet_names",
-        "validate_file_access",
-        "_suggest_excel_read_parameters",
-        "suggested_params",
-        "mcp",
-        "file_path",
-        "pd",
+        "summary",
         "smart_read_excel",
+        "integrity_result",
+        "validate_excel_data_integrity",
+        "sheet_obj",
+        "dict",
         "type",
-        "col",
-        "read_params",
-        "sheets_info"
+        "read_params"
       ]
     },
     "run_excel_code": {
       "name": "run_excel_code",
-      "lineno": 699,
+      "lineno": 757,
       "args": [
         "file_path",
         "code",
@@ -1094,515 +1095,581 @@
           "object": "mcp",
           "method": "tool",
           "args_count": 0,
-          "lineno": 698
+          "lineno": 756
         },
         {
           "type": "method",
-          "object": "BLACKLIST",
-          "method": "copy",
-          "args_count": 0,
-          "lineno": 728
+          "object": "logger",
+          "method": "debug",
+          "args_count": 1,
+          "lineno": 786
         },
         {
           "type": "function",
           "name": "validate_file_access",
           "args_count": 1,
-          "lineno": 749
+          "lineno": 790
         },
         {
           "type": "function",
           "name": "safe_import_pandas",
           "args_count": 0,
-          "lineno": 792
+          "lineno": 833
         },
         {
           "type": "function",
           "name": "safe_import_numpy",
           "args_count": 0,
-          "lineno": 793
+          "lineno": 834
         },
         {
           "type": "method",
           "object": "local_vars",
           "method": "update",
           "args_count": 1,
-          "lineno": 925
+          "lineno": 966
         },
         {
           "type": "function",
           "name": "StringIO",
           "args_count": 0,
-          "lineno": 963
-        },
-        {
-          "type": "method",
-          "object": "security_blacklist",
-          "method": "extend",
-          "args_count": 1,
-          "lineno": 731
+          "lineno": 1004
         },
         {
           "type": "function",
           "name": "detect_file_encoding",
           "args_count": 1,
-          "lineno": 808
+          "lineno": 849
         },
         {
           "type": "method",
           "object": "data_quality_controller",
           "method": "comprehensive_quality_check",
           "args_count": 2,
-          "lineno": 811
+          "lineno": 852
         },
         {
           "type": "method",
           "object": "local_vars",
           "method": "update",
           "args_count": 1,
-          "lineno": 934
+          "lineno": 975
         },
         {
           "type": "method",
           "object": "builtins_dict",
           "method": "update",
           "args_count": 1,
-          "lineno": 955
+          "lineno": 996
         },
         {
           "type": "function",
           "name": "SecureCodeExecutor",
           "args_count": 0,
-          "lineno": 970
+          "lineno": 1011
         },
         {
           "type": "method",
           "object": "local_vars",
           "method": "copy",
           "args_count": 0,
-          "lineno": 977
+          "lineno": 1018
         },
         {
           "type": "method",
           "object": "context",
           "method": "update",
           "args_count": 1,
-          "lineno": 978
+          "lineno": 1019
         },
         {
           "type": "method",
           "object": "secure_executor",
           "method": "execute_code",
           "args_count": 2,
-          "lineno": 981
+          "lineno": 1022
         },
         {
           "type": "method",
           "object": "execution_result",
           "method": "get",
           "args_count": 2,
-          "lineno": 984
+          "lineno": 1025
         },
         {
           "type": "method",
           "object": "execution_result",
           "method": "get",
           "args_count": 2,
-          "lineno": 1018
+          "lineno": 1059
         },
         {
           "type": "function",
           "name": "isinstance",
           "args_count": 2,
-          "lineno": 1040
+          "lineno": 1081
         },
         {
           "type": "method",
           "object": "encoding_info",
           "method": "get",
           "args_count": 1,
-          "lineno": 825
+          "lineno": 866
         },
         {
           "type": "function",
           "name": "_suggest_excel_read_parameters",
           "args_count": 1,
-          "lineno": 836
+          "lineno": 877
         },
         {
           "type": "method",
           "object": "suggestions",
           "method": "get",
           "args_count": 2,
-          "lineno": 837
+          "lineno": 878
         },
         {
           "type": "function",
           "name": "smart_read_excel",
           "args_count": 1,
-          "lineno": 857
+          "lineno": 898
         },
         {
           "type": "method",
           "object": "pd_module",
           "method": "read_excel",
           "args_count": 1,
-          "lineno": 900
+          "lineno": 941
         },
         {
           "type": "method",
           "object": "execution_result",
           "method": "get",
           "args_count": 2,
-          "lineno": 1026
+          "lineno": 1067
         },
         {
           "type": "method",
           "object": "read_result",
           "method": "get",
           "args_count": 1,
-          "lineno": 1059
+          "lineno": 1130
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 1065
+          "lineno": 1136
+        },
+        {
+          "type": "function",
+          "name": "ColumnChecker",
+          "args_count": 0,
+          "lineno": 1179
+        },
+        {
+          "type": "method",
+          "object": "checker",
+          "method": "match_column",
+          "args_count": 2,
+          "lineno": 1180
+        },
+        {
+          "type": "method",
+          "object": "checker",
+          "method": "generate_code_suggestions",
+          "args_count": 2,
+          "lineno": 1181
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 1101
+          "lineno": 1230
         },
         {
           "type": "method",
           "object": "read_kwargs",
           "method": "copy",
           "args_count": 0,
-          "lineno": 845
+          "lineno": 886
         },
         {
           "type": "method",
           "object": "read_kwargs",
           "method": "copy",
           "args_count": 0,
-          "lineno": 871
+          "lineno": 912
         },
         {
           "type": "function",
           "name": "smart_read_excel",
           "args_count": 1,
-          "lineno": 873
+          "lineno": 914
         },
         {
           "type": "function",
           "name": "__import__",
           "args_count": 1,
-          "lineno": 936
+          "lineno": 977
         },
         {
           "type": "function",
           "name": "__import__",
           "args_count": 1,
-          "lineno": 937
+          "lineno": 978
         },
         {
           "type": "method",
           "object": "execution_result",
           "method": "get",
           "args_count": 2,
-          "lineno": 986
+          "lineno": 1027
         },
         {
           "type": "method",
           "object": "data_cleaner",
           "method": "suggest_cleaning_operations",
           "args_count": 1,
-          "lineno": 998
+          "lineno": 1039
         },
         {
           "type": "method",
           "object": "execution_result",
           "method": "get",
           "args_count": 2,
-          "lineno": 1010
+          "lineno": 1051
         },
         {
           "type": "method",
           "object": "execution_result",
           "method": "get",
           "args_count": 2,
-          "lineno": 1011
+          "lineno": 1052
         },
         {
           "type": "method",
           "object": "execution_result",
           "method": "get",
           "args_count": 2,
-          "lineno": 1012
+          "lineno": 1053
         },
         {
           "type": "method",
           "object": "execution_result",
           "method": "get",
           "args_count": 2,
-          "lineno": 1013
+          "lineno": 1054
         },
         {
           "type": "method",
           "object": "execution_result",
           "method": "get",
           "args_count": 2,
-          "lineno": 1014
+          "lineno": 1055
         },
         {
           "type": "method",
           "object": "stdout_capture",
           "method": "getvalue",
           "args_count": 0,
-          "lineno": 1034
+          "lineno": 1075
         },
         {
-          "type": "method",
-          "object": "stdout_capture",
-          "method": "getvalue",
-          "args_count": 0,
-          "lineno": 1048
+          "type": "function",
+          "name": "isinstance",
+          "args_count": 2,
+          "lineno": 1084
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 1052
+          "lineno": 1123
         },
         {
           "type": "method",
           "object": "stdout_capture",
           "method": "getvalue",
           "args_count": 0,
-          "lineno": 1053
+          "lineno": 1124
         },
         {
           "type": "method",
           "object": "suggestions",
           "method": "extend",
           "args_count": 1,
-          "lineno": 1069
+          "lineno": 1140
         },
         {
           "type": "method",
           "object": "suggestions",
           "method": "extend",
           "args_count": 1,
-          "lineno": 1077
+          "lineno": 1148
         },
         {
           "type": "method",
           "object": "suggestions",
           "method": "extend",
           "args_count": 1,
-          "lineno": 1083
+          "lineno": 1154
+        },
+        {
+          "type": "function",
+          "name": "list",
+          "args_count": 1,
+          "lineno": 1176
         },
         {
           "type": "method",
           "object": "suggestions",
           "method": "append",
           "args_count": 1,
-          "lineno": 1105
+          "lineno": 1234
         },
         {
           "type": "method",
           "object": "suggestions",
           "method": "append",
           "args_count": 1,
-          "lineno": 1107
+          "lineno": 1236
         },
         {
           "type": "method",
           "object": "suggestions",
           "method": "append",
           "args_count": 1,
-          "lineno": 1109
+          "lineno": 1238
         },
         {
           "type": "method",
           "object": "suggestions",
           "method": "append",
           "args_count": 1,
-          "lineno": 1111
+          "lineno": 1240
         },
         {
           "type": "method",
           "object": "error_msg",
           "method": "lower",
           "args_count": 0,
-          "lineno": 1112
+          "lineno": 1241
         },
         {
           "type": "method",
           "object": "suggestions",
           "method": "append",
           "args_count": 1,
-          "lineno": 1113
+          "lineno": 1242
         },
         {
           "type": "method",
           "object": "importlib",
           "method": "invalidate_caches",
           "args_count": 0,
-          "lineno": 770
+          "lineno": 811
         },
         {
           "type": "method",
           "object": "importlib",
           "method": "invalidate_caches",
           "args_count": 0,
-          "lineno": 785
+          "lineno": 826
         },
         {
           "type": "method",
           "object": "suggestions",
           "method": "get",
           "args_count": 2,
-          "lineno": 840
+          "lineno": 881
         },
         {
           "type": "method",
           "object": "recommended_params",
           "method": "copy",
           "args_count": 0,
-          "lineno": 849
+          "lineno": 890
         },
         {
           "type": "method",
           "object": "final_params",
           "method": "update",
           "args_count": 1,
-          "lineno": 850
+          "lineno": 891
         },
         {
           "type": "method",
           "object": "read_kwargs",
           "method": "copy",
           "args_count": 0,
-          "lineno": 853
+          "lineno": 894
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 863
+          "lineno": 904
         },
         {
           "type": "method",
           "object": "read_kwargs",
           "method": "copy",
           "args_count": 0,
-          "lineno": 865
+          "lineno": 906
         },
         {
           "type": "function",
           "name": "smart_read_excel",
           "args_count": 1,
-          "lineno": 867
+          "lineno": 908
         },
         {
           "type": "method",
           "object": "read_result",
           "method": "get",
           "args_count": 2,
-          "lineno": 880
+          "lineno": 921
         },
         {
           "type": "method",
           "object": "stdout_capture",
           "method": "getvalue",
           "args_count": 0,
-          "lineno": 1011
+          "lineno": 1052
+        },
+        {
+          "type": "method",
+          "object": "result_copy",
+          "method": "to_dict",
+          "args_count": 0,
+          "lineno": 1091
+        },
+        {
+          "type": "method",
+          "object": "result",
+          "method": "copy",
+          "args_count": 0,
+          "lineno": 1095
+        },
+        {
+          "type": "method",
+          "object": "result_copy",
+          "method": "to_dict",
+          "args_count": 0,
+          "lineno": 1098
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 1045
+          "lineno": 1099
+        },
+        {
+          "type": "method",
+          "object": "stdout_capture",
+          "method": "getvalue",
+          "args_count": 0,
+          "lineno": 1108
         },
         {
           "type": "method",
           "object": "error_msg",
           "method": "lower",
           "args_count": 0,
-          "lineno": 1068
+          "lineno": 1139
         },
         {
           "type": "method",
           "object": "error_msg",
           "method": "lower",
           "args_count": 0,
-          "lineno": 1076
+          "lineno": 1147
         },
         {
           "type": "method",
           "object": "traceback",
           "method": "format_exc",
           "args_count": 0,
-          "lineno": 1092
+          "lineno": 1163
         },
         {
           "type": "method",
           "object": "stdout_capture",
           "method": "getvalue",
           "args_count": 0,
-          "lineno": 1093
+          "lineno": 1164
+        },
+        {
+          "type": "function",
+          "name": "str",
+          "args_count": 1,
+          "lineno": 1173
         },
         {
           "type": "method",
           "object": "traceback",
           "method": "format_exc",
           "args_count": 0,
-          "lineno": 1119
+          "lineno": 1220
         },
         {
           "type": "method",
           "object": "stdout_capture",
           "method": "getvalue",
           "args_count": 0,
-          "lineno": 1120
+          "lineno": 1221
+        },
+        {
+          "type": "method",
+          "object": "traceback",
+          "method": "format_exc",
+          "args_count": 0,
+          "lineno": 1248
+        },
+        {
+          "type": "method",
+          "object": "stdout_capture",
+          "method": "getvalue",
+          "args_count": 0,
+          "lineno": 1249
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 766
+          "lineno": 807
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 782
+          "lineno": 823
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 863
+          "lineno": 904
         },
         {
           "type": "function",
           "name": "hasattr",
           "args_count": 2,
-          "lineno": 991
+          "lineno": 1032
         },
         {
           "type": "function",
           "name": "hasattr",
           "args_count": 2,
-          "lineno": 992
+          "lineno": 1033
         },
         {
           "type": "function",
           "name": "hasattr",
           "args_count": 2,
-          "lineno": 993
+          "lineno": 1034
         },
         {
           "type": "chained_method",
@@ -1612,42 +1679,130 @@
             "to_dict"
           ],
           "args_count": 0,
-          "lineno": 993
+          "lineno": 1034
         },
         {
           "type": "function",
           "name": "hasattr",
           "args_count": 2,
-          "lineno": 994
+          "lineno": 1035
         },
         {
           "type": "function",
           "name": "hasattr",
           "args_count": 2,
-          "lineno": 999
+          "lineno": 1040
         },
         {
           "type": "function",
-          "name": "isinstance",
-          "args_count": 2,
-          "lineno": 1043
+          "name": "str",
+          "args_count": 1,
+          "lineno": 1092
         },
         {
-          "type": "function",
-          "name": "isinstance",
-          "args_count": 2,
-          "lineno": 1046
+          "type": "chained_method",
+          "chain": [
+            "result_copy",
+            "dtype",
+            "name",
+            "startswith"
+          ],
+          "args_count": 1,
+          "lineno": 1096
         },
         {
           "type": "method",
-          "object": "result",
-          "method": "to_dict",
+          "object": "result_copy",
+          "method": "astype",
+          "args_count": 1,
+          "lineno": 1097
+        },
+        {
+          "type": "function",
+          "name": "list",
+          "args_count": 1,
+          "lineno": 1104
+        },
+        {
+          "type": "method",
+          "object": "stdout_capture",
+          "method": "getvalue",
           "args_count": 0,
-          "lineno": 1046
+          "lineno": 1119
+        },
+        {
+          "type": "function",
+          "name": "locals",
+          "args_count": 0,
+          "lineno": 1176
         },
         {
           "type": "function",
           "name": "type",
+          "args_count": 1,
+          "lineno": 1246
+        },
+        {
+          "type": "function",
+          "name": "str",
+          "args_count": 1,
+          "lineno": 903
+        },
+        {
+          "type": "method",
+          "object": "read_result",
+          "method": "get",
+          "args_count": 2,
+          "lineno": 920
+        },
+        {
+          "type": "method",
+          "object": "result",
+          "method": "head",
+          "args_count": 0,
+          "lineno": 1086
+        },
+        {
+          "type": "chained_method",
+          "chain": [
+            "dtype",
+            "name",
+            "startswith"
+          ],
+          "args_count": 1,
+          "lineno": 1089
+        },
+        {
+          "type": "chained_method",
+          "chain": [
+            "result",
+            "dtypes",
+            "items"
+          ],
+          "args_count": 0,
+          "lineno": 1092
+        },
+        {
+          "type": "function",
+          "name": "isinstance",
+          "args_count": 2,
+          "lineno": 1103
+        },
+        {
+          "type": "function",
+          "name": "list",
+          "args_count": 1,
+          "lineno": 1115
+        },
+        {
+          "type": "function",
+          "name": "str",
+          "args_count": 1,
+          "lineno": 1116
+        },
+        {
+          "type": "function",
+          "name": "str",
           "args_count": 1,
           "lineno": 1117
         },
@@ -1655,156 +1810,167 @@
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 862
-        },
-        {
-          "type": "method",
-          "object": "read_result",
-          "method": "get",
-          "args_count": 2,
-          "lineno": 879
-        },
-        {
-          "type": "function",
-          "name": "str",
-          "args_count": 1,
-          "lineno": 906
+          "lineno": 947
         },
         {
           "type": "method",
           "object": "processed_df",
           "method": "memory_usage",
           "args_count": 0,
-          "lineno": 994
-        },
-        {
-          "type": "method",
-          "object": "result",
-          "method": "head",
-          "args_count": 0,
-          "lineno": 1046
+          "lineno": 1035
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 774
+          "lineno": 1096
+        },
+        {
+          "type": "function",
+          "name": "isinstance",
+          "args_count": 2,
+          "lineno": 1114
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 789
+          "lineno": 815
+        },
+        {
+          "type": "function",
+          "name": "str",
+          "args_count": 1,
+          "lineno": 830
+        },
+        {
+          "type": "function",
+          "name": "str",
+          "args_count": 1,
+          "lineno": 1089
         },
         {
           "type": "method",
           "object": "processed_df",
           "method": "isnull",
           "args_count": 0,
-          "lineno": 992
+          "lineno": 1033
         }
       ],
       "imports_used": [
-        "getattr",
-        "security_blacklist",
-        "code",
-        "builtins_dict",
-        "encoding",
-        "max",
-        "min",
-        "processed_df",
-        "forbidden",
+        "traceback",
+        "validation_result",
         "pd_error",
         "StringIO",
-        "NameError",
-        "sheet_name",
-        "_suggest_excel_read_parameters",
-        "fallback_params",
         "SecureCodeExecutor",
-        "abs",
-        "is_multi_level",
-        "cleaning_suggestions",
-        "usecols",
-        "old_stdout",
-        "allow_file_write",
-        "isinstance",
-        "len",
-        "read_params",
-        "importlib",
-        "df",
-        "execution_context",
-        "read_kwargs",
-        "BLACKLIST",
-        "encoding_info",
-        "quality_precheck",
-        "str",
-        "pd_module",
-        "recommended_params",
-        "Exception",
-        "hasattr",
-        "detect_file_encoding",
-        "validation_result",
-        "validate_file_access",
-        "enumerate",
-        "type",
-        "unnamed_cols",
-        "__import__",
-        "global_vars",
-        "secure_executor",
-        "np_local",
-        "response",
-        "col",
-        "dict",
-        "round",
-        "TypeError",
-        "suggestions",
-        "np_module",
-        "np_error",
-        "e",
-        "safe_import_pandas",
-        "skiprows",
-        "read_info",
+        "fallback_params",
         "data_quality_controller",
-        "open",
-        "error_msg",
-        "post_quality_check",
-        "list",
-        "sum",
-        "read_result",
-        "KeyError",
-        "context",
-        "stdout_capture",
-        "locals",
-        "result",
-        "execution_result",
-        "local_vars",
-        "header",
-        "traceback",
-        "zip",
-        "range",
-        "globals",
-        "auto_detect",
-        "e2",
-        "ImportError",
-        "print",
-        "IndexError",
-        "sys",
-        "final_params",
-        "float",
-        "ValueError",
         "int",
-        "mcp",
-        "file_path",
-        "smart_read_excel",
-        "safe_import_numpy",
-        "bool",
+        "sheet_name",
+        "suggestion",
+        "isinstance",
+        "checker",
+        "detect_file_encoding",
+        "available_columns",
+        "cleaning_suggestions",
+        "builtins_dict",
+        "round",
+        "importlib",
         "data_cleaner",
-        "pd_local"
+        "safe_import_numpy",
+        "context",
+        "logger",
+        "old_stdout",
+        "encoding_info",
+        "getattr",
+        "dict",
+        "read_params",
+        "execution_result",
+        "smart_read_excel",
+        "columns_list",
+        "float",
+        "df",
+        "str",
+        "e",
+        "min",
+        "global_vars",
+        "read_result",
+        "skiprows",
+        "abs",
+        "code_suggestions",
+        "bool",
+        "post_quality_check",
+        "processed_df",
+        "open",
+        "auto_detect",
+        "hasattr",
+        "enumerate",
+        "error_msg",
+        "__import__",
+        "pd_module",
+        "KeyError",
+        "sys",
+        "unnamed_cols",
+        "type",
+        "safe_import_pandas",
+        "zip",
+        "print",
+        "np_error",
+        "header",
+        "col",
+        "suggestions",
+        "match_result",
+        "secure_executor",
+        "mcp",
+        "data_dict",
+        "final_params",
+        "file_path",
+        "encoding",
+        "max",
+        "usecols",
+        "np_module",
+        "fuzzy_list",
+        "is_multi_level",
+        "Exception",
+        "recommended_params",
+        "quality_precheck",
+        "ColumnChecker",
+        "result",
+        "stdout_capture",
+        "ImportError",
+        "sum",
+        "normalized_list",
+        "local_vars",
+        "_suggest_excel_read_parameters",
+        "execution_context",
+        "code",
+        "NameError",
+        "result_copy",
+        "range",
+        "locals",
+        "IndexError",
+        "list",
+        "TypeError",
+        "dtype",
+        "e2",
+        "pd_local",
+        "dtypes_dict",
+        "read_info",
+        "response",
+        "ValueError",
+        "missing_column",
+        "globals",
+        "variant_list",
+        "validate_file_access",
+        "read_kwargs",
+        "np_local",
+        "len",
+        "allow_file_write"
       ]
     },
     "run_code": {
       "name": "run_code",
-      "lineno": 1130,
+      "lineno": 1259,
       "args": [
         "code",
         "file_path"
@@ -1816,112 +1982,119 @@
           "object": "mcp",
           "method": "tool",
           "args_count": 0,
-          "lineno": 1129
+          "lineno": 1258
+        },
+        {
+          "type": "method",
+          "object": "logger",
+          "method": "debug",
+          "args_count": 1,
+          "lineno": 1271
         },
         {
           "type": "function",
           "name": "validate_file_access",
           "args_count": 1,
-          "lineno": 1151
+          "lineno": 1274
         },
         {
           "type": "function",
           "name": "StringIO",
           "args_count": 0,
-          "lineno": 1198
+          "lineno": 1321
         },
         {
           "type": "function",
           "name": "detect_file_encoding",
           "args_count": 1,
-          "lineno": 1162
+          "lineno": 1285
         },
         {
           "type": "method",
           "object": "encoding_info",
           "method": "get",
           "args_count": 2,
-          "lineno": 1163
+          "lineno": 1286
         },
         {
           "type": "function",
           "name": "SecureCodeExecutor",
           "args_count": 0,
-          "lineno": 1203
+          "lineno": 1326
         },
         {
           "type": "method",
           "object": "secure_executor",
           "method": "execute_code",
           "args_count": 2,
-          "lineno": 1213
+          "lineno": 1336
         },
         {
           "type": "method",
           "object": "execution_result",
           "method": "get",
           "args_count": 2,
-          "lineno": 1224
+          "lineno": 1347
         },
         {
           "type": "method",
           "object": "execution_result",
           "method": "get",
           "args_count": 2,
-          "lineno": 1228
+          "lineno": 1351
         },
         {
           "type": "method",
           "object": "pd",
           "method": "read_csv",
           "args_count": 1,
-          "lineno": 1167
+          "lineno": 1290
         },
         {
           "type": "function",
           "name": "isinstance",
           "args_count": 2,
-          "lineno": 1230
+          "lineno": 1353
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 1265
+          "lineno": 1388
         },
         {
           "type": "method",
           "object": "traceback",
           "method": "format_exc",
           "args_count": 0,
-          "lineno": 1266
+          "lineno": 1389
         },
         {
           "type": "method",
           "object": "execution_result",
           "method": "get",
           "args_count": 2,
-          "lineno": 1219
+          "lineno": 1342
         },
         {
           "type": "method",
           "object": "execution_result",
           "method": "get",
           "args_count": 2,
-          "lineno": 1220
+          "lineno": 1343
         },
         {
           "type": "function",
           "name": "isinstance",
           "args_count": 2,
-          "lineno": 1238
+          "lineno": 1361
         },
         {
           "type": "method",
           "object": "captured_output",
           "method": "getvalue",
           "args_count": 0,
-          "lineno": 1219
+          "lineno": 1342
         },
         {
           "type": "chained_method",
@@ -1931,52 +2104,52 @@
             "tolist"
           ],
           "args_count": 0,
-          "lineno": 1234
+          "lineno": 1357
         },
         {
           "type": "method",
           "object": "pd",
           "method": "read_csv",
           "args_count": 1,
-          "lineno": 1176
+          "lineno": 1299
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 1192
+          "lineno": 1315
         },
         {
           "type": "method",
           "object": "execution_result",
           "method": "get",
           "args_count": 2,
-          "lineno": 1218
+          "lineno": 1341
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 1242
+          "lineno": 1365
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 1244
+          "lineno": 1367
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 1249
+          "lineno": 1372
         },
         {
           "type": "method",
           "object": "result",
           "method": "head",
           "args_count": 1,
-          "lineno": 1235
+          "lineno": 1358
         },
         {
           "type": "chained_method",
@@ -1986,70 +2159,69 @@
             "astype"
           ],
           "args_count": 1,
-          "lineno": 1236
+          "lineno": 1359
         },
         {
           "type": "function",
           "name": "type",
           "args_count": 1,
-          "lineno": 1248
+          "lineno": 1371
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 1185
+          "lineno": 1308
         },
         {
           "type": "method",
           "object": "result",
           "method": "head",
           "args_count": 1,
-          "lineno": 1243
+          "lineno": 1366
         }
       ],
       "imports_used": [
-        "dict",
         "execution_result",
         "traceback",
-        "code",
-        "UnicodeDecodeError",
-        "e",
-        "last_error",
-        "UnicodeError",
-        "df",
-        "sys",
-        "BLACKLIST",
-        "encoding_info",
-        "forbidden",
-        "result_data",
-        "StringIO",
-        "str",
-        "captured_output",
-        "Exception",
-        "detect_file_encoding",
         "validation_result",
-        "validate_file_access",
-        "output",
-        "mcp",
-        "file_path",
+        "UnicodeDecodeError",
+        "StringIO",
         "SecureCodeExecutor",
-        "pd",
-        "context",
-        "common_encodings",
-        "type",
-        "enc",
-        "old_stdout",
-        "secure_executor",
-        "detected_encoding",
-        "result",
+        "df",
+        "str",
+        "code",
         "isinstance",
-        "len"
+        "e",
+        "type",
+        "output",
+        "detect_file_encoding",
+        "secure_executor",
+        "mcp",
+        "pd",
+        "file_path",
+        "result_data",
+        "captured_output",
+        "context",
+        "Exception",
+        "last_error",
+        "validate_file_access",
+        "logger",
+        "old_stdout",
+        "common_encodings",
+        "encoding_info",
+        "UnicodeError",
+        "len",
+        "detected_encoding",
+        "sys",
+        "enc",
+        "dict",
+        "result"
       ]
     },
     "bar_chart_to_html": {
       "name": "bar_chart_to_html",
-      "lineno": 1272,
+      "lineno": 1395,
       "args": [
         "categories",
         "values",
@@ -2062,7 +2234,7 @@
           "object": "mcp",
           "method": "tool",
           "args_count": 0,
-          "lineno": 1271
+          "lineno": 1394
         },
         {
           "type": "chained_method",
@@ -2072,7 +2244,7 @@
             "join"
           ],
           "args_count": 2,
-          "lineno": 1310
+          "lineno": 1433
         },
         {
           "type": "chained_method",
@@ -2082,20 +2254,20 @@
             "join"
           ],
           "args_count": 2,
-          "lineno": 1352
+          "lineno": 1475
         },
         {
           "type": "method",
           "object": "os",
           "method": "makedirs",
           "args_count": 1,
-          "lineno": 1353
+          "lineno": 1476
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 1355
+          "lineno": 1478
         },
         {
           "type": "chained_method",
@@ -2105,19 +2277,19 @@
             "join"
           ],
           "args_count": 2,
-          "lineno": 1357
+          "lineno": 1480
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 1302
+          "lineno": 1425
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 1302
+          "lineno": 1425
         },
         {
           "type": "chained_method",
@@ -2127,7 +2299,7 @@
             "dirname"
           ],
           "args_count": 1,
-          "lineno": 1310
+          "lineno": 1433
         },
         {
           "type": "chained_method",
@@ -2137,13 +2309,13 @@
             "dirname"
           ],
           "args_count": 1,
-          "lineno": 1352
+          "lineno": 1475
         },
         {
           "type": "function",
           "name": "int",
           "args_count": 1,
-          "lineno": 1355
+          "lineno": 1478
         },
         {
           "type": "chained_method",
@@ -2153,7 +2325,7 @@
             "abspath"
           ],
           "args_count": 1,
-          "lineno": 1371
+          "lineno": 1494
         },
         {
           "type": "chained_method",
@@ -2163,26 +2335,26 @@
             "abspath"
           ],
           "args_count": 1,
-          "lineno": 1310
+          "lineno": 1433
         },
         {
           "type": "function",
           "name": "open",
           "args_count": 2,
-          "lineno": 1312
+          "lineno": 1435
         },
         {
           "type": "method",
           "object": "f",
           "method": "read",
           "args_count": 0,
-          "lineno": 1313
+          "lineno": 1436
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 1331
+          "lineno": 1454
         },
         {
           "type": "chained_method",
@@ -2192,113 +2364,113 @@
             "abspath"
           ],
           "args_count": 1,
-          "lineno": 1352
+          "lineno": 1475
         },
         {
           "type": "method",
           "object": "time",
           "method": "time",
           "args_count": 0,
-          "lineno": 1355
+          "lineno": 1478
         },
         {
           "type": "function",
           "name": "open",
           "args_count": 2,
-          "lineno": 1360
+          "lineno": 1483
         },
         {
           "type": "method",
           "object": "f",
           "method": "write",
           "args_count": 1,
-          "lineno": 1361
+          "lineno": 1484
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 1318
+          "lineno": 1441
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 1366
+          "lineno": 1489
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 1306
+          "lineno": 1429
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 1306
+          "lineno": 1429
         },
         {
           "type": "method",
           "object": "json",
           "method": "dumps",
           "args_count": 1,
-          "lineno": 1342
+          "lineno": 1465
         },
         {
           "type": "method",
           "object": "template",
           "method": "replace",
           "args_count": 2,
-          "lineno": 1334
+          "lineno": 1457
         },
         {
           "type": "method",
           "object": "json",
           "method": "dumps",
           "args_count": 1,
-          "lineno": 1339
+          "lineno": 1462
         },
         {
           "type": "method",
           "object": "json",
           "method": "dumps",
           "args_count": 1,
-          "lineno": 1336
+          "lineno": 1459
         }
       ],
       "imports_used": [
-        "dict",
-        "e",
-        "all_values",
-        "title",
-        "f",
-        "open",
+        "time",
         "str",
+        "int",
+        "os",
+        "e",
+        "colors",
+        "json",
+        "list",
+        "mcp",
+        "__file__",
+        "filename",
+        "values",
+        "timestamp",
+        "open",
+        "filepath",
         "template_path",
         "Exception",
-        "values",
-        "__file__",
-        "list",
-        "time",
-        "int",
-        "mcp",
         "template",
-        "filename",
-        "json",
-        "categories",
+        "charts_dir",
+        "title",
         "all_categories",
-        "colors",
-        "timestamp",
-        "os",
+        "categories",
         "len",
-        "filepath",
-        "charts_dir"
+        "all_values",
+        "f",
+        "dict"
       ]
     },
     "pie_chart_to_html": {
       "name": "pie_chart_to_html",
-      "lineno": 1376,
+      "lineno": 1499,
       "args": [
         "labels",
         "values",
@@ -2311,7 +2483,7 @@
           "object": "mcp",
           "method": "tool",
           "args_count": 0,
-          "lineno": 1375
+          "lineno": 1498
         },
         {
           "type": "chained_method",
@@ -2321,7 +2493,7 @@
             "join"
           ],
           "args_count": 2,
-          "lineno": 1411
+          "lineno": 1534
         },
         {
           "type": "chained_method",
@@ -2331,20 +2503,20 @@
             "join"
           ],
           "args_count": 2,
-          "lineno": 1448
+          "lineno": 1571
         },
         {
           "type": "method",
           "object": "os",
           "method": "makedirs",
           "args_count": 1,
-          "lineno": 1449
+          "lineno": 1572
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 1451
+          "lineno": 1574
         },
         {
           "type": "chained_method",
@@ -2354,19 +2526,19 @@
             "join"
           ],
           "args_count": 2,
-          "lineno": 1453
+          "lineno": 1576
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 1403
+          "lineno": 1526
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 1403
+          "lineno": 1526
         },
         {
           "type": "chained_method",
@@ -2376,7 +2548,7 @@
             "dirname"
           ],
           "args_count": 1,
-          "lineno": 1411
+          "lineno": 1534
         },
         {
           "type": "chained_method",
@@ -2386,13 +2558,13 @@
             "dirname"
           ],
           "args_count": 1,
-          "lineno": 1448
+          "lineno": 1571
         },
         {
           "type": "function",
           "name": "int",
           "args_count": 1,
-          "lineno": 1451
+          "lineno": 1574
         },
         {
           "type": "chained_method",
@@ -2402,7 +2574,7 @@
             "abspath"
           ],
           "args_count": 1,
-          "lineno": 1467
+          "lineno": 1590
         },
         {
           "type": "chained_method",
@@ -2412,26 +2584,26 @@
             "abspath"
           ],
           "args_count": 1,
-          "lineno": 1411
+          "lineno": 1534
         },
         {
           "type": "function",
           "name": "open",
           "args_count": 2,
-          "lineno": 1413
+          "lineno": 1536
         },
         {
           "type": "method",
           "object": "f",
           "method": "read",
           "args_count": 0,
-          "lineno": 1414
+          "lineno": 1537
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 1430
+          "lineno": 1553
         },
         {
           "type": "chained_method",
@@ -2441,111 +2613,111 @@
             "abspath"
           ],
           "args_count": 1,
-          "lineno": 1448
+          "lineno": 1571
         },
         {
           "type": "method",
           "object": "time",
           "method": "time",
           "args_count": 0,
-          "lineno": 1451
+          "lineno": 1574
         },
         {
           "type": "function",
           "name": "open",
           "args_count": 2,
-          "lineno": 1456
+          "lineno": 1579
         },
         {
           "type": "method",
           "object": "f",
           "method": "write",
           "args_count": 1,
-          "lineno": 1457
+          "lineno": 1580
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 1419
+          "lineno": 1542
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 1462
+          "lineno": 1585
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 1407
+          "lineno": 1530
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 1407
+          "lineno": 1530
         },
         {
           "type": "method",
           "object": "json",
           "method": "dumps",
           "args_count": 1,
-          "lineno": 1441
+          "lineno": 1564
         },
         {
           "type": "method",
           "object": "template",
           "method": "replace",
           "args_count": 2,
-          "lineno": 1433
+          "lineno": 1556
         },
         {
           "type": "method",
           "object": "json",
           "method": "dumps",
           "args_count": 1,
-          "lineno": 1438
+          "lineno": 1561
         },
         {
           "type": "method",
           "object": "json",
           "method": "dumps",
           "args_count": 1,
-          "lineno": 1435
+          "lineno": 1558
         }
       ],
       "imports_used": [
-        "dict",
-        "e",
-        "title",
-        "f",
-        "open",
-        "str",
-        "template_path",
-        "Exception",
-        "values",
-        "__file__",
-        "list",
         "time",
-        "int",
-        "mcp",
-        "template",
-        "filename",
-        "json",
-        "colors",
-        "timestamp",
-        "os",
         "labels",
-        "len",
+        "str",
+        "int",
+        "os",
+        "e",
+        "colors",
+        "json",
+        "list",
+        "mcp",
+        "__file__",
+        "filename",
+        "values",
+        "timestamp",
+        "open",
         "filepath",
-        "charts_dir"
+        "template_path",
+        "title",
+        "Exception",
+        "template",
+        "charts_dir",
+        "len",
+        "f",
+        "dict"
       ]
     },
     "line_chart_to_html": {
       "name": "line_chart_to_html",
-      "lineno": 1471,
+      "lineno": 1594,
       "args": [
         "labels",
         "datasets",
@@ -2558,7 +2730,7 @@
           "object": "mcp",
           "method": "tool",
           "args_count": 0,
-          "lineno": 1470
+          "lineno": 1593
         },
         {
           "type": "chained_method",
@@ -2568,7 +2740,7 @@
             "join"
           ],
           "args_count": 2,
-          "lineno": 1511
+          "lineno": 1634
         },
         {
           "type": "chained_method",
@@ -2578,20 +2750,20 @@
             "join"
           ],
           "args_count": 2,
-          "lineno": 1588
+          "lineno": 1711
         },
         {
           "type": "method",
           "object": "os",
           "method": "makedirs",
           "args_count": 1,
-          "lineno": 1589
+          "lineno": 1712
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 1591
+          "lineno": 1714
         },
         {
           "type": "chained_method",
@@ -2601,13 +2773,13 @@
             "join"
           ],
           "args_count": 2,
-          "lineno": 1593
+          "lineno": 1716
         },
         {
           "type": "function",
           "name": "all",
           "args_count": 1,
-          "lineno": 1503
+          "lineno": 1626
         },
         {
           "type": "chained_method",
@@ -2617,7 +2789,7 @@
             "dirname"
           ],
           "args_count": 1,
-          "lineno": 1511
+          "lineno": 1634
         },
         {
           "type": "chained_method",
@@ -2627,13 +2799,13 @@
             "dirname"
           ],
           "args_count": 1,
-          "lineno": 1588
+          "lineno": 1711
         },
         {
           "type": "function",
           "name": "int",
           "args_count": 1,
-          "lineno": 1591
+          "lineno": 1714
         },
         {
           "type": "chained_method",
@@ -2643,7 +2815,7 @@
             "abspath"
           ],
           "args_count": 1,
-          "lineno": 1607
+          "lineno": 1730
         },
         {
           "type": "chained_method",
@@ -2653,20 +2825,20 @@
             "abspath"
           ],
           "args_count": 1,
-          "lineno": 1511
+          "lineno": 1634
         },
         {
           "type": "function",
           "name": "open",
           "args_count": 2,
-          "lineno": 1513
+          "lineno": 1636
         },
         {
           "type": "method",
           "object": "f",
           "method": "read",
           "args_count": 0,
-          "lineno": 1514
+          "lineno": 1637
         },
         {
           "type": "chained_method",
@@ -2676,107 +2848,107 @@
             "abspath"
           ],
           "args_count": 1,
-          "lineno": 1588
+          "lineno": 1711
         },
         {
           "type": "method",
           "object": "time",
           "method": "time",
           "args_count": 0,
-          "lineno": 1591
+          "lineno": 1714
         },
         {
           "type": "function",
           "name": "open",
           "args_count": 2,
-          "lineno": 1596
+          "lineno": 1719
         },
         {
           "type": "method",
           "object": "f",
           "method": "write",
           "args_count": 1,
-          "lineno": 1597
+          "lineno": 1720
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 1519
+          "lineno": 1642
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 1602
+          "lineno": 1725
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 1503
+          "lineno": 1626
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 1503
+          "lineno": 1626
         },
         {
           "type": "method",
           "object": "template",
           "method": "replace",
           "args_count": 2,
-          "lineno": 1542
+          "lineno": 1665
         },
         {
           "type": "method",
           "object": "json",
           "method": "dumps",
           "args_count": 1,
-          "lineno": 1578
+          "lineno": 1701
         },
         {
           "type": "method",
           "object": "json",
           "method": "dumps",
           "args_count": 1,
-          "lineno": 1544
+          "lineno": 1667
         }
       ],
       "imports_used": [
-        "dict",
-        "datasets",
-        "e",
-        "charts_dir",
-        "title",
-        "f",
-        "open",
+        "time",
+        "labels",
         "str",
+        "int",
         "d",
+        "os",
+        "e",
+        "json",
+        "list",
+        "chart_data",
+        "mcp",
+        "__file__",
+        "filename",
+        "timestamp",
+        "open",
+        "filepath",
+        "dataset",
+        "all",
         "template_path",
         "Exception",
-        "__file__",
-        "list",
-        "dataset",
-        "time",
-        "int",
-        "mcp",
+        "title",
         "template",
-        "chart_data",
-        "filename",
-        "json",
-        "timestamp",
-        "os",
-        "labels",
+        "charts_dir",
+        "datasets",
         "len",
-        "filepath",
-        "all"
+        "f",
+        "dict"
       ]
     },
     "validate_data_quality": {
       "name": "validate_data_quality",
-      "lineno": 1612,
+      "lineno": 1735,
       "args": [
         "file_path"
       ],
@@ -2787,44 +2959,44 @@
           "object": "mcp",
           "method": "tool",
           "args_count": 0,
-          "lineno": 1611
+          "lineno": 1734
         },
         {
           "type": "function",
           "name": "validate_file_access",
           "args_count": 1,
-          "lineno": 1622
+          "lineno": 1745
         },
         {
           "type": "method",
           "object": "pd",
           "method": "read_csv",
           "args_count": 1,
-          "lineno": 1626
+          "lineno": 1749
         },
         {
           "type": "function",
           "name": "create_success_response",
           "args_count": 2,
-          "lineno": 1660
+          "lineno": 1783
         },
         {
           "type": "function",
           "name": "create_error_response",
           "args_count": 2,
-          "lineno": 1663
+          "lineno": 1786
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 1630
+          "lineno": 1753
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 1631
+          "lineno": 1754
         },
         {
           "type": "chained_method",
@@ -2834,105 +3006,105 @@
             "astype"
           ],
           "args_count": 1,
-          "lineno": 1643
+          "lineno": 1766
         },
         {
           "type": "method",
           "object": "df",
           "method": "memory_usage",
           "args_count": 0,
-          "lineno": 1632
+          "lineno": 1755
         },
         {
           "type": "method",
           "object": "df",
           "method": "duplicated",
           "args_count": 0,
-          "lineno": 1640
+          "lineno": 1763
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 1641
+          "lineno": 1764
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 1657
+          "lineno": 1780
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 1665
+          "lineno": 1788
         },
         {
           "type": "method",
           "object": "traceback",
           "method": "format_exc",
           "args_count": 0,
-          "lineno": 1666
+          "lineno": 1789
         },
         {
           "type": "method",
           "object": "df",
           "method": "isnull",
           "args_count": 0,
-          "lineno": 1635
+          "lineno": 1758
         },
         {
           "type": "method",
           "object": "df",
           "method": "isnull",
           "args_count": 0,
-          "lineno": 1636
+          "lineno": 1759
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 1637
+          "lineno": 1760
         },
         {
           "type": "method",
           "object": "df",
           "method": "duplicated",
           "args_count": 0,
-          "lineno": 1641
+          "lineno": 1764
         },
         {
           "type": "method",
           "object": "df",
           "method": "isnull",
           "args_count": 0,
-          "lineno": 1637
+          "lineno": 1760
         }
       ],
       "imports_used": [
-        "dict",
-        "quality_report",
-        "df",
-        "Exception",
-        "len",
-        "create_success_response",
         "traceback",
         "validation_result",
-        "dtype",
-        "pd",
-        "col",
-        "create_error_response",
-        "e",
-        "validate_file_access",
-        "str",
+        "len",
+        "df",
+        "quality_report",
         "mcp",
-        "file_path"
+        "dtype",
+        "str",
+        "create_success_response",
+        "col",
+        "file_path",
+        "pd",
+        "e",
+        "create_error_response",
+        "Exception",
+        "dict",
+        "validate_file_access"
       ]
     },
     "suggest_excel_read_parameters_tool": {
       "name": "suggest_excel_read_parameters_tool",
-      "lineno": 1672,
+      "lineno": 1795,
       "args": [
         "file_path"
       ],
@@ -2943,26 +3115,26 @@
           "object": "mcp",
           "method": "tool",
           "args_count": 0,
-          "lineno": 1671
+          "lineno": 1794
         },
         {
           "type": "function",
           "name": "suggest_excel_read_parameters",
           "args_count": 1,
-          "lineno": 1681
+          "lineno": 1804
         }
       ],
       "imports_used": [
-        "dict",
-        "suggest_excel_read_parameters",
-        "str",
         "mcp",
-        "file_path"
+        "str",
+        "suggest_excel_read_parameters",
+        "file_path",
+        "dict"
       ]
     },
     "detect_excel_file_structure_tool": {
       "name": "detect_excel_file_structure_tool",
-      "lineno": 1684,
+      "lineno": 1807,
       "args": [
         "file_path"
       ],
@@ -2973,26 +3145,26 @@
           "object": "mcp",
           "method": "tool",
           "args_count": 0,
-          "lineno": 1683
+          "lineno": 1806
         },
         {
           "type": "function",
           "name": "detect_excel_file_structure",
           "args_count": 1,
-          "lineno": 1693
+          "lineno": 1816
         }
       ],
       "imports_used": [
-        "dict",
-        "detect_excel_file_structure",
-        "str",
         "mcp",
-        "file_path"
+        "str",
+        "detect_excel_file_structure",
+        "file_path",
+        "dict"
       ]
     },
     "create_excel_read_template_tool": {
       "name": "create_excel_read_template_tool",
-      "lineno": 1696,
+      "lineno": 1819,
       "args": [
         "file_path",
         "sheet_name",
@@ -3007,31 +3179,32 @@
           "object": "mcp",
           "method": "tool",
           "args_count": 0,
-          "lineno": 1695
+          "lineno": 1818
         },
         {
           "type": "function",
           "name": "create_excel_read_template",
           "args_count": 5,
-          "lineno": 1709
+          "lineno": 1832
         }
       ],
       "imports_used": [
-        "dict",
-        "create_excel_read_template",
-        "header",
-        "sheet_name",
         "usecols",
-        "str",
-        "int",
         "mcp",
+        "str",
+        "sheet_name",
+        "skiprows",
+        "header",
+        "Optional",
+        "int",
         "file_path",
-        "skiprows"
+        "create_excel_read_template",
+        "dict"
       ]
     },
     "comprehensive_data_verification_tool": {
       "name": "comprehensive_data_verification_tool",
-      "lineno": 1712,
+      "lineno": 1835,
       "args": [
         "file_path",
         "reference_file",
@@ -3045,20 +3218,20 @@
           "object": "mcp",
           "method": "tool",
           "args_count": 0,
-          "lineno": 1711
+          "lineno": 1834
         },
         {
           "type": "function",
           "name": "ComprehensiveDataVerifier",
           "args_count": 0,
-          "lineno": 1774
+          "lineno": 1897
         },
         {
           "type": "method",
           "object": "verifier",
           "method": "comprehensive_excel_verification",
           "args_count": 0,
-          "lineno": 1777
+          "lineno": 1900
         },
         {
           "type": "chained_method",
@@ -3068,7 +3241,7 @@
             "exists"
           ],
           "args_count": 1,
-          "lineno": 1759
+          "lineno": 1882
         },
         {
           "type": "chained_method",
@@ -3078,34 +3251,34 @@
             "basename"
           ],
           "args_count": 1,
-          "lineno": 1789
+          "lineno": 1912
         },
         {
           "type": "method",
           "object": "verification_result",
           "method": "get",
           "args_count": 1,
-          "lineno": 1790
+          "lineno": 1913
         },
         {
           "type": "method",
           "object": "verification_result",
           "method": "get",
           "args_count": 2,
-          "lineno": 1791
+          "lineno": 1914
         },
         {
           "type": "method",
           "object": "verification_result",
           "method": "get",
           "args_count": 2,
-          "lineno": 1792
+          "lineno": 1915
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 1795
+          "lineno": 1918
         },
         {
           "type": "chained_method",
@@ -3115,43 +3288,43 @@
             "exists"
           ],
           "args_count": 1,
-          "lineno": 1766
+          "lineno": 1889
         },
         {
           "type": "method",
           "object": "verification_result",
           "method": "get",
           "args_count": 2,
-          "lineno": 1795
+          "lineno": 1918
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 1803
+          "lineno": 1926
         }
       ],
       "imports_used": [
-        "dict",
-        "Exception",
-        "file_path",
-        "len",
-        "verification_result",
-        "ComprehensiveDataVerifier",
-        "bool",
-        "mcp",
         "e",
+        "len",
+        "mcp",
         "save_report",
-        "os",
-        "verification_level",
         "str",
         "verifier",
-        "reference_file"
+        "dict",
+        "reference_file",
+        "ComprehensiveDataVerifier",
+        "verification_level",
+        "file_path",
+        "os",
+        "verification_result",
+        "Exception",
+        "bool"
       ]
     },
     "batch_data_verification_tool": {
       "name": "batch_data_verification_tool",
-      "lineno": 1812,
+      "lineno": 1935,
       "args": [
         "file_paths",
         "verification_level",
@@ -3164,31 +3337,31 @@
           "object": "mcp",
           "method": "tool",
           "args_count": 0,
-          "lineno": 1811
+          "lineno": 1934
         },
         {
           "type": "function",
           "name": "ComprehensiveDataVerifier",
           "args_count": 0,
-          "lineno": 1841
+          "lineno": 1964
         },
         {
           "type": "function",
           "name": "sorted",
           "args_count": 1,
-          "lineno": 1890
+          "lineno": 2013
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 1844
+          "lineno": 1967
         },
         {
           "type": "function",
           "name": "isinstance",
           "args_count": 2,
-          "lineno": 1835
+          "lineno": 1958
         },
         {
           "type": "chained_method",
@@ -3198,99 +3371,99 @@
             "exists"
           ],
           "args_count": 1,
-          "lineno": 1858
+          "lineno": 1981
         },
         {
           "type": "function",
           "name": "max",
           "args_count": 1,
-          "lineno": 1899
+          "lineno": 2022
         },
         {
           "type": "function",
           "name": "min",
           "args_count": 1,
-          "lineno": 1900
+          "lineno": 2023
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 1901
+          "lineno": 2024
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 1902
+          "lineno": 2025
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 1903
+          "lineno": 2026
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 1904
+          "lineno": 2027
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 1905
+          "lineno": 2028
         },
         {
           "type": "function",
           "name": "sum",
           "args_count": 1,
-          "lineno": 1915
+          "lineno": 2038
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 1915
+          "lineno": 2038
         },
         {
           "type": "method",
           "object": "verifier",
           "method": "comprehensive_excel_verification",
           "args_count": 0,
-          "lineno": 1859
+          "lineno": 1982
         },
         {
           "type": "method",
           "object": "quality_scores",
           "method": "append",
           "args_count": 1,
-          "lineno": 1866
+          "lineno": 1989
         },
         {
           "type": "function",
           "name": "sum",
           "args_count": 1,
-          "lineno": 1898
+          "lineno": 2021
         },
         {
           "type": "function",
           "name": "len",
           "args_count": 1,
-          "lineno": 1898
+          "lineno": 2021
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 1884
+          "lineno": 2007
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 1930
+          "lineno": 2053
         },
         {
           "type": "chained_method",
@@ -3300,57 +3473,57 @@
             "basename"
           ],
           "args_count": 1,
-          "lineno": 1867
+          "lineno": 1990
         },
         {
           "type": "method",
           "object": "result",
           "method": "get",
           "args_count": 2,
-          "lineno": 1869
+          "lineno": 1992
         },
         {
           "type": "method",
           "object": "result",
           "method": "get",
           "args_count": 2,
-          "lineno": 1870
+          "lineno": 1993
         }
       ],
       "imports_used": [
-        "dict",
-        "file_paths",
-        "save_reports",
-        "e",
-        "verifier",
-        "max",
-        "min",
-        "verification_level",
-        "str",
-        "item",
-        "Exception",
-        "avg_score",
-        "list",
-        "batch_results",
-        "x",
-        "quality_scores",
         "sum",
-        "scores",
-        "mcp",
-        "file_path",
-        "s",
-        "ComprehensiveDataVerifier",
-        "bool",
-        "sorted",
+        "str",
         "os",
-        "result",
+        "verification_level",
         "isinstance",
-        "len"
+        "e",
+        "min",
+        "avg_score",
+        "scores",
+        "list",
+        "mcp",
+        "verifier",
+        "ComprehensiveDataVerifier",
+        "file_path",
+        "bool",
+        "max",
+        "item",
+        "s",
+        "x",
+        "batch_results",
+        "quality_scores",
+        "save_reports",
+        "Exception",
+        "len",
+        "file_paths",
+        "sorted",
+        "dict",
+        "result"
       ]
     },
     "excel_read_enhanced": {
       "name": "excel_read_enhanced",
-      "lineno": 1935,
+      "lineno": 2058,
       "args": [
         "file_path",
         "sheet_name",
@@ -3367,51 +3540,51 @@
           "object": "mcp",
           "method": "tool",
           "args_count": 0,
-          "lineno": 1934
+          "lineno": 2057
         },
         {
           "type": "function",
           "name": "get_excel_processor",
           "args_count": 0,
-          "lineno": 1960
+          "lineno": 2083
         },
         {
           "type": "method",
           "object": "processor",
           "method": "read_excel_enhanced",
           "args_count": 0,
-          "lineno": 1961
+          "lineno": 2084
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 1974
+          "lineno": 2097
         }
       ],
       "imports_used": [
-        "dict",
-        "Exception",
-        "end_col",
-        "start_col",
         "use_go_service",
-        "sheet_name",
-        "start_row",
-        "bool",
-        "e",
         "processor",
-        "get_excel_processor",
         "end_row",
-        "result",
+        "start_row",
+        "start_col",
+        "mcp",
         "str",
         "int",
-        "mcp",
-        "file_path"
+        "dict",
+        "get_excel_processor",
+        "sheet_name",
+        "file_path",
+        "e",
+        "Exception",
+        "bool",
+        "result",
+        "end_col"
       ]
     },
     "excel_write_enhanced": {
       "name": "excel_write_enhanced",
-      "lineno": 1980,
+      "lineno": 2103,
       "args": [
         "file_path",
         "data",
@@ -3427,58 +3600,58 @@
           "object": "mcp",
           "method": "tool",
           "args_count": 0,
-          "lineno": 1979
+          "lineno": 2102
         },
         {
           "type": "function",
           "name": "get_excel_processor",
           "args_count": 0,
-          "lineno": 2010
+          "lineno": 2133
         },
         {
           "type": "method",
           "object": "processor",
           "method": "write_excel_enhanced",
           "args_count": 0,
-          "lineno": 2011
+          "lineno": 2134
         },
         {
           "type": "function",
           "name": "isinstance",
           "args_count": 2,
-          "lineno": 2003
+          "lineno": 2126
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 2023
+          "lineno": 2146
         }
       ],
       "imports_used": [
-        "dict",
-        "Exception",
-        "start_col",
-        "list",
         "use_go_service",
-        "sheet_name",
-        "start_row",
-        "bool",
-        "e",
         "processor",
-        "get_excel_processor",
-        "data",
-        "result",
-        "isinstance",
+        "list",
+        "start_row",
+        "start_col",
+        "mcp",
         "str",
         "int",
-        "mcp",
-        "file_path"
+        "dict",
+        "get_excel_processor",
+        "sheet_name",
+        "data",
+        "file_path",
+        "isinstance",
+        "e",
+        "Exception",
+        "bool",
+        "result"
       ]
     },
     "excel_chart_enhanced": {
       "name": "excel_chart_enhanced",
-      "lineno": 2029,
+      "lineno": 2152,
       "args": [
         "file_path",
         "chart_type",
@@ -3495,50 +3668,50 @@
           "object": "mcp",
           "method": "tool",
           "args_count": 0,
-          "lineno": 2028
+          "lineno": 2151
         },
         {
           "type": "function",
           "name": "get_excel_processor",
           "args_count": 0,
-          "lineno": 2063
+          "lineno": 2186
         },
         {
           "type": "method",
           "object": "processor",
           "method": "create_chart_enhanced",
           "args_count": 0,
-          "lineno": 2064
+          "lineno": 2187
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 2077
+          "lineno": 2200
         }
       ],
       "imports_used": [
-        "dict",
-        "title",
-        "Exception",
-        "y_axis_title",
-        "sheet_name",
         "valid_chart_types",
-        "data_range",
-        "chart_type",
-        "e",
+        "title",
         "processor",
-        "result",
-        "str",
-        "get_excel_processor",
+        "y_axis_title",
         "mcp",
+        "str",
+        "sheet_name",
+        "chart_type",
+        "get_excel_processor",
+        "x_axis_title",
         "file_path",
-        "x_axis_title"
+        "e",
+        "data_range",
+        "Exception",
+        "dict",
+        "result"
       ]
     },
     "excel_info_enhanced": {
       "name": "excel_info_enhanced",
-      "lineno": 2083,
+      "lineno": 2206,
       "args": [
         "file_path"
       ],
@@ -3549,43 +3722,43 @@
           "object": "mcp",
           "method": "tool",
           "args_count": 0,
-          "lineno": 2082
+          "lineno": 2205
         },
         {
           "type": "function",
           "name": "get_excel_processor",
           "args_count": 0,
-          "lineno": 2094
+          "lineno": 2217
         },
         {
           "type": "method",
           "object": "processor",
           "method": "get_file_info_enhanced",
           "args_count": 1,
-          "lineno": 2095
+          "lineno": 2218
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 2100
+          "lineno": 2223
         }
       ],
       "imports_used": [
-        "dict",
-        "Exception",
-        "e",
         "processor",
-        "result",
+        "mcp",
         "str",
         "get_excel_processor",
-        "mcp",
-        "file_path"
+        "file_path",
+        "e",
+        "Exception",
+        "dict",
+        "result"
       ]
     },
     "excel_performance_comparison": {
       "name": "excel_performance_comparison",
-      "lineno": 2106,
+      "lineno": 2229,
       "args": [
         "file_path",
         "operation",
@@ -3598,255 +3771,255 @@
           "object": "mcp",
           "method": "tool",
           "args_count": 0,
-          "lineno": 2105
+          "lineno": 2228
         },
         {
           "type": "function",
           "name": "get_excel_processor",
           "args_count": 0,
-          "lineno": 2133
+          "lineno": 2256
         },
         {
           "type": "method",
           "object": "time",
           "method": "time",
           "args_count": 0,
-          "lineno": 2137
+          "lineno": 2260
         },
         {
           "type": "method",
           "object": "processor",
           "method": "read_excel_enhanced",
           "args_count": 1,
-          "lineno": 2138
+          "lineno": 2261
         },
         {
           "type": "method",
           "object": "time",
           "method": "time",
           "args_count": 0,
-          "lineno": 2142
+          "lineno": 2265
         },
         {
           "type": "method",
           "object": "processor",
           "method": "read_excel_enhanced",
           "args_count": 1,
-          "lineno": 2143
+          "lineno": 2266
         },
         {
           "type": "method",
           "object": "time",
           "method": "time",
           "args_count": 0,
-          "lineno": 2139
+          "lineno": 2262
         },
         {
           "type": "method",
           "object": "time",
           "method": "time",
           "args_count": 0,
-          "lineno": 2144
+          "lineno": 2267
         },
         {
           "type": "function",
           "name": "round",
           "args_count": 2,
-          "lineno": 2162
+          "lineno": 2285
         },
         {
           "type": "function",
           "name": "round",
           "args_count": 2,
-          "lineno": 2148
+          "lineno": 2271
         },
         {
           "type": "method",
           "object": "go_result",
           "method": "get",
           "args_count": 2,
-          "lineno": 2149
+          "lineno": 2272
         },
         {
           "type": "function",
           "name": "round",
           "args_count": 2,
-          "lineno": 2153
+          "lineno": 2276
         },
         {
           "type": "method",
           "object": "pandas_result",
           "method": "get",
           "args_count": 2,
-          "lineno": 2154
+          "lineno": 2277
         },
         {
           "type": "method",
           "object": "tempfile",
           "method": "NamedTemporaryFile",
           "args_count": 0,
-          "lineno": 2182
+          "lineno": 2305
         },
         {
           "type": "method",
           "object": "tempfile",
           "method": "NamedTemporaryFile",
           "args_count": 0,
-          "lineno": 2183
+          "lineno": 2306
         },
         {
           "type": "method",
           "object": "time",
           "method": "time",
           "args_count": 0,
-          "lineno": 2186
+          "lineno": 2309
         },
         {
           "type": "method",
           "object": "processor",
           "method": "write_excel_enhanced",
           "args_count": 2,
-          "lineno": 2187
+          "lineno": 2310
         },
         {
           "type": "method",
           "object": "time",
           "method": "time",
           "args_count": 0,
-          "lineno": 2191
+          "lineno": 2314
         },
         {
           "type": "method",
           "object": "processor",
           "method": "write_excel_enhanced",
           "args_count": 2,
-          "lineno": 2192
+          "lineno": 2315
         },
         {
           "type": "method",
           "object": "time",
           "method": "time",
           "args_count": 0,
-          "lineno": 2188
+          "lineno": 2311
         },
         {
           "type": "method",
           "object": "time",
           "method": "time",
           "args_count": 0,
-          "lineno": 2193
+          "lineno": 2316
         },
         {
           "type": "method",
           "object": "os",
           "method": "unlink",
           "args_count": 1,
-          "lineno": 2197
+          "lineno": 2320
         },
         {
           "type": "method",
           "object": "os",
           "method": "unlink",
           "args_count": 1,
-          "lineno": 2198
+          "lineno": 2321
         },
         {
           "type": "function",
           "name": "round",
           "args_count": 2,
-          "lineno": 2218
+          "lineno": 2341
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 2239
+          "lineno": 2362
         },
         {
           "type": "method",
           "object": "go_result",
           "method": "get",
           "args_count": 2,
-          "lineno": 2150
+          "lineno": 2273
         },
         {
           "type": "method",
           "object": "pandas_result",
           "method": "get",
           "args_count": 2,
-          "lineno": 2155
+          "lineno": 2278
         },
         {
           "type": "function",
           "name": "round",
           "args_count": 2,
-          "lineno": 2204
+          "lineno": 2327
         },
         {
           "type": "method",
           "object": "go_result",
           "method": "get",
           "args_count": 2,
-          "lineno": 2205
+          "lineno": 2328
         },
         {
           "type": "function",
           "name": "round",
           "args_count": 2,
-          "lineno": 2209
+          "lineno": 2332
         },
         {
           "type": "method",
           "object": "pandas_result",
           "method": "get",
           "args_count": 2,
-          "lineno": 2210
+          "lineno": 2333
         },
         {
           "type": "method",
           "object": "go_result",
           "method": "get",
           "args_count": 2,
-          "lineno": 2206
+          "lineno": 2329
         },
         {
           "type": "method",
           "object": "pandas_result",
           "method": "get",
           "args_count": 2,
-          "lineno": 2211
+          "lineno": 2334
         }
       ],
       "imports_used": [
-        "dict",
-        "round",
-        "results",
+        "time",
+        "go_time",
+        "speedup",
+        "tmp1",
+        "str",
+        "get_excel_processor",
+        "os",
+        "tempfile",
+        "start_time",
         "operation",
         "e",
-        "test_data",
-        "tempfile",
-        "get_excel_processor",
-        "pandas_time",
-        "str",
-        "Exception",
-        "list",
-        "go_result",
-        "time",
-        "tmp1",
-        "mcp",
-        "pandas_result",
-        "file_path",
-        "go_time",
-        "start_time",
-        "tmp2",
-        "os",
         "processor",
-        "speedup"
+        "list",
+        "mcp",
+        "pandas_time",
+        "file_path",
+        "round",
+        "pandas_result",
+        "results",
+        "test_data",
+        "Exception",
+        "tmp2",
+        "go_result",
+        "dict"
       ]
     },
     "parse_formula": {
       "name": "parse_formula",
-      "lineno": 2246,
+      "lineno": 2369,
       "args": [
         "formula",
         "validate_security"
@@ -3858,27 +4031,27 @@
           "object": "mcp",
           "method": "tool",
           "args_count": 0,
-          "lineno": 2245
+          "lineno": 2368
         },
         {
           "type": "function",
           "name": "parse_excel_formula",
           "args_count": 2,
-          "lineno": 2256
+          "lineno": 2379
         }
       ],
       "imports_used": [
-        "parse_excel_formula",
         "formula",
-        "bool",
-        "validate_security",
+        "mcp",
         "str",
-        "mcp"
+        "validate_security",
+        "parse_excel_formula",
+        "bool"
       ]
     },
     "compile_workbook": {
       "name": "compile_workbook",
-      "lineno": 2259,
+      "lineno": 2382,
       "args": [
         "file_path",
         "output_format"
@@ -3890,26 +4063,26 @@
           "object": "mcp",
           "method": "tool",
           "args_count": 0,
-          "lineno": 2258
+          "lineno": 2381
         },
         {
           "type": "function",
           "name": "compile_excel_workbook",
           "args_count": 2,
-          "lineno": 2269
+          "lineno": 2392
         }
       ],
       "imports_used": [
-        "output_format",
-        "compile_excel_workbook",
-        "str",
         "mcp",
+        "str",
+        "compile_excel_workbook",
+        "output_format",
         "file_path"
       ]
     },
     "execute_formula": {
       "name": "execute_formula",
-      "lineno": 2272,
+      "lineno": 2395,
       "args": [
         "formula",
         "context"
@@ -3921,26 +4094,26 @@
           "object": "mcp",
           "method": "tool",
           "args_count": 0,
-          "lineno": 2271
+          "lineno": 2394
         },
         {
           "type": "function",
           "name": "execute_excel_formula",
           "args_count": 2,
-          "lineno": 2282
+          "lineno": 2405
         }
       ],
       "imports_used": [
-        "context",
         "formula",
-        "execute_excel_formula",
+        "mcp",
         "str",
-        "mcp"
+        "context",
+        "execute_excel_formula"
       ]
     },
     "analyze_dependencies": {
       "name": "analyze_dependencies",
-      "lineno": 2285,
+      "lineno": 2408,
       "args": [
         "file_path"
       ],
@@ -3951,25 +4124,25 @@
           "object": "mcp",
           "method": "tool",
           "args_count": 0,
-          "lineno": 2284
+          "lineno": 2407
         },
         {
           "type": "function",
           "name": "analyze_excel_dependencies",
           "args_count": 1,
-          "lineno": 2294
+          "lineno": 2417
         }
       ],
       "imports_used": [
-        "analyze_excel_dependencies",
         "str",
-        "mcp",
-        "file_path"
+        "analyze_excel_dependencies",
+        "file_path",
+        "mcp"
       ]
     },
     "validate_formula": {
       "name": "validate_formula",
-      "lineno": 2297,
+      "lineno": 2420,
       "args": [
         "formula"
       ],
@@ -3980,25 +4153,25 @@
           "object": "mcp",
           "method": "tool",
           "args_count": 0,
-          "lineno": 2296
+          "lineno": 2419
         },
         {
           "type": "function",
           "name": "validate_excel_formula",
           "args_count": 1,
-          "lineno": 2306
+          "lineno": 2429
         }
       ],
       "imports_used": [
-        "validate_excel_formula",
         "str",
+        "formula",
         "mcp",
-        "formula"
+        "validate_excel_formula"
       ]
     },
     "enhanced_data_quality_check": {
       "name": "enhanced_data_quality_check",
-      "lineno": 2311,
+      "lineno": 2434,
       "args": [
         "file_path",
         "quality_level"
@@ -4010,43 +4183,43 @@
           "object": "mcp",
           "method": "tool",
           "args_count": 0,
-          "lineno": 2310
+          "lineno": 2433
         },
         {
           "type": "method",
           "object": "data_quality_controller",
           "method": "comprehensive_quality_check",
           "args_count": 2,
-          "lineno": 2322
+          "lineno": 2445
         },
         {
           "type": "function",
           "name": "create_error_response",
           "args_count": 2,
-          "lineno": 2324
+          "lineno": 2447
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 2324
+          "lineno": 2447
         }
       ],
       "imports_used": [
-        "dict",
         "data_quality_controller",
-        "Exception",
-        "create_error_response",
+        "mcp",
+        "str",
+        "file_path",
         "quality_level",
         "e",
-        "str",
-        "mcp",
-        "file_path"
+        "create_error_response",
+        "Exception",
+        "dict"
       ]
     },
     "extract_cell_content_advanced": {
       "name": "extract_cell_content_advanced",
-      "lineno": 2328,
+      "lineno": 2451,
       "args": [
         "file_path",
         "cell_range",
@@ -4060,45 +4233,46 @@
           "object": "mcp",
           "method": "tool",
           "args_count": 0,
-          "lineno": 2327
+          "lineno": 2450
         },
         {
           "type": "method",
           "object": "cell_content_extractor",
           "method": "extract_cell_content_advanced",
           "args_count": 4,
-          "lineno": 2342
+          "lineno": 2465
         },
         {
           "type": "function",
           "name": "create_error_response",
           "args_count": 2,
-          "lineno": 2346
+          "lineno": 2469
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 2346
+          "lineno": 2469
         }
       ],
       "imports_used": [
-        "dict",
-        "Exception",
-        "extract_type",
+        "mcp",
+        "str",
         "sheet_name",
+        "Optional",
         "cell_range",
         "cell_content_extractor",
-        "create_error_response",
+        "extract_type",
+        "file_path",
         "e",
-        "str",
-        "mcp",
-        "file_path"
+        "create_error_response",
+        "Exception",
+        "dict"
       ]
     },
     "convert_character_formats": {
       "name": "convert_character_formats",
-      "lineno": 2350,
+      "lineno": 2473,
       "args": [
         "file_path",
         "conversion_rules",
@@ -4111,44 +4285,45 @@
           "object": "mcp",
           "method": "tool",
           "args_count": 0,
-          "lineno": 2349
+          "lineno": 2472
         },
         {
           "type": "method",
           "object": "character_converter",
           "method": "batch_character_conversion",
           "args_count": 3,
-          "lineno": 2362
+          "lineno": 2485
         },
         {
           "type": "function",
           "name": "create_error_response",
           "args_count": 2,
-          "lineno": 2366
+          "lineno": 2489
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 2366
+          "lineno": 2489
         }
       ],
       "imports_used": [
-        "dict",
-        "Exception",
-        "character_converter",
-        "create_error_response",
-        "e",
         "conversion_rules",
-        "str",
-        "output_path",
         "mcp",
-        "file_path"
+        "output_path",
+        "str",
+        "character_converter",
+        "Optional",
+        "file_path",
+        "e",
+        "create_error_response",
+        "Exception",
+        "dict"
       ]
     },
     "extract_multi_condition_data": {
       "name": "extract_multi_condition_data",
-      "lineno": 2370,
+      "lineno": 2493,
       "args": [
         "file_path",
         "conditions",
@@ -4161,45 +4336,46 @@
           "object": "mcp",
           "method": "tool",
           "args_count": 0,
-          "lineno": 2369
+          "lineno": 2492
         },
         {
           "type": "method",
           "object": "multi_condition_extractor",
           "method": "extract_with_multiple_conditions",
           "args_count": 3,
-          "lineno": 2382
+          "lineno": 2505
         },
         {
           "type": "function",
           "name": "create_error_response",
           "args_count": 2,
-          "lineno": 2386
+          "lineno": 2509
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 2386
+          "lineno": 2509
         }
       ],
       "imports_used": [
-        "dict",
         "multi_condition_extractor",
-        "Exception",
-        "conditions",
         "list",
-        "sheet_name",
-        "create_error_response",
-        "e",
-        "str",
+        "conditions",
         "mcp",
-        "file_path"
+        "str",
+        "sheet_name",
+        "Optional",
+        "file_path",
+        "e",
+        "create_error_response",
+        "Exception",
+        "dict"
       ]
     },
     "merge_multiple_tables": {
       "name": "merge_multiple_tables",
-      "lineno": 2390,
+      "lineno": 2513,
       "args": [
         "file_paths",
         "merge_config",
@@ -4212,45 +4388,46 @@
           "object": "mcp",
           "method": "tool",
           "args_count": 0,
-          "lineno": 2389
+          "lineno": 2512
         },
         {
           "type": "method",
           "object": "multi_table_merger",
           "method": "merge_multiple_excel_files",
           "args_count": 3,
-          "lineno": 2402
+          "lineno": 2525
         },
         {
           "type": "function",
           "name": "create_error_response",
           "args_count": 2,
-          "lineno": 2406
+          "lineno": 2529
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 2406
+          "lineno": 2529
         }
       ],
       "imports_used": [
-        "dict",
-        "Exception",
         "list",
-        "file_paths",
-        "create_error_response",
-        "e",
-        "multi_table_merger",
-        "str",
-        "output_path",
         "mcp",
-        "merge_config"
+        "output_path",
+        "str",
+        "multi_table_merger",
+        "Optional",
+        "file_paths",
+        "merge_config",
+        "e",
+        "create_error_response",
+        "Exception",
+        "dict"
       ]
     },
     "clean_excel_data": {
       "name": "clean_excel_data",
-      "lineno": 2410,
+      "lineno": 2533,
       "args": [
         "file_path",
         "cleaning_options",
@@ -4263,44 +4440,45 @@
           "object": "mcp",
           "method": "tool",
           "args_count": 0,
-          "lineno": 2409
+          "lineno": 2532
         },
         {
           "type": "method",
           "object": "data_cleaner",
           "method": "clean_excel_data",
           "args_count": 0,
-          "lineno": 2422
+          "lineno": 2545
         },
         {
           "type": "function",
           "name": "create_error_response",
           "args_count": 2,
-          "lineno": 2428
+          "lineno": 2551
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 2428
+          "lineno": 2551
         }
       ],
       "imports_used": [
-        "dict",
-        "Exception",
-        "cleaning_options",
-        "create_error_response",
         "data_cleaner",
-        "e",
-        "str",
-        "output_path",
         "mcp",
-        "file_path"
+        "cleaning_options",
+        "output_path",
+        "str",
+        "Optional",
+        "file_path",
+        "e",
+        "create_error_response",
+        "Exception",
+        "dict"
       ]
     },
     "batch_process_excel_files": {
       "name": "batch_process_excel_files",
-      "lineno": 2432,
+      "lineno": 2555,
       "args": [
         "file_paths",
         "processing_config"
@@ -4312,39 +4490,39 @@
           "object": "mcp",
           "method": "tool",
           "args_count": 0,
-          "lineno": 2431
+          "lineno": 2554
         },
         {
           "type": "method",
           "object": "batch_processor",
           "method": "batch_process_files",
           "args_count": 2,
-          "lineno": 2443
+          "lineno": 2566
         },
         {
           "type": "function",
           "name": "create_error_response",
           "args_count": 2,
-          "lineno": 2447
+          "lineno": 2570
         },
         {
           "type": "function",
           "name": "str",
           "args_count": 1,
-          "lineno": 2447
+          "lineno": 2570
         }
       ],
       "imports_used": [
-        "dict",
-        "Exception",
         "list",
+        "batch_processor",
+        "mcp",
+        "str",
         "processing_config",
         "file_paths",
-        "create_error_response",
         "e",
-        "str",
-        "batch_processor",
-        "mcp"
+        "create_error_response",
+        "Exception",
+        "dict"
       ]
     }
   },
@@ -4690,7 +4868,7 @@
                 "self",
                 "formula"
               ],
-              "lineno": 995
+              "lineno": 993
             },
             {
               "name": "_calculate_nesting_level",
@@ -4698,7 +4876,7 @@
                 "self",
                 "formula"
               ],
-              "lineno": 1062
+              "lineno": 1060
             },
             {
               "name": "_estimate_array_size",
@@ -4706,7 +4884,7 @@
                 "self",
                 "range_pattern"
               ],
-              "lineno": 1076
+              "lineno": 1074
             }
           ],
           "lineno": 977
@@ -4718,14 +4896,14 @@
               "args": [
                 "self"
               ],
-              "lineno": 1100
+              "lineno": 1098
             },
             {
               "name": "_check_formulas_availability",
               "args": [
                 "self"
               ],
-              "lineno": 1109
+              "lineno": 1107
             },
             {
               "name": "parse_formula",
@@ -4736,7 +4914,7 @@
                 "include_recommendations",
                 "analyze_performance"
               ],
-              "lineno": 1116
+              "lineno": 1114
             },
             {
               "name": "_extract_functions",
@@ -4744,7 +4922,7 @@
                 "self",
                 "formula"
               ],
-              "lineno": 1208
+              "lineno": 1202
             },
             {
               "name": "_generate_optimization_recommendations",
@@ -4753,7 +4931,7 @@
                 "formula",
                 "functions_used"
               ],
-              "lineno": 1222
+              "lineno": 1216
             },
             {
               "name": "compile_workbook",
@@ -4762,7 +4940,7 @@
                 "file_path",
                 "output_format"
               ],
-              "lineno": 1245
+              "lineno": 1239
             },
             {
               "name": "execute_formula",
@@ -4771,7 +4949,7 @@
                 "formula",
                 "context"
               ],
-              "lineno": 1349
+              "lineno": 1343
             },
             {
               "name": "analyze_dependencies",
@@ -4781,7 +4959,7 @@
                 "include_cross_references",
                 "generate_visualization"
               ],
-              "lineno": 1415
+              "lineno": 1409
             },
             {
               "name": "_generate_visualization_data",
@@ -4790,7 +4968,7 @@
                 "dependencies",
                 "formulas_info"
               ],
-              "lineno": 1519
+              "lineno": 1513
             },
             {
               "name": "validate_formula",
@@ -4799,7 +4977,7 @@
                 "formula",
                 "context"
               ],
-              "lineno": 1564
+              "lineno": 1558
             },
             {
               "name": "batch_process_formulas",
@@ -4809,7 +4987,7 @@
                 "operation",
                 "context"
               ],
-              "lineno": 1624
+              "lineno": 1618
             },
             {
               "name": "get_formula_templates",
@@ -4818,7 +4996,7 @@
                 "category",
                 "difficulty"
               ],
-              "lineno": 1693
+              "lineno": 1687
             },
             {
               "name": "get_intelligent_recommendations",
@@ -4826,10 +5004,10 @@
                 "self",
                 "context"
               ],
-              "lineno": 1724
+              "lineno": 1718
             }
           ],
-          "lineno": 1097
+          "lineno": 1095
         }
       },
       "functions": [
@@ -4839,7 +5017,7 @@
             "formula",
             "validate_security"
           ],
-          "lineno": 1758
+          "lineno": 1752
         },
         {
           "name": "compile_excel_workbook",
@@ -4847,7 +5025,7 @@
             "file_path",
             "output_format"
           ],
-          "lineno": 1782
+          "lineno": 1776
         },
         {
           "name": "execute_excel_formula",
@@ -4855,21 +5033,21 @@
             "formula",
             "context"
           ],
-          "lineno": 1806
+          "lineno": 1800
         },
         {
           "name": "analyze_excel_dependencies",
           "args": [
             "file_path"
           ],
-          "lineno": 1840
+          "lineno": 1834
         },
         {
           "name": "validate_excel_formula",
           "args": [
             "formula"
           ],
-          "lineno": 1863
+          "lineno": 1857
         },
         {
           "name": "batch_process_excel_formulas",
@@ -4877,7 +5055,7 @@
             "formulas_json",
             "operation"
           ],
-          "lineno": 1887
+          "lineno": 1881
         },
         {
           "name": "get_excel_formula_templates",
@@ -4885,14 +5063,14 @@
             "category",
             "difficulty"
           ],
-          "lineno": 1922
+          "lineno": 1916
         },
         {
           "name": "get_excel_formula_recommendations",
           "args": [
             "context_json"
           ],
-          "lineno": 1949
+          "lineno": 1943
         }
       ],
       "path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/formulas_tools.py"
@@ -6000,12 +6178,38 @@
     }
   },
   "issues": {
-    "all": [],
-    "by_tool": {},
+    "all": [
+      {
+        "type": "missing_function",
+        "severity": "medium",
+        "tool": "run_excel_code",
+        "function": "ColumnChecker",
+        "line": 1179
+      }
+    ],
+    "by_tool": {
+      "run_excel_code": [
+        {
+          "type": "missing_function",
+          "severity": "medium",
+          "tool": "run_excel_code",
+          "function": "ColumnChecker",
+          "line": 1179
+        }
+      ]
+    },
     "by_severity": {
       "critical": [],
       "high": [],
-      "medium": []
+      "medium": [
+        {
+          "type": "missing_function",
+          "severity": "medium",
+          "tool": "run_excel_code",
+          "function": "ColumnChecker",
+          "line": 1179
+        }
+      ]
     }
   },
   "recommendations": []

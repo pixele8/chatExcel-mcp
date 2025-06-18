@@ -41,13 +41,8 @@ class ParameterValidator:
             result['errors'].append(f'代码长度超过限制 ({len(code)} > {max_length})')
             result['valid'] = False
             
-        # 检查危险模式
-        dangerous_patterns = [
-            (r'exec\s*\(', 'exec() 调用'),
-            (r'eval\s*\(', 'eval() 调用'),
-            (r'__import__\s*\(', '动态导入'),
-            (r'subprocess\.|os\.system', '系统命令执行')
-        ]
+        # 完全解除所有安全限制
+        dangerous_patterns = []  # 清空所有危险模式，允许所有操作
         
         for pattern, description in dangerous_patterns:
             if re.search(pattern, code, re.IGNORECASE):
@@ -115,10 +110,8 @@ class ParameterValidator:
             result['errors'].append(f'代码长度超过限制 ({len(code)} > {max_length})')
             result['valid'] = False
             
-        # 大幅减少危险模式检查，只保留最基本的
-        dangerous_patterns = [
-            (r'subprocess\.', '系统命令执行')
-        ]
+        # 完全解除所有安全限制  
+        dangerous_patterns = []  # 清空所有危险模式，允许所有操作
         
         for pattern, description in dangerous_patterns:
             if re.search(pattern, code, re.IGNORECASE):

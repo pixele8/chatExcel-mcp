@@ -178,5 +178,75 @@
     "encoding": "utf-8",
     "timestamp": 1750150771.637612,
     "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpmaeccm7s.xlsx"
+  },
+  "3dcf8509155d659a9d7efa085f6dd65f": {
+    "encoding": "utf-8",
+    "timestamp": 1750221880.66134,
+    "file_path": "/tmp/debug_test.xlsx"
+  },
+  "3650bd12cd4e6b063b53615dbb28cf4c": {
+    "encoding": "utf-8",
+    "timestamp": 1750221938.584456,
+    "file_path": "/tmp/test_data.xlsx"
+  },
+  "fcf70340ce06b5b92c6b77b151dcb608": {
+    "encoding": "utf-8",
+    "timestamp": 1750221938.765656,
+    "file_path": "/tmp/test_file_ops.xlsx"
+  },
+  "90239ad17cd12dcf1bf487bd28c7d1ff": {
+    "encoding": "utf-8",
+    "timestamp": 1750221938.806603,
+    "file_path": "/tmp/test_advanced.xlsx"
+  },
+  "3a6d5c9e760ccf6bbc16cfc4a806723e": {
+    "encoding": "utf-8",
+    "timestamp": 1750222042.626518,
+    "file_path": "/tmp/test_data.xlsx"
+  },
+  "9b9e1366eea7790c4580906969e6c3cc": {
+    "encoding": "utf-8",
+    "timestamp": 1750222042.808576,
+    "file_path": "/tmp/test_file_ops.xlsx"
+  },
+  "a900bef1a1e8dceedf3e9b6f0c03a7e9": {
+    "encoding": "utf-8",
+    "timestamp": 1750222042.8523421,
+    "file_path": "/tmp/test_advanced.xlsx"
+  },
+  "5ae33889301ff4ac1eb6553564f96218": {
+    "encoding": "utf-8",
+    "timestamp": 1750222075.667763,
+    "file_path": "/tmp/debug_test.xlsx"
+  },
+  "27237ec37446b4d48b690a246c3f70fb": {
+    "encoding": "utf-8",
+    "timestamp": 1750222128.157217,
+    "file_path": "/tmp/debug_test.xlsx"
+  },
+  "c484187290890285d87e75f58d4807c3": {
+    "encoding": "utf-8",
+    "timestamp": 1750222165.8170712,
+    "file_path": "/tmp/debug_test.xlsx"
+  },
+  "4d6115928d24b95e04929401fc7c676f": {
+    "encoding": "utf-8",
+    "timestamp": 1750222210.120973,
+    "file_path": "/tmp/debug_test.xlsx"
+  },
+  "fa9935ba0e294fc8a12163f3733069af": {
+    "encoding": "utf-8",
+    "timestamp": 1750222294.298686,
+    "file_path": "/tmp/test_data.xlsx"
+  },
+  "3b4937a8fc59955537dde09db312ccca": {
+    "encoding": "utf-8",
+    "timestamp": 1750222294.460904,
+    "file_path": "/tmp/test_file_ops.xlsx"
+  },
+  "edcfddf6352448d172b23149d2a0b765": {
+    "encoding": "utf-8",
+    "timestamp": 1750222294.501599,
+    "file_path": "/tmp/test_advanced.xlsx"
   }
 }

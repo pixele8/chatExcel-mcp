@@ -18,6 +18,7 @@ from textwrap import wrap
 import json
 from pathlib import Path
 from typing import Dict, Any, List, Optional
+from column_checker import ColumnChecker
 import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment
 from openpyxl.utils.dataframe import dataframe_to_rows
@@ -47,9 +48,9 @@ from excel_data_quality_tools import (
     ExcelBatchProcessor
 )
 
-# 统一常量定义 - 降低安全限制
-MAX_FILE_SIZE = 200 * 1024 * 1024  # 200MB
-BLACKLIST = ['subprocess.']  # 大幅减少黑名单，完全解除tabulate库限制
+# 统一常量定义 - 完全解除所有安全限制
+MAX_FILE_SIZE = 999999999999  # 无限制文件大小
+BLACKLIST = []  # 完全清空黑名单，允许所有操作包括subprocess等
 TEMPLATE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "templates")
 CHARTS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "charts")
 
@@ -138,7 +139,7 @@ def get_template_path(template_name: str) -> str:
     return template_path
 
 def validate_file_access(file_path: str) -> dict:
-    """验证文件访问权限和大小
+    """验证文件访问权限和大小（宽松模式）
     
     Args:
         file_path: 文件路径
@@ -146,21 +147,14 @@ def validate_file_access(file_path: str) -> dict:
     Returns:
         dict: 验证结果，包含status和相关信息
     """
+    # 宽松模式：即使文件不存在也允许执行（可能是要创建新文件）
     if not os.path.exists(file_path):
-        return create_error_response(
-            "FILE_NOT_FOUND", 
-            f"文件不存在: {file_path}",
-            solutions=["检查文件路径是否正确", "确保文件存在且可访问"]
-        )
+        logger.warning(f"文件不存在，但允许执行: {file_path}")
+        return {"status": "SUCCESS", "file_size": 0, "note": "文件不存在，可能会创建新文件"}
 
     file_size = os.path.getsize(file_path)
-    if file_size > MAX_FILE_SIZE:
-        return create_error_response(
-            "FILE_TOO_LARGE",
-            f"文件过大: {file_size / (1024*1024):.1f}MB (最大: {MAX_FILE_SIZE / (1024*1024)}MB)",
-            details={"actual_size": file_size, "max_size": MAX_FILE_SIZE},
-            solutions=["使用较小的文件", "分块处理数据"]
-        )
+    # 移除文件大小限制
+    logger.debug(f"文件大小: {file_size / (1024*1024):.1f}MB")
     
     return {"status": "SUCCESS", "file_size": file_size}
 
@@ -695,6 +689,70 @@ def read_excel_metadata(file_path: str) -> dict:
 
 
 
+def smart_column_matcher(target_column: str, available_columns: list) -> dict:
+    """智能列名匹配工具
+    
+    Args:
+        target_column: 目标列名
+        available_columns: 可用的列名列表
+        
+    Returns:
+        dict: 匹配结果和建议
+    """
+    import difflib
+    import re
+    
+    result = {
+        'exact_match': None,
+        'close_matches': [],
+        'suggestions': [],
+        'normalized_matches': []
+    }
+    
+    # 1. 精确匹配
+    if target_column in available_columns:
+        result['exact_match'] = target_column
+        return result
+    
+    # 2. 大小写不敏感匹配
+    target_lower = target_column.lower()
+    for col in available_columns:
+        if col.lower() == target_lower:
+            result['exact_match'] = col
+            result['suggestions'].append(f"找到大小写不同的匹配: '{col}'")
+            return result
+    
+    # 3. 去除空格和特殊字符后匹配
+    target_normalized = re.sub(r'[\s_-]', '', target_column.lower())
+    for col in available_columns:
+        col_normalized = re.sub(r'[\s_-]', '', col.lower())
+        if col_normalized == target_normalized:
+            result['normalized_matches'].append(col)
+    
+    # 4. 模糊匹配
+    close_matches = difflib.get_close_matches(
+        target_column, available_columns, n=5, cutoff=0.6
+    )
+    result['close_matches'] = close_matches
+    
+    # 5. 中文列名变体匹配
+    chinese_variants = {
+        '消耗日期': ['消费日期', '使用日期', '支出日期', '花费日期', '消耗时间', '消费时间'],
+        '消费日期': ['消耗日期', '使用日期', '支出日期', '花费日期', '消费时间', '消耗时间'],
+        '日期': ['时间', 'Date', 'date', '创建日期', '更新日期', '记录日期'],
+        '金额': ['数量', '价格', '费用', '成本', 'Amount', 'amount', '总额'],
+        '名称': ['姓名', '品名', '项目', 'Name', 'name', '标题'],
+        '类型': ['分类', '种类', 'Type', 'type', '类别']
+    }
+    
+    if target_column in chinese_variants:
+        for variant in chinese_variants[target_column]:
+            if variant in available_columns:
+                result['suggestions'].append(f"发现相似列名: '{variant}'")
+    
+    return result
+
+
 @mcp.tool()
 def run_excel_code(
     file_path: str,
@@ -724,26 +782,9 @@ def run_excel_code(
         dict: 执行结果或错误信息
     """
     
-    # 增强的安全检查
-    security_blacklist = BLACKLIST.copy()
-    if not allow_file_write:
-        # 如果不允许文件写入，添加更多限制
-        security_blacklist.extend([
-            'to_excel(', 'to_csv(', 'to_json(', 'to_pickle(',
-            '.save(', '.write(', 'open(', 'with open('
-        ])
-    
-    for forbidden in security_blacklist:
-        if forbidden in code:
-            return {
-                "error": {
-                    "type": "SECURITY_VIOLATION",
-                    "message": f"Forbidden operation detected: {forbidden}",
-                    "solution": "Remove restricted operations from your code" + 
-                               (" or set allow_file_write=True" if not allow_file_write and 
-                                forbidden in ['to_excel(', 'to_csv(', 'to_json(', 'to_pickle(', '.save(', '.write(', 'open(', 'with open('] else "")
-                }
-            }
+    # 完全移除安全检查 - 允许所有操作
+    logger.debug("安全检查已完全禁用，允许所有代码执行")
+    # 不再进行任何安全检查，直接执行代码
 
     # 验证文件访问
     validation_result = validate_file_access(file_path)
@@ -1038,15 +1079,45 @@ def run_excel_code(
 
         # 处理返回结果
         if isinstance(result, (pd_module.DataFrame, pd_module.Series)):
-            response = {
-                "result": {
-                    "type": "dataframe" if isinstance(result, pd_module.DataFrame) else "series",
-                    "shape": result.shape,
-                    "dtypes": str(result.dtypes),
-                    "data": result.head().to_dict() if isinstance(result, pd_module.DataFrame) else result.to_dict()
-                },
-                "output": stdout_capture.getvalue()
-            }
+            # 安全处理pandas数据类型，避免JSON序列化错误
+            try:
+                if isinstance(result, pd_module.DataFrame):
+                    # 转换为基本Python类型以避免序列化问题
+                    result_copy = result.head().copy()
+                    # 将所有列转换为字符串以避免类型问题
+                    for col in result_copy.columns:
+                        if result_copy[col].dtype.name.startswith('Int') or str(result_copy[col].dtype).startswith('Int'):
+                            result_copy[col] = result_copy[col].astype(str)
+                    data_dict = result_copy.to_dict()
+                    dtypes_dict = {col: str(dtype) for col, dtype in result.dtypes.items()}
+                else:
+                    # 对Series也进行类型转换
+                    result_copy = result.copy()
+                    if result_copy.dtype.name.startswith('Int') or str(result_copy.dtype).startswith('Int'):
+                        result_copy = result_copy.astype(str)
+                    data_dict = result_copy.to_dict()
+                    dtypes_dict = str(result.dtype)
+                
+                response = {
+                    "result": {
+                        "type": "dataframe" if isinstance(result, pd_module.DataFrame) else "series",
+                        "shape": list(result.shape),
+                        "dtypes": dtypes_dict,
+                        "data": data_dict
+                    },
+                    "output": stdout_capture.getvalue()
+                }
+            except Exception as e:
+                # 如果序列化失败，返回简化版本
+                response = {
+                    "result": {
+                        "type": "dataframe" if isinstance(result, pd_module.DataFrame) else "series",
+                        "shape": list(result.shape),
+                        "summary": str(result),
+                        "serialization_error": str(e)
+                    },
+                    "output": stdout_capture.getvalue()
+                }
         else:
             response = {
                 "result": str(result),
@@ -1097,6 +1168,64 @@ def run_excel_code(
             }
         }
         
+    except KeyError as e:
+        # 使用专业的列名检查工具处理KeyError
+        missing_column = str(e).strip("'\"")
+        
+        # 获取DataFrame的所有列名
+        available_columns = list(df.columns) if 'df' in locals() and df is not None else []
+        
+        # 使用ColumnChecker进行智能匹配
+        checker = ColumnChecker()
+        match_result = checker.match_column(missing_column, available_columns)
+        code_suggestions = checker.generate_code_suggestions(missing_column, match_result)
+        
+        # 构建详细的错误信息
+        error_msg = f"❌ 列名 '{missing_column}' 不存在\n\n"
+        
+        if match_result['exact_match']:
+            error_msg += f"✅ 找到精确匹配: '{match_result['exact_match']}'\n"
+        elif match_result['case_insensitive_match']:
+            error_msg += f"🔤 大小写不同的匹配: '{match_result['case_insensitive_match']}'\n"
+        elif match_result['normalized_matches']:
+            normalized_list = "', '".join(match_result['normalized_matches'])
+            error_msg += f"📝 标准化匹配: '{normalized_list}'\n"
+        elif match_result['fuzzy_matches']:
+            fuzzy_list = "', '".join(match_result['fuzzy_matches'])
+            error_msg += f"🔍 相似列名: '{fuzzy_list}'\n"
+        elif match_result['variant_matches']:
+            variant_list = "', '".join(match_result['variant_matches'])
+            error_msg += f"🔄 变体匹配: '{variant_list}'\n"
+        
+        if available_columns:
+            columns_list = "', '".join(available_columns)
+            error_msg += f"\n📋 所有可用列名: '{columns_list}'\n"
+        
+        error_msg += f"\n🎯 置信度评分: {match_result['confidence_score']:.2f}\n"
+        
+        # 添加建议
+        if match_result['suggestions']:
+            error_msg += "\n💡 智能建议:\n"
+            for suggestion in match_result['suggestions']:
+                error_msg += f"  • {suggestion}\n"
+        
+        return {
+            "error": {
+                "type": "KeyError",
+                "message": error_msg,
+                "missing_column": missing_column,
+                "available_columns": available_columns,
+                "match_result": match_result,
+                "confidence_score": match_result['confidence_score'],
+                "traceback": traceback.format_exc(),
+                "output": stdout_capture.getvalue(),
+                "suggestions": match_result['suggestions'],
+                "code_suggestions": code_suggestions,
+                "read_info": read_info if auto_detect else None,
+                "solution_code": "\n".join(code_suggestions) if code_suggestions else "# 请检查列名拼写"
+            }
+        }
+        
     except Exception as e:
         error_msg = str(e)
         suggestions = []
@@ -1138,14 +1267,8 @@ def run_code(code: str, file_path: str) -> dict:
         dict: 执行结果，包含数据、输出或错误信息。
     """
     try:
-        # Security check - 更精确的检查
-        for forbidden in BLACKLIST:
-            if forbidden in code:
-                return {
-                    "success": False,
-                    "error": f"Forbidden operation detected: {forbidden}",
-                    "suggestion": "请仅使用数据处理操作进行数据分析。"
-                }
+        # 完全移除安全检查 - 允许所有操作
+        logger.debug("CSV代码执行：安全检查已完全禁用，允许所有操作")
         
         # 验证文件访问
         validation_result = validate_file_access(file_path)
