@@ -112,10 +112,10 @@ class ExcelEnhancedProcessor:
         
         # 验证文件访问
         validation_result = validate_file_access(file_path)
-        if validation_result["status"] != "SUCCESS":
+        if not validation_result.get("success", False):
             return create_error_response(
                 "FILE_ACCESS_ERROR",
-                validation_result["message"],
+                validation_result.get("message", "文件访问失败"),
                 "请确保文件路径正确且文件存在。"
             )
         
@@ -394,10 +394,10 @@ class ExcelEnhancedProcessor:
         
         # 验证文件访问
         validation_result = validate_file_access(file_path)
-        if validation_result["status"] != "SUCCESS":
+        if not validation_result.get("success", False):
             return create_error_response(
                 "FILE_ACCESS_ERROR",
-                validation_result["message"],
+                validation_result.get("message", "文件访问验证失败"),
                 "请确保文件路径正确且文件存在。"
             )
         
@@ -461,10 +461,10 @@ class ExcelEnhancedProcessor:
         
         # 验证文件访问
         validation_result = validate_file_access(file_path)
-        if validation_result["status"] != "SUCCESS":
+        if not validation_result.get("success", False):
             return create_error_response(
                 "FILE_ACCESS_ERROR",
-                validation_result["message"],
+                validation_result.get("message", "文件访问验证失败"),
                 "请确保文件路径正确且文件存在。"
             )
         

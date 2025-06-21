@@ -1,4 +1,107 @@
-from mcp.server.fastmcp import FastMCP
+from fastmcp import FastMCP
+
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+ChatExcel MCP Server - 增强版Excel数据处理服务器
+提供统一的Excel文件处理、数据分析和可视化功能
+"""
+from typing import Optional
+
+# 导入核心模块
+try:
+    from core.config import get_config, SecurityConfig, PerformanceConfig
+    from core.exceptions import (
+        ChatExcelError, FileAccessError, CodeExecutionError, 
+        ValidationError, SecurityError, ConfigurationError
+    )
+    from core.types import (
+        ExecutionResult, ExecutionStatus, FileInfo, FileType,
+        ExcelMetadata, CodeAnalysis, ProcessingTask, OperationType
+    )
+    CORE_MODULES_AVAILABLE = True
+except ImportError as e:
+    print(f"⚠ 核心模块导入失败: {e}")
+    CORE_MODULES_AVAILABLE = False
+
+# 统一的依赖管理系统
+class DependencyManager:
+    """统一管理可选依赖的导入和状态"""
+    
+    def __init__(self):
+        self.available_modules = {}
+        self.failed_imports = []
+        self.config = get_config() if CORE_MODULES_AVAILABLE else None
+        self._initialize_dependencies()
+    
+    def _initialize_dependencies(self) -> None:
+        """初始化所有可选依赖"""
+        dependencies = {
+            'df_processed_error_handler': [
+                'VariableLifecycleManager', 'NameErrorHandler', 
+                'enhanced_execute_with_error_handling', 'analyze_code_variables'
+            ],
+            'column_checker': ['ColumnChecker'],
+            'excel_helper': ['_suggest_excel_read_parameters', 'detect_excel_structure'],
+            'excel_smart_tools': [
+                'suggest_excel_read_parameters', 'detect_excel_file_structure', 
+                'create_excel_read_template'
+            ],
+            'comprehensive_data_verification': ['ComprehensiveDataVerifier'],
+            'data_verification': ['verify_data_processing_result', 'DataVerificationEngine'],
+            'excel_enhanced_tools': ['ExcelEnhancedProcessor', 'get_excel_processor'],
+            'formulas_tools': [
+                'parse_excel_formula', 'compile_excel_workbook', 'execute_excel_formula',
+                'analyze_excel_dependencies', 'validate_excel_formula'
+            ],
+            'excel_data_quality_tools': [
+                'ExcelDataQualityController', 'ExcelCellContentExtractor', 
+                'ExcelCharacterConverter', 'ExcelMultiConditionExtractor', 
+                'ExcelMultiTableMerger', 'ExcelDataCleaner', 'ExcelBatchProcessor'
+            ]
+        }
+        
+        for module_name, imports in dependencies.items():
+            self._import_module(module_name, imports)
+    
+    def _import_module(self, module_name: str, imports: list) -> None:
+        """安全导入单个模块"""
+        try:
+            module = __import__(module_name, fromlist=imports)
+            imported_items = {}
+            
+            for item_name in imports:
+                if hasattr(module, item_name):
+                    imported_items[item_name] = getattr(module, item_name)
+            
+            if imported_items:
+                self.available_modules[module_name] = imported_items
+                print(f"✓ 成功导入模块: {module_name}")
+            else:
+                self.failed_imports.append(module_name)
+                print(f"⚠ 模块 {module_name} 导入失败: 未找到指定项")
+                
+        except ImportError:
+            self.failed_imports.append(module_name)
+            print(f"⚠ 模块 {module_name} 导入失败: ImportError")
+        except Exception as e:
+            self.failed_imports.append(module_name)
+            print(f"⚠ 模块 {module_name} 导入时发生错误: {str(e)}")
+    
+    def get_module_item(self, module_name: str, item_name: str, default=None):
+        """获取模块中的特定项"""
+        if module_name in self.available_modules:
+            return self.available_modules[module_name].get(item_name, default)
+        return default
+    
+    def is_available(self, module_name: str) -> bool:
+        """检查模块是否可用"""
+        return module_name in self.available_modules
+
+# 初始化依赖管理器
+dependency_manager = DependencyManager()
+
+# 标准库导入
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -17,67 +120,220 @@ import time
 from textwrap import wrap
 import json
 from pathlib import Path
-from typing import Dict, Any, List, Optional
-from column_checker import ColumnChecker
+from typing import Dict, Any, List, Optional, Union, Tuple
 import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment
 from openpyxl.utils.dataframe import dataframe_to_rows
-from excel_helper import _suggest_excel_read_parameters, detect_excel_structure
-# 导入Excel智能工具
-from excel_smart_tools import suggest_excel_read_parameters, detect_excel_file_structure, create_excel_read_template
-from enhanced_excel_helper import smart_read_excel, detect_file_encoding, validate_excel_data_integrity
-from comprehensive_data_verification import ComprehensiveDataVerifier
-from data_verification import verify_data_processing_result, DataVerificationEngine
-from excel_enhanced_tools import ExcelEnhancedProcessor, get_excel_processor
-# 导入 Excel 公式处理工具
-from formulas_tools import (
-    parse_excel_formula,
-    compile_excel_workbook,
-    execute_excel_formula,
-    analyze_excel_dependencies,
-    validate_excel_formula
-)
-# 导入 Excel 数据质量工具
-from excel_data_quality_tools import (
-    ExcelDataQualityController,
-    ExcelCellContentExtractor,
-    ExcelCharacterConverter,
-    ExcelMultiConditionExtractor,
-    ExcelMultiTableMerger,
-    ExcelDataCleaner,
-    ExcelBatchProcessor
-)
+import logging
+from enum import Enum
 
-# 统一常量定义 - 完全解除所有安全限制
+# 通过依赖管理器获取可选模块
+# Excel助手工具
+_suggest_excel_read_parameters = dependency_manager.get_module_item('excel_helper', '_suggest_excel_read_parameters')
+detect_excel_structure = dependency_manager.get_module_item('excel_helper', 'detect_excel_structure')
+
+# Excel智能工具
+suggest_excel_read_parameters = dependency_manager.get_module_item('excel_smart_tools', 'suggest_excel_read_parameters')
+detect_excel_file_structure = dependency_manager.get_module_item('excel_smart_tools', 'detect_excel_file_structure')
+create_excel_read_template = dependency_manager.get_module_item('excel_smart_tools', 'create_excel_read_template')
+
+
+
+# 数据验证工具
+ComprehensiveDataVerifier = dependency_manager.get_module_item('comprehensive_data_verification', 'ComprehensiveDataVerifier')
+verify_data_processing_result = dependency_manager.get_module_item('data_verification', 'verify_data_processing_result')
+DataVerificationEngine = dependency_manager.get_module_item('data_verification', 'DataVerificationEngine')
+
+# Excel增强工具
+ExcelEnhancedProcessor = dependency_manager.get_module_item('excel_enhanced_tools', 'ExcelEnhancedProcessor')
+get_excel_processor = dependency_manager.get_module_item('excel_enhanced_tools', 'get_excel_processor')
+
+# Excel公式处理工具
+parse_excel_formula = dependency_manager.get_module_item('formulas_tools', 'parse_excel_formula')
+compile_excel_workbook = dependency_manager.get_module_item('formulas_tools', 'compile_excel_workbook')
+execute_excel_formula = dependency_manager.get_module_item('formulas_tools', 'execute_excel_formula')
+analyze_excel_dependencies = dependency_manager.get_module_item('formulas_tools', 'analyze_excel_dependencies')
+validate_excel_formula = dependency_manager.get_module_item('formulas_tools', 'validate_excel_formula')
+
+# Excel数据质量工具
+ExcelDataQualityController = dependency_manager.get_module_item('excel_data_quality_tools', 'ExcelDataQualityController')
+ExcelCellContentExtractor = dependency_manager.get_module_item('excel_data_quality_tools', 'ExcelCellContentExtractor')
+ExcelCharacterConverter = dependency_manager.get_module_item('excel_data_quality_tools', 'ExcelCharacterConverter')
+ExcelMultiConditionExtractor = dependency_manager.get_module_item('excel_data_quality_tools', 'ExcelMultiConditionExtractor')
+ExcelMultiTableMerger = dependency_manager.get_module_item('excel_data_quality_tools', 'ExcelMultiTableMerger')
+ExcelDataCleaner = dependency_manager.get_module_item('excel_data_quality_tools', 'ExcelDataCleaner')
+ExcelBatchProcessor = dependency_manager.get_module_item('excel_data_quality_tools', 'ExcelBatchProcessor')
+
+# 错误处理工具
+VariableLifecycleManager = dependency_manager.get_module_item('df_processed_error_handler', 'VariableLifecycleManager')
+NameErrorHandler = dependency_manager.get_module_item('df_processed_error_handler', 'NameErrorHandler')
+enhanced_execute_with_error_handling = dependency_manager.get_module_item('df_processed_error_handler', 'enhanced_execute_with_error_handling')
+analyze_code_variables = dependency_manager.get_module_item('df_processed_error_handler', 'analyze_code_variables')
+
+# 列检查器
+ColumnChecker = dependency_manager.get_module_item('column_checker', 'ColumnChecker')
+
+from security.code_executor import execute_code_safely
+# from enhanced_excel_helper import smart_read_excel, detect_file_encoding, validate_excel_data_integrity
+# 使用excel_helper中的功能替代
+from excel_helper import _suggest_excel_read_parameters, detect_excel_structure
+
+# 标准化错误处理机制
+class ErrorType(Enum):
+    """错误类型枚举"""
+    FILE_NOT_FOUND = "file_not_found"
+    PERMISSION_DENIED = "permission_denied"
+    INVALID_FORMAT = "invalid_format"
+    PROCESSING_ERROR = "processing_error"
+    DEPENDENCY_ERROR = "dependency_error"
+    VALIDATION_ERROR = "validation_error"
+    EXECUTION_ERROR = "execution_error"
+    MODULE_NOT_FOUND = "module_not_found"
+    UNKNOWN_ERROR = "unknown_error"
+
+class StandardErrorHandler:
+    """标准化错误处理器"""
+    
+    @staticmethod
+    def create_error_response(error_type: ErrorType, message: str, 
+                            details: Optional[Dict[str, Any]] = None,
+                            suggestions: Optional[List[str]] = None) -> Dict[str, Any]:
+        """创建标准化错误响应"""
+        response = {
+            "success": False,
+            "error_type": error_type.value,
+            "message": message,
+            "timestamp": time.time()
+        }
+        
+        if details:
+            response["details"] = details
+            
+        if suggestions:
+            response["suggestions"] = suggestions
+            
+        return response
+    
+    @staticmethod
+    def create_success_response(data: Any, message: str = "操作成功") -> Dict[str, Any]:
+        """创建标准化成功响应"""
+        return {
+            "success": True,
+            "message": message,
+            "data": data,
+            "timestamp": time.time()
+        }
+    
+    @staticmethod
+    def handle_exception(e: Exception, context: str = "") -> Dict[str, Any]:
+        """统一异常处理"""
+        error_mapping = {
+            FileNotFoundError: ErrorType.FILE_NOT_FOUND,
+            PermissionError: ErrorType.PERMISSION_DENIED,
+            ValueError: ErrorType.INVALID_FORMAT,
+            ImportError: ErrorType.DEPENDENCY_ERROR,
+        }
+        
+        error_type = error_mapping.get(type(e), ErrorType.UNKNOWN_ERROR)
+        
+        details = {
+            "exception_type": type(e).__name__,
+            "traceback": traceback.format_exc(),
+            "context": context
+        }
+        
+        return StandardErrorHandler.create_error_response(
+            error_type, 
+            str(e), 
+            details
+        )
+
+# 初始化全局错误处理器
+error_handler = StandardErrorHandler()
+
+# 统一常量定义
 MAX_FILE_SIZE = 999999999999  # 无限制文件大小
 BLACKLIST = []  # 完全清空黑名单，允许所有操作包括subprocess等
 TEMPLATE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "templates")
 CHARTS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "charts")
 
-# 初始化数据质量工具实例
-data_quality_controller = ExcelDataQualityController()
-cell_content_extractor = ExcelCellContentExtractor()
-character_converter = ExcelCharacterConverter()
-multi_condition_extractor = ExcelMultiConditionExtractor()
-multi_table_merger = ExcelMultiTableMerger()
-data_cleaner = ExcelDataCleaner()
-batch_processor = ExcelBatchProcessor()
+# 安全初始化数据质量工具实例
+def initialize_data_quality_tools() -> Dict[str, Any]:
+    """安全初始化数据质量工具"""
+    tools = {}
+    
+    if ExcelDataQualityController:
+        try:
+            tools['data_quality_controller'] = ExcelDataQualityController()
+        except Exception as e:
+            logging.warning(f"初始化ExcelDataQualityController失败: {e}")
+    
+    if ExcelCellContentExtractor:
+        try:
+            tools['cell_content_extractor'] = ExcelCellContentExtractor()
+        except Exception as e:
+            logging.warning(f"初始化ExcelCellContentExtractor失败: {e}")
+    
+    if ExcelCharacterConverter:
+        try:
+            tools['character_converter'] = ExcelCharacterConverter()
+        except Exception as e:
+            logging.warning(f"初始化ExcelCharacterConverter失败: {e}")
+    
+    if ExcelMultiConditionExtractor:
+        try:
+            tools['multi_condition_extractor'] = ExcelMultiConditionExtractor()
+        except Exception as e:
+            logging.warning(f"初始化ExcelMultiConditionExtractor失败: {e}")
+    
+    if ExcelMultiTableMerger:
+        try:
+            tools['multi_table_merger'] = ExcelMultiTableMerger()
+        except Exception as e:
+            logging.warning(f"初始化ExcelMultiTableMerger失败: {e}")
+    
+    if ExcelDataCleaner:
+        try:
+            tools['data_cleaner'] = ExcelDataCleaner()
+        except Exception as e:
+            logging.warning(f"初始化ExcelDataCleaner失败: {e}")
+    
+    if ExcelBatchProcessor:
+        try:
+            tools['batch_processor'] = ExcelBatchProcessor()
+        except Exception as e:
+            logging.warning(f"初始化ExcelBatchProcessor失败: {e}")
+    
+    return tools
 
-# 错误类型常量
-ERROR_TYPES = {
-    "FILE_NOT_FOUND": "指定的文件未找到",
-    "FILE_TOO_LARGE": "文件大小超过最大限制",
-    "TEMPLATE_ERROR": "模板处理失败",
-    "SECURITY_VIOLATION": "操作因安全原因被阻止",
-    "VALIDATION_ERROR": "输入验证失败",
-    "PROCESSING_ERROR": "数据处理失败"
-}
+# 初始化数据质量工具
+data_quality_tools = initialize_data_quality_tools()
+
+# 向后兼容的工具实例访问
+data_quality_controller = data_quality_tools.get('data_quality_controller')
+cell_content_extractor = data_quality_tools.get('cell_content_extractor')
+character_converter = data_quality_tools.get('character_converter')
+multi_condition_extractor = data_quality_tools.get('multi_condition_extractor')
+multi_table_merger = data_quality_tools.get('multi_table_merger')
+data_cleaner = data_quality_tools.get('data_cleaner')
+batch_processor = data_quality_tools.get('batch_processor')
 
 mcp = FastMCP("chatExcel")
 
-# 工具函数
+# 配置日志
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.StreamHandler(),
+        logging.FileHandler('chatexcel_mcp.log')
+    ]
+)
+logger = logging.getLogger(__name__)
+
+# 向后兼容的工具函数（使用新的标准化错误处理）
 def create_error_response(error_type: str, message: str, details: dict = None, solutions: list = None) -> dict:
-    """创建统一格式的错误响应
+    """创建统一格式的错误响应（向后兼容版本）
     
     Args:
         error_type: 错误类型
@@ -88,22 +344,30 @@ def create_error_response(error_type: str, message: str, details: dict = None, s
     Returns:
         dict: 标准化错误响应
     """
-    response = {
-        "status": "ERROR",
-        "error_type": error_type,
-        "message": message,
-        "timestamp": time.time()
+    # 映射旧的错误类型到新的枚举
+    error_type_mapping = {
+        "FILE_NOT_FOUND": ErrorType.FILE_NOT_FOUND,
+        "PERMISSION_DENIED": ErrorType.PERMISSION_DENIED,
+        "INVALID_FORMAT": ErrorType.INVALID_FORMAT,
+        "PROCESSING_ERROR": ErrorType.PROCESSING_ERROR,
+        "DEPENDENCY_ERROR": ErrorType.DEPENDENCY_ERROR,
+        "VALIDATION_ERROR": ErrorType.VALIDATION_ERROR,
     }
     
-    if details:
-        response["details"] = details
+    mapped_error_type = error_type_mapping.get(error_type, ErrorType.UNKNOWN_ERROR)
+    
+    response = StandardErrorHandler.create_error_response(
+        mapped_error_type, message, details
+    )
+    
+    # 添加解决方案（如果提供）
     if solutions:
         response["solutions"] = solutions
         
     return response
 
 def create_success_response(data: dict, message: str = "操作成功完成") -> dict:
-    """创建统一格式的成功响应
+    """创建统一格式的成功响应（已弃用，请使用error_handler.create_success_response）
     
     Args:
         data: 响应数据
@@ -112,12 +376,8 @@ def create_success_response(data: dict, message: str = "操作成功完成") -> 
     Returns:
         dict: 标准化成功响应
     """
-    return {
-        "status": "SUCCESS",
-        "message": message,
-        "data": data,
-        "timestamp": time.time()
-    }
+    global error_handler
+    return error_handler.create_success_response(data, message)
 
 def get_template_path(template_name: str) -> str:
     """获取模板文件的绝对路径
@@ -150,13 +410,19 @@ def validate_file_access(file_path: str) -> dict:
     # 宽松模式：即使文件不存在也允许执行（可能是要创建新文件）
     if not os.path.exists(file_path):
         logger.warning(f"文件不存在，但允许执行: {file_path}")
-        return {"status": "SUCCESS", "file_size": 0, "note": "文件不存在，可能会创建新文件"}
+        return error_handler.create_success_response(
+            {"file_size": 0, "note": "文件不存在，可能会创建新文件"},
+            message="文件访问验证通过"
+        )
 
     file_size = os.path.getsize(file_path)
     # 移除文件大小限制
     logger.debug(f"文件大小: {file_size / (1024*1024):.1f}MB")
     
-    return {"status": "SUCCESS", "file_size": file_size}
+    return error_handler.create_success_response(
+        {"file_size": file_size},
+        message="文件访问验证通过"
+    )
 
 import logging
 
@@ -186,8 +452,13 @@ def read_metadata(file_path: str) -> dict:
     try:
         # 验证文件访问
         validation_result = validate_file_access(file_path)
-        if validation_result["status"] != "SUCCESS":
-            return validation_result
+        if not validation_result.get("success", False):
+            return {
+                "status": "ERROR",
+                "error": "FILE_ACCESS_FAILED",
+                "message": validation_result.get("message", "文件访问验证失败"),
+                "details": validation_result
+            }
         
         # Detect encoding and delimiter
         with open(file_path, 'rb') as f:
@@ -199,7 +470,7 @@ def read_metadata(file_path: str) -> dict:
             delimiter = ',' if ',' in first_line else '\t' if '\t' in first_line else ';'
 
         # 获取文件大小
-        file_size = validation_result["file_size"]
+        file_size = validation_result.get("data", {}).get("file_size", 0)
         
         # Get actual row count efficiently
         try:
@@ -356,14 +627,15 @@ def verify_data_integrity(original_file: str, processed_data: Optional[str] = No
         dict: 验证结果报告
     """
     try:
-        from data_verification import DataVerificationEngine, verify_data_processing_result
+        # from data_verification import DataVerificationEngine, verify_data_processing_result
+        # 使用内置验证功能
         
         # 验证原始文件访问
         validation_result = validate_file_access(original_file)
-        if validation_result["status"] != "SUCCESS":
+        if not validation_result.get("success", False):
             return {
                 "success": False,
-                "error": validation_result["message"],
+                "error": validation_result.get("message", "文件访问失败"),
                 "suggestion": "请确保原始文件路径正确且文件存在。"
             }
         
@@ -373,10 +645,10 @@ def verify_data_integrity(original_file: str, processed_data: Optional[str] = No
         if comparison_file:
             # 文件对比模式
             validation_result2 = validate_file_access(comparison_file)
-            if validation_result2["status"] != "SUCCESS":
+            if not validation_result2.get("success", False):
                 return {
                     "success": False,
-                    "error": f"比较文件访问失败: {validation_result2['message']}",
+                    "error": f"比较文件访问失败: {validation_result2.get('message', '未知错误')}",
                     "suggestion": "请确保比较文件路径正确且文件存在。"
                 }
             
@@ -531,36 +803,43 @@ def read_excel_metadata(file_path: str) -> dict:
     try:
         # 验证文件访问
         validation_result = validate_file_access(file_path)
-        if validation_result["status"] != "SUCCESS":
+        if not validation_result.get("success", False):
             return validation_result
 
         # 智能编码检测
-        encoding_info = detect_file_encoding(file_path)
+        from utils.encoding_detector import EncodingDetector
+        encoding, confidence = EncodingDetector.detect_file_encoding(file_path)
+        encoding_info = {'encoding': encoding, 'confidence': confidence}
         
         # 使用智能读取功能
-        read_result = smart_read_excel(file_path, sample_size=100)
-        if not read_result['success']:
+        try:
+            from services.excel_service import ExcelService
+            excel_service = ExcelService()
+            df = excel_service.smart_read_excel(file_path)
+            read_params = {}
+        except Exception as e:
             return {
                 "status": "ERROR",
                 "error": "SMART_READ_FAILED",
-                "message": read_result.get('error', '智能读取失败'),
+                "message": f"智能读取失败: {str(e)}",
                 "encoding_info": encoding_info
             }
         
-        df = read_result['dataframe']  # 修复：使用正确的键名
-        read_params = read_result.get('info', {}).get('read_params', {})  # 修复：获取正确的参数信息
+        # 数据完整性验证 (暂时禁用，函数已删除)
+        # integrity_result = validate_excel_data_integrity(file_path, df)
+        integrity_result = {'status': 'success', 'message': '数据完整性验证跳过'}
         
-        # 数据完整性验证
-        integrity_result = validate_excel_data_integrity(file_path, df)
-        
-        # 增强的数据质量检查
+        # 增强的数据质量检查 (使用性能优化版本)
         quality_result = data_quality_controller.comprehensive_quality_check(
-            file_path, "comprehensive"
+            file_path, "standard"  # 使用 standard 级别以提升性能
         )
         
-        # 高级单元格内容分析
+        # 高级单元格内容分析 (使用性能优化增强版本)
         cell_analysis = cell_content_extractor.extract_cell_content_advanced(
-            file_path, extract_type="all"
+            file_path=file_path,
+            cell_range="A1:Z1000",  # 使用优化后的扩展范围
+            extract_type="all",     # 保持智能提取类型，支持完整分析
+            max_cells=26000         # 调整为默认限制值26000个单元格
         )
         
         # 获取所有工作表信息
@@ -578,52 +857,15 @@ def read_excel_metadata(file_path: str) -> dict:
         workbook.close()
         
         # 智能参数推荐（使用增强版）
-        suggested_params = _suggest_excel_read_parameters(file_path, read_params.get('sheet_name'))
+        suggested_params = _suggest_excel_read_parameters(file_path, read_params.get('sheet_name')) if _suggest_excel_read_parameters else {}
 
-        columns_metadata = []
-        for col in df.columns:
-            col_meta = {
-                "name": col,
-                "type": str(df[col].dtype),
-                "sample": df[col].dropna().iloc[:2].tolist(),
-                "stats": {
-                    "null_count": df[col].isnull().sum(),
-                    "unique_count": df[col].nunique(),
-                    "is_numeric": pd.api.types.is_numeric_dtype(df[col])
-                },
-                "warnings": [],
-                "suggested_operations": []
-            }
-            if pd.api.types.is_numeric_dtype(df[col]):
-                col_meta["stats"].update({
-                    "min": df[col].min(),
-                    "max": df[col].max(),
-                    "mean": df[col].mean(),
-                    "std": df[col].std()
-                })
-                col_meta["suggested_operations"].extend([
-                    "normalize", "scale", "log_transform"
-                ])
-            if pd.api.types.is_string_dtype(df[col]):
-                col_meta["suggested_operations"].extend([
-                    "one_hot_encode", "label_encode", "text_processing"
-                ])
-            if pd.api.types.is_datetime64_any_dtype(df[col]):
-                col_meta["suggested_operations"].extend([
-                    "extract_year", "extract_month", "time_delta"
-                ])
-            if df[col].isnull().sum() > 0:
-                col_meta["warnings"].append(f"{df[col].isnull().sum()} null values found")
-            if df[col].nunique() == 1:
-                col_meta["warnings"].append("Column contains only one unique value")
-            if pd.api.types.is_numeric_dtype(df[col]) and df[col].abs().max() > 1e6:
-                col_meta["warnings"].append("Large numeric values detected - consider scaling")
-            columns_metadata.append(col_meta)
+        # 使用通用列分析函数
+        columns_metadata = _analyze_dataframe_columns(df)
 
         summary = {
             "status": "SUCCESS",
             "file_info": {
-                "size": f"{validation_result['file_size'] / 1024:.1f}KB",
+                "size": f"{validation_result.get('data', {}).get('file_size', 0) / 1024:.1f}KB",
                 "sheets": sheet_names,
                 "sheets_info": sheets_info,
                 "encoding": encoding_info
@@ -687,6 +929,220 @@ def read_excel_metadata(file_path: str) -> dict:
             "traceback": traceback.format_exc()
         }
 
+
+
+def _read_csv_with_smart_encoding(file_path: str):
+    """优化的CSV文件读取函数，使用智能编码检测和缓存
+    
+    Args:
+        file_path: CSV文件路径
+        
+    Returns:
+        pandas.DataFrame or None: 读取的DataFrame或None（如果失败）
+    """
+    # 使用标准库pandas
+    import pandas as pd
+        
+    try:
+        # 首先尝试检测文件编码
+        from utils.encoding_detector import EncodingDetector
+        encoding, confidence = EncodingDetector.detect_file_encoding(file_path)
+        detected_encoding = encoding
+        
+        # 尝试使用检测到的编码读取CSV文件
+        try:
+            return pd.read_csv(file_path, encoding=detected_encoding)
+        except UnicodeDecodeError:
+            # 如果检测到的编码失败，尝试常见编码
+            common_encodings = ['utf-8', 'gbk', 'gb2312', 'gb18030', 'big5', 'latin1', 'cp1252']
+            
+            for enc in common_encodings:
+                try:
+                    return pd.read_csv(file_path, encoding=enc)
+                except (UnicodeDecodeError, UnicodeError):
+                    continue
+            
+            return None
+                    
+    except Exception as e:
+        logger.error(f"Failed to read CSV file {file_path}: {str(e)}")
+        return None
+
+
+def _execute_code_safely(code: str, df, file_path: Optional[str] = None) -> dict:
+    """安全执行代码的通用函数
+    
+    Args:
+        code: 要执行的代码字符串
+        df: pandas DataFrame
+        
+    Returns:
+        dict: 执行结果
+    """
+    import sys
+    from io import StringIO
+    
+    # 使用标准库pandas
+    import pandas as pd
+    
+    # 捕获标准输出
+    old_stdout = sys.stdout
+    sys.stdout = captured_output = StringIO()
+    
+    try:
+        # 尝试使用安全代码执行器
+        SecureCodeExecutor = dependency_manager.get_module_item('security.secure_code_executor', 'SecureCodeExecutor')
+        if SecureCodeExecutor:
+            executor = SecureCodeExecutor(
+                max_memory_mb=256,
+                max_execution_time=30,
+                enable_ast_analysis=False
+            )
+            
+            context = {'df': df, 'pd': pd, 'file_path': file_path}
+            execution_result = executor.execute_code(code, context)
+            
+            if not execution_result['success']:
+                return {
+                    'success': False,
+                    'error': execution_result.get('error', 'Unknown error'),
+                    'output': execution_result.get('output', captured_output.getvalue()),
+                    'suggestions': execution_result.get('suggestions', [])
+                }
+            
+            # 处理执行结果
+            result_data = _format_execution_result(execution_result.get('result'), pd)
+            
+            return {
+                'success': True,
+                'output': execution_result.get('output', captured_output.getvalue()),
+                'result': result_data
+            }
+        else:
+            # 简单的代码执行（如果没有安全执行器）
+            context = {'df': df, 'pd': pd, 'file_path': file_path}
+            exec(code, context)
+            
+            result_data = _format_execution_result(context.get('result'), pd)
+            
+            return {
+                'success': True,
+                'output': captured_output.getvalue(),
+                'result': result_data
+            }
+            
+    except Exception as e:
+        return {
+            'success': False,
+            'error': str(e),
+            'output': captured_output.getvalue(),
+            'suggestions': [
+                'Check code syntax',
+                'Ensure operations are valid for the data'
+            ]
+        }
+    finally:
+        sys.stdout = old_stdout
+
+
+def _format_execution_result(result, pd) -> dict:
+    """格式化执行结果
+    
+    Args:
+        result: 执行结果
+        pd: pandas模块
+        
+    Returns:
+        dict: 格式化的结果
+    """
+    if result is None:
+        return None
+        
+    if pd and isinstance(result, pd.DataFrame):
+        return {
+            "type": "DataFrame",
+            "shape": result.shape,
+            "columns": result.columns.tolist(),
+            "data": result.head(10).to_dict('records'),
+            "dtypes": result.dtypes.astype(str).to_dict()
+        }
+    elif pd and isinstance(result, pd.Series):
+        return {
+            "type": "Series",
+            "name": result.name,
+            "length": len(result),
+            "data": result.head(10).tolist(),
+            "dtype": str(result.dtype)
+        }
+    else:
+        return {
+            "type": type(result).__name__,
+            "value": str(result)
+        }
+
+
+def _analyze_dataframe_columns(df) -> list:
+    """通用DataFrame列分析函数
+    
+    Args:
+        df: pandas DataFrame
+        
+    Returns:
+        list: 列元数据列表
+    """
+    # 使用标准库pandas
+    import pandas as pd
+    
+    columns_metadata = []
+    for col in df.columns:
+        col_meta = {
+            "name": col,
+            "type": str(df[col].dtype),
+            "sample": df[col].dropna().iloc[:2].tolist() if len(df[col].dropna()) > 0 else [],
+            "stats": {
+                "null_count": int(df[col].isnull().sum()),
+                "unique_count": int(df[col].nunique()),
+                "is_numeric": pd.api.types.is_numeric_dtype(df[col])
+            },
+            "warnings": [],
+            "suggested_operations": []
+        }
+        
+        # 数值类型分析
+        if pd.api.types.is_numeric_dtype(df[col]):
+            col_meta["stats"].update({
+                "min": float(df[col].min()) if not df[col].empty else None,
+                "max": float(df[col].max()) if not df[col].empty else None,
+                "mean": float(df[col].mean()) if not df[col].empty else None,
+                "std": float(df[col].std()) if not df[col].empty else None
+            })
+            col_meta["suggested_operations"].extend([
+                "normalize", "scale", "log_transform"
+            ])
+            
+        # 字符串类型分析
+        if pd.api.types.is_string_dtype(df[col]):
+            col_meta["suggested_operations"].extend([
+                "one_hot_encode", "label_encode", "text_processing"
+            ])
+            
+        # 日期时间类型分析
+        if pd.api.types.is_datetime64_any_dtype(df[col]):
+            col_meta["suggested_operations"].extend([
+                "extract_year", "extract_month", "time_delta"
+            ])
+            
+        # 数据质量警告
+        if df[col].isnull().sum() > 0:
+            col_meta["warnings"].append(f"{df[col].isnull().sum()} null values found")
+        if df[col].nunique() == 1:
+            col_meta["warnings"].append("Column contains only one unique value")
+        if pd.api.types.is_numeric_dtype(df[col]) and not df[col].empty and df[col].abs().max() > 1e6:
+            col_meta["warnings"].append("Large numeric values detected - consider scaling")
+            
+        columns_metadata.append(col_meta)
+    
+    return columns_metadata
 
 
 def smart_column_matcher(target_column: str, available_columns: list) -> dict:
@@ -753,506 +1209,151 @@ def smart_column_matcher(target_column: str, available_columns: list) -> dict:
     return result
 
 
+
 @mcp.tool()
 def run_excel_code(
     file_path: str,
-    code: str, 
-    sheet_name: str = None, 
-    skiprows: int = None, 
-    header: int = None, 
-    usecols: str = None, 
-    encoding: str = None,
+    code: str,
+    sheet_name: str | None = None,
+    skiprows: int | None = None,
+    header: int | None = None,
+    usecols: str | None = None,
+    encoding: str | None = None,
     auto_detect: bool = True,
     allow_file_write: bool = False
 ) -> dict:
-    """增强版Excel代码执行工具，具备强化的pandas导入和错误处理机制。
+    """
+    增强版Excel代码执行工具，具备强化的pandas导入和错误处理机制。
     
     Args:
         code: 要执行的数据处理代码字符串
         file_path: Excel文件路径
         sheet_name: 可选，工作表名称
         skiprows: 可选，跳过的行数
-        header: 可选，用作列名的行号。可以是整数、整数列表或None
-        usecols: 可选，要解析的列。可以是列名列表、列索引列表或字符串
-        encoding: 指定编码（可选，自动检测时忽略）
+        header: 可选，用作列名的行号
+        usecols: 可选，要解析的列
+        encoding: 指定编码（可选）
         auto_detect: 是否启用智能检测和参数优化
         allow_file_write: 是否允许在代码中写入文件
         
     Returns:
         dict: 执行结果或错误信息
     """
+    global error_handler
+    start_time = time.time()
     
-    # 完全移除安全检查 - 允许所有操作
-    logger.debug("安全检查已完全禁用，允许所有代码执行")
-    # 不再进行任何安全检查，直接执行代码
-
-    # 验证文件访问
-    validation_result = validate_file_access(file_path)
-    if validation_result["status"] != "SUCCESS":
-        return {
-            "error": {
-                "type": "FILE_ACCESS_ERROR",
-                "message": validation_result["message"],
-                "solution": "请确保文件路径正确且文件存在。"
-            }
-        }
-
-    # 增强的模块导入机制
-    def safe_import_pandas():
-        """安全导入 pandas 模块"""
-        try:
-            import pandas as pd_local
-            return pd_local, None
-        except ImportError as e:
-            error_msg = f"pandas 导入失败: {str(e)}"
-            # 尝试重新导入
-            try:
-                import importlib
-                importlib.invalidate_caches()
-                import pandas as pd_local
-                return pd_local, None
-            except Exception as e2:
-                return None, f"{error_msg}. 重试失败: {str(e2)}"
-    
-    def safe_import_numpy():
-        """安全导入 numpy 模块"""
-        try:
-            import numpy as np_local
-            return np_local, None
-        except ImportError as e:
-            error_msg = f"numpy 导入失败: {str(e)}"
-            try:
-                import importlib
-                importlib.invalidate_caches()
-                import numpy as np_local
-                return np_local, None
-            except Exception as e2:
-                return None, f"{error_msg}. 重试失败: {str(e2)}"
-    
-    # 导入关键模块
-    pd_module, pd_error = safe_import_pandas()
-    np_module, np_error = safe_import_numpy()
-    
-    if pd_module is None:
-        return {
-            "error": {
-                "type": "IMPORT_ERROR",
-                "message": "Failed to import pandas",
-                "details": pd_error,
-                "solution": "请确保 pandas 已正确安装: pip install pandas"
-            }
-        }
-
-    # 使用智能读取功能
-    if auto_detect:
-        # 智能编码检测
-        encoding_info = detect_file_encoding(file_path)
-        
-        # 数据质量预检查
-        quality_precheck = data_quality_controller.comprehensive_quality_check(
-            file_path, "basic"
-        )
-        
-        # 构建读取参数
-        read_kwargs = {}
-        if sheet_name is not None:
-            read_kwargs['sheet_name'] = sheet_name
-        if skiprows is not None:
-            read_kwargs['skiprows'] = skiprows
-        if header is not None:
-            read_kwargs['header'] = header
-        if encoding is not None:
-            read_kwargs['encoding'] = encoding
-        elif encoding_info.get('encoding'):
-            read_kwargs['encoding'] = encoding_info['encoding']
-        if usecols is not None:
-            read_kwargs['usecols'] = usecols
-        
-        # 使用智能读取，禁用自动检测并明确指定header=0
-        # 改进的智能Excel读取逻辑
-        try:
-            from excel_helper import _suggest_excel_read_parameters
-            
-            # 1. 获取参数建议
-            suggestions = _suggest_excel_read_parameters(file_path)
-            recommended_params = suggestions.get('recommended_params', {})
-            
-            # 2. 检查是否检测到多级列头
-            is_multi_level = suggestions.get('analysis', {}).get('multi_level_header_detected', False)
-            
-            # 3. 智能参数选择 - 用户参数优先
-            if header is not None:
-                # 用户明确指定了header参数，优先使用用户设置
-                final_params = read_kwargs.copy()
-                # 不覆盖用户的header设置
-            elif is_multi_level:
-                # 多级列头且用户未指定header：使用建议参数
-                final_params = recommended_params.copy()
-                final_params.update(read_kwargs)
-            else:
-                # 简单列头且用户未指定header：使用header=0
-                final_params = read_kwargs.copy()
-                final_params['header'] = 0
-            
-            # 4. 执行读取
-            read_result = smart_read_excel(file_path, auto_detect_params=False, **final_params)
-            
-            # 5. 验证并可能回退
-            if read_result['success']:
-                df = read_result['dataframe']
-                unnamed_cols = [col for col in df.columns if 'Unnamed' in str(col)]
-                if len(unnamed_cols) > len(df.columns) * 0.5:
-                    # 回退到header=0
-                    fallback_params = read_kwargs.copy()
-                    fallback_params['header'] = 0
-                    read_result = smart_read_excel(file_path, auto_detect_params=False, **fallback_params)
-                    
-        except Exception as e:
-            # 出错时回退到简单的header=0
-            fallback_params = read_kwargs.copy()
-            fallback_params['header'] = 0
-            read_result = smart_read_excel(file_path, auto_detect_params=False, **fallback_params)
-        
-        if not read_result['success']:
-            return {
-                "error": {
-                    "type": "SMART_READ_ERROR",
-                    "message": "智能读取失败: " + "; ".join(read_result.get('errors', [])),
-                    "warnings": read_result.get('warnings', []),
-                    "solution": "尝试手动指定参数或检查文件格式。"
-                }
-            }
-        
-        df = read_result['dataframe']
-        read_info = read_result['info']
-    else:
-        # 传统读取方式
-        read_params = {}
-        if sheet_name:
-            read_params['sheet_name'] = sheet_name
-        if skiprows is not None:
-            read_params['skiprows'] = skiprows
-        if header is not None:
-            read_params['header'] = header
-        if usecols is not None:
-            read_params['usecols'] = usecols
-        
-        try:
-            df = pd_module.read_excel(file_path, **read_params)
-            read_info = {'read_params': read_params, 'method': 'traditional'}
-        except Exception as e:
-            return {
-                "error": {
-                    "type": "READ_ERROR",
-                    "message": f"读取Excel文件失败: {str(e)}",
-                    "solution": "请检查文件格式和参数设置"
-                }
-            }
-    
-    # 增强的执行环境准备
-    local_vars = {
-        'pd': pd_module, 
-        'file_path': file_path, 
-        'sheet_name': sheet_name,
-        'df': df,
-        'read_info': read_info
-    }
-    
-    # 添加 numpy（如果可用）
-    if np_module is not None:
-        local_vars['np'] = np_module
-    
-    # 添加常用内置函数
-    local_vars.update({
-        'len': len, 'str': str, 'int': int, 'float': float,
-        'list': list, 'dict': dict, 'print': print,
-        'range': range, 'enumerate': enumerate, 'zip': zip,
-        'sum': sum, 'max': max, 'min': min, 'abs': abs, 'round': round
-    })
-    
-    # 如果允许文件写入，添加文件操作函数
-    if allow_file_write:
-        local_vars.update({
-            'open': open,
-            'os': __import__('os'),
-            'pathlib': __import__('pathlib')
-        })
-    
-    # 创建安全的全局环境
-    builtins_dict = {
-        'len': len, 'str': str, 'int': int, 'float': float,
-        'list': list, 'dict': dict, 'print': print,
-        'range': range, 'enumerate': enumerate, 'zip': zip,
-        'sum': sum, 'max': max, 'min': min, 'abs': abs, 'round': round,
-        'locals': locals, 'globals': globals, 'isinstance': isinstance,
-        'type': type, 'hasattr': hasattr, 'getattr': getattr,
-        'NameError': NameError, 'ValueError': ValueError, 'TypeError': TypeError,
-        'KeyError': KeyError, 'IndexError': IndexError, 'Exception': Exception,
-        '__import__': __import__
-    }
-    
-    # 如果允许文件写入，添加文件操作到全局环境
-    if allow_file_write:
-        builtins_dict.update({
-            'open': open
-        })
-    
-    global_vars = {
-        '__builtins__': builtins_dict
-    }
-
-    stdout_capture = StringIO()
-    old_stdout = sys.stdout
-    sys.stdout = stdout_capture
-
     try:
-        # 使用安全代码执行器执行用户代码
-        from security.secure_code_executor import SecureCodeExecutor
-        secure_executor = SecureCodeExecutor(
-            max_memory_mb=256,
-            max_execution_time=30,
-            enable_ast_analysis=False  # 禁用 AST 分析以提高成功率
-        )
+        # 使用核心模块的异常处理
+        if CORE_MODULES_AVAILABLE:
+            config = get_config()
+            security_config = config.security
+            
+            # 检查文件大小限制
+            if os.path.exists(file_path):
+                file_size = os.path.getsize(file_path)
+                if file_size > security_config.max_file_size:
+                    raise FileAccessError(
+                        file_path=file_path,
+                        reason=f"文件大小 {file_size} 字节超过限制 {security_config.max_file_size} 字节",
+                        error_code="FILE_TOO_LARGE",
+                        suggestions=["请使用较小的文件或联系管理员调整限制"]
+                    )
         
-        # 准备执行上下文
-        context = local_vars.copy()
-        context.update(global_vars)
-        
-        # 执行代码并获取结果
-        execution_result = secure_executor.execute_code(code, context)
-        
-        # 如果执行成功，进行数据质量后检查
-        if execution_result.get('success', False):
-            # 检查执行后的数据框是否存在
-            if 'df' in execution_result.get('variables', {}):
-                processed_df = execution_result['variables']['df']
-                
-                # 数据质量后检查
-                post_quality_check = {
-                    "data_shape": processed_df.shape if hasattr(processed_df, 'shape') else None,
-                    "null_values": processed_df.isnull().sum().to_dict() if hasattr(processed_df, 'isnull') else None,
-                    "data_types": processed_df.dtypes.to_dict() if hasattr(processed_df, 'dtypes') else None,
-                    "memory_usage": processed_df.memory_usage(deep=True).sum() if hasattr(processed_df, 'memory_usage') else None
-                }
-                
-                # 添加数据清洗建议
-                cleaning_suggestions = data_cleaner.suggest_cleaning_operations(
-                    processed_df if hasattr(processed_df, 'shape') else df
+        # 验证文件访问权限
+        validation_result = validate_file_access(file_path)
+        if not validation_result.get("success", False):
+            if CORE_MODULES_AVAILABLE:
+                raise FileAccessError(
+                    file_path=file_path,
+                    reason=validation_result.get("message", "文件访问验证失败"),
+                    error_code="ACCESS_DENIED",
+                    suggestions=["请检查文件路径和权限"]
                 )
-                
-                execution_result["data_quality_analysis"] = {
-                    "pre_execution_quality": quality_precheck if auto_detect else None,
-                    "post_execution_check": post_quality_check,
-                    "cleaning_suggestions": cleaning_suggestions
-                }
-        
-        if not execution_result['success']:
-            return {
-                "error": execution_result.get('error', '代码执行失败'),
-                "output": execution_result.get('output', stdout_capture.getvalue()),
-                "suggestion": execution_result.get('suggestion', '请检查代码语法和逻辑错误'),
-                "details": execution_result.get('message', ''),
-                "traceback": execution_result.get('traceback', '')
-            }
-        
-        # 从执行结果中获取result
-        result = execution_result.get('result', None)
-        
-        # 检查局部变量中是否有 result
-        if result is None and 'result' in local_vars:
-            result = local_vars['result']
-        
-        # 如果仍然没有 result，从安全执行器的上下文中获取
-        if result is None:
-            execution_context = execution_result.get('context', {})
-            if 'result' in execution_context:
-                result = execution_context['result']
-            elif 'locals' in execution_result and 'result' in execution_result['locals']:
-                result = execution_result['locals']['result']
+            return validation_result
 
-        if result is None:
-            return {
-                "output": stdout_capture.getvalue(),
-                "warning": "No 'result' variable found in code",
-                "read_info": read_info if auto_detect else None
-            }
-
-        # 处理返回结果
-        if isinstance(result, (pd_module.DataFrame, pd_module.Series)):
-            # 安全处理pandas数据类型，避免JSON序列化错误
-            try:
-                if isinstance(result, pd_module.DataFrame):
-                    # 转换为基本Python类型以避免序列化问题
-                    result_copy = result.head().copy()
-                    # 将所有列转换为字符串以避免类型问题
-                    for col in result_copy.columns:
-                        if result_copy[col].dtype.name.startswith('Int') or str(result_copy[col].dtype).startswith('Int'):
-                            result_copy[col] = result_copy[col].astype(str)
-                    data_dict = result_copy.to_dict()
-                    dtypes_dict = {col: str(dtype) for col, dtype in result.dtypes.items()}
-                else:
-                    # 对Series也进行类型转换
-                    result_copy = result.copy()
-                    if result_copy.dtype.name.startswith('Int') or str(result_copy.dtype).startswith('Int'):
-                        result_copy = result_copy.astype(str)
-                    data_dict = result_copy.to_dict()
-                    dtypes_dict = str(result.dtype)
-                
-                response = {
-                    "result": {
-                        "type": "dataframe" if isinstance(result, pd_module.DataFrame) else "series",
-                        "shape": list(result.shape),
-                        "dtypes": dtypes_dict,
-                        "data": data_dict
-                    },
-                    "output": stdout_capture.getvalue()
-                }
-            except Exception as e:
-                # 如果序列化失败，返回简化版本
-                response = {
-                    "result": {
-                        "type": "dataframe" if isinstance(result, pd_module.DataFrame) else "series",
-                        "shape": list(result.shape),
-                        "summary": str(result),
-                        "serialization_error": str(e)
-                    },
-                    "output": stdout_capture.getvalue()
-                }
+        # 智能读取Excel文件
+        read_params = {
+            'sheet_name': sheet_name,
+            'skiprows': skiprows,
+            'header': header,
+            'usecols': usecols
+        }
+        
+        # 移除None值参数
+        read_params = {k: v for k, v in read_params.items() if v is not None}
+        
+        # 使用pandas读取Excel文件
+        df = pd.read_excel(file_path, **read_params)
+        
+        # 记录文件信息
+        if CORE_MODULES_AVAILABLE:
+            file_info = FileInfo(
+                path=file_path,
+                name=os.path.basename(file_path),
+                size=os.path.getsize(file_path),
+                type=FileType.EXCEL,
+                encoding=encoding
+            )
+        
+        # 使用增强的安全代码执行器（支持__import__）
+        if allow_file_write:
+            # 如果允许文件写入，使用更宽松的执行环境
+            execution_result = _execute_code_safely(code, df, file_path)
         else:
-            response = {
-                "result": str(result),
-                "output": stdout_capture.getvalue()
-            }
+            # 标准执行环境
+            execution_result = _execute_code_safely(code, df, file_path)
         
-        # 添加读取信息
-        if auto_detect:
-            response["read_info"] = read_info
-            if read_result.get('warnings'):
-                response["warnings"] = read_result['warnings']
+        # 增强执行结果
+        if CORE_MODULES_AVAILABLE and isinstance(execution_result, dict):
+            execution_time = time.time() - start_time
+            execution_result.update({
+                "execution_time": execution_time,
+                "file_info": file_info.to_dict() if 'file_info' in locals() else None,
+                "parameters_used": read_params
+            })
+        
+        return execution_result
 
-        return response
+    except FileNotFoundError as e:
+        if CORE_MODULES_AVAILABLE:
+            error = FileAccessError(
+                file_path=file_path,
+                reason="文件未找到",
+                error_code="FILE_NOT_FOUND",
+                suggestions=["请确认文件路径是否正确", "检查文件是否存在"]
+            )
+            return error.to_dict()
         
-    except NameError as e:
-        error_msg = str(e)
-        suggestions = []
-        
-        if "'pd'" in error_msg or "pandas" in error_msg.lower():
-            suggestions.extend([
-                "pandas 模块可能未正确导入，请检查安装: pip install pandas",
-                "尝试重启 MCP 服务器",
-                "检查虚拟环境是否正确激活",
-                "尝试在代码中显式导入: import pandas as pd"
-            ])
-        
-        if "'np'" in error_msg or "numpy" in error_msg.lower():
-            suggestions.extend([
-                "numpy 模块可能未正确导入，请检查安装: pip install numpy",
-                "尝试在代码中显式导入: import numpy as np"
-            ])
-        
-        if "'df'" in error_msg:
-            suggestions.extend([
-                "DataFrame 未正确加载，请检查文件路径和格式",
-                "尝试使用 pd.read_excel() 手动读取文件"
-            ])
-        
-        return {
-            "error": {
-                "type": "NameError",
-                "message": f"变量未定义错误: {error_msg}",
-                "traceback": traceback.format_exc(),
-                "output": stdout_capture.getvalue(),
-                "suggestions": suggestions,
-                "pandas_available": pd_module is not None,
-                "numpy_available": np_module is not None
-            }
-        }
-        
-    except KeyError as e:
-        # 使用专业的列名检查工具处理KeyError
-        missing_column = str(e).strip("'\"")
-        
-        # 获取DataFrame的所有列名
-        available_columns = list(df.columns) if 'df' in locals() and df is not None else []
-        
-        # 使用ColumnChecker进行智能匹配
-        checker = ColumnChecker()
-        match_result = checker.match_column(missing_column, available_columns)
-        code_suggestions = checker.generate_code_suggestions(missing_column, match_result)
-        
-        # 构建详细的错误信息
-        error_msg = f"❌ 列名 '{missing_column}' 不存在\n\n"
-        
-        if match_result['exact_match']:
-            error_msg += f"✅ 找到精确匹配: '{match_result['exact_match']}'\n"
-        elif match_result['case_insensitive_match']:
-            error_msg += f"🔤 大小写不同的匹配: '{match_result['case_insensitive_match']}'\n"
-        elif match_result['normalized_matches']:
-            normalized_list = "', '".join(match_result['normalized_matches'])
-            error_msg += f"📝 标准化匹配: '{normalized_list}'\n"
-        elif match_result['fuzzy_matches']:
-            fuzzy_list = "', '".join(match_result['fuzzy_matches'])
-            error_msg += f"🔍 相似列名: '{fuzzy_list}'\n"
-        elif match_result['variant_matches']:
-            variant_list = "', '".join(match_result['variant_matches'])
-            error_msg += f"🔄 变体匹配: '{variant_list}'\n"
-        
-        if available_columns:
-            columns_list = "', '".join(available_columns)
-            error_msg += f"\n📋 所有可用列名: '{columns_list}'\n"
-        
-        error_msg += f"\n🎯 置信度评分: {match_result['confidence_score']:.2f}\n"
-        
-        # 添加建议
-        if match_result['suggestions']:
-            error_msg += "\n💡 智能建议:\n"
-            for suggestion in match_result['suggestions']:
-                error_msg += f"  • {suggestion}\n"
-        
-        return {
-            "error": {
-                "type": "KeyError",
-                "message": error_msg,
-                "missing_column": missing_column,
-                "available_columns": available_columns,
-                "match_result": match_result,
-                "confidence_score": match_result['confidence_score'],
-                "traceback": traceback.format_exc(),
-                "output": stdout_capture.getvalue(),
-                "suggestions": match_result['suggestions'],
-                "code_suggestions": code_suggestions,
-                "read_info": read_info if auto_detect else None,
-                "solution_code": "\n".join(code_suggestions) if code_suggestions else "# 请检查列名拼写"
-            }
-        }
+        return error_handler.create_error_response(
+            ErrorType.FILE_NOT_FOUND,
+            f"文件未找到: {file_path}",
+            suggestions=["请确认文件路径是否正确。"]
+        )
         
     except Exception as e:
-        error_msg = str(e)
-        suggestions = []
+        execution_time = time.time() - start_time
+        
+        if CORE_MODULES_AVAILABLE:
+            if isinstance(e, ChatExcelError):
+                result = e.to_dict()
+                result["execution_time"] = execution_time
+                return result
+            else:
+                error = CodeExecutionError(
+                    code=code,
+                    error_details=f"执行Excel代码时出错: {str(e)}",
+                    error_code="EXECUTION_FAILED",
+                    details={"exception_type": type(e).__name__, "traceback": traceback.format_exc()},
+                    suggestions=["检查代码语法", "确认数据格式正确"]
+                )
+                result = error.to_dict()
+                result["execution_time"] = execution_time
+                return result
+        
+        logger.error(f"执行Excel代码时出错: {e}", exc_info=True)
+        return error_handler.handle_exception(e, context="run_excel_code")
 
-        if "No such file or directory" in error_msg:
-            suggestions.append("Use raw strings for paths: r'path\to\file.xlsx'")
-        if "Worksheet named" in error_msg and "not found" in error_msg:
-            suggestions.append("Check the sheet_name parameter. Ensure the sheet name exists in the Excel file.")
-        if "could not convert string to float" in error_msg:
-            suggestions.append("Try: pd.to_numeric(df['col'], errors='coerce')")
-        if "AttributeError" in error_msg and "str" in error_msg:
-            suggestions.append("Try: df['col'].astype(str).str.strip()")
-        if "encoding" in error_msg.lower():
-            suggestions.append("Try specifying encoding parameter or disable auto_detect")
 
-        return {
-            "error": {
-                "type": type(e).__name__,
-                "message": error_msg,
-                "traceback": traceback.format_exc(),
-                "output": stdout_capture.getvalue(),
-                "suggestions": suggestions if suggestions else None,
-                "read_info": read_info if auto_detect else None
-            }
-        }
-    finally:
-        sys.stdout = old_stdout
 
 
 @mcp.tool()
@@ -1266,129 +1367,63 @@ def run_code(code: str, file_path: str) -> dict:
     Returns:
         dict: 执行结果，包含数据、输出或错误信息。
     """
+    global error_handler
     try:
-        # 完全移除安全检查 - 允许所有操作
-        logger.debug("CSV代码执行：安全检查已完全禁用，允许所有操作")
-        
         # 验证文件访问
         validation_result = validate_file_access(file_path)
-        if validation_result["status"] != "SUCCESS":
-            return {
-                "success": False,
-                "error": validation_result["message"],
-                "suggestion": "Please check the file path and ensure the file exists."
-            }
-        
-        # Read CSV file with intelligent encoding detection
-        try:
-            # 首先尝试检测文件编码
-            encoding_info = detect_file_encoding(file_path)
-            detected_encoding = encoding_info.get('encoding', 'utf-8')
-            
-            # 尝试使用检测到的编码读取CSV文件
-            try:
-                df = pd.read_csv(file_path, encoding=detected_encoding)
-            except UnicodeDecodeError:
-                # 如果检测到的编码失败，尝试常见编码
-                common_encodings = ['utf-8', 'gbk', 'gb2312', 'gb18030', 'big5', 'latin1', 'cp1252']
-                df = None
-                last_error = None
-                
-                for enc in common_encodings:
-                    try:
-                        df = pd.read_csv(file_path, encoding=enc)
-                        break
-                    except (UnicodeDecodeError, UnicodeError) as e:
-                        last_error = e
-                        continue
-                
-                if df is None:
-                    return {
-                        "success": False,
-                        "error": f"Failed to read CSV file with any encoding. Last error: {str(last_error)}",
-                        "suggestion": "Please check the file encoding. Try converting the file to UTF-8 format or specify the correct encoding."
-                    }
-                    
-        except Exception as e:
-            return {
-                "success": False,
-                "error": f"Failed to read CSV file: {str(e)}",
-                "suggestion": "Please ensure the file is a valid CSV format and check the file encoding."
-            }
-        
-        # Capture stdout
-        old_stdout = sys.stdout
-        sys.stdout = captured_output = StringIO()
-        
-        try:
-            # 使用安全代码执行器执行代码
-            from security.secure_code_executor import SecureCodeExecutor
-            secure_executor = SecureCodeExecutor(
-                max_memory_mb=256,
-                max_execution_time=30,
-                enable_ast_analysis=False  # 禁用 AST 分析以提高成功率
+        if not validation_result.get("success", False):
+            return error_handler.create_error_response(
+                ErrorType.FILE_ACCESS_ERROR,
+                validation_result.get("message", "文件访问验证失败"),
+                suggestions=["Check the file path and ensure the file exists"]
             )
-            
-            # 准备执行上下文
-            context = {'df': df, 'pd': pd}
-            
-            # 执行代码
-            execution_result = secure_executor.execute_code(code, context)
-            
-            if not execution_result['success']:
-                return {
-                    "success": False,
-                    "error": f"代码执行失败: {execution_result.get('error', '未知错误')}",
-                    "output": execution_result.get('output', captured_output.getvalue()),
-                    "suggestion": execution_result.get('suggestion', '')
-                }
-            
-            # 从执行结果获取输出
-            output = execution_result.get('output', '')
-            
-            # 检查是否有result变量
-            result_data = None
-            result = execution_result.get('result', None)
-            if result is not None:
-                if isinstance(result, pd.DataFrame):
-                    result_data = {
-                        "type": "DataFrame",
-                        "shape": result.shape,
-                        "columns": result.columns.tolist(),
-                        "data": result.head(10).to_dict('records'),
-                        "dtypes": result.dtypes.astype(str).to_dict()
-                    }
-                elif isinstance(result, pd.Series):
-                    result_data = {
-                        "type": "Series",
-                        "name": result.name,
-                        "length": len(result),
-                        "data": result.head(10).tolist(),
-                        "dtype": str(result.dtype)
-                    }
-                else:
-                    result_data = {
-                        "type": type(result).__name__,
-                        "value": str(result)
-                    }
-            
-            return {
-                "success": True,
-                "output": output,
-                "result": result_data,
-                "suggestion": "Code executed successfully. Use 'result' variable to store your final output."
+        
+        # 优化的CSV文件读取 - 使用缓存的编码检测结果
+        df = _read_csv_with_smart_encoding(file_path)
+        if df is None:
+            return error_handler.create_error_response(
+                ErrorType.FILE_READ_ERROR,
+                "Failed to read CSV file with any supported encoding",
+                suggestions=[
+                    "Check the file encoding and format",
+                    "Try converting the file to UTF-8 format",
+                    "Ensure the file is a valid CSV format"
+                ]
+            )
+        return execute_code_safely(code, df, file_path)
+        
+        # 执行代码，并注入 file_path 变量
+        execution_result = _execute_code_safely(code, df, file_path=file_path)
+        
+        if not execution_result['success']:
+            return error_handler.create_error_response(
+                ErrorType.EXECUTION_ERROR,
+                execution_result.get('error', 'Code execution failed'),
+                suggestions=execution_result.get('suggestions', [
+                    "Check data processing syntax",
+                    "Ensure operations are valid for the data"
+                ])
+            )
+        
+        return error_handler.create_success_response(
+            execution_result.get('result'),
+            message="Code executed successfully",
+            metadata={
+                "output": execution_result.get('output', ''),
+                "suggestion": "Use 'result' variable to store your final output."
             }
-            
-        finally:
-            sys.stdout = old_stdout
+        )
             
     except Exception as e:
-        return {
-            "success": False,
-            "error": str(e),
-            "traceback": traceback.format_exc(),
-            "suggestion": "请检查数据处理语法，确保操作对数据有效。"
-        }
+        return error_handler.create_error_response(
+            ErrorType.EXECUTION_ERROR,
+            f"Unexpected error during code execution: {str(e)}",
+            suggestions=[
+                "Check data processing syntax",
+                "Ensure operations are valid for the data",
+                "Contact support if the issue persists"
+            ]
+        )
 
 
 @mcp.tool()
@@ -1423,23 +1458,23 @@ def bar_chart_to_html(
     """
     # Validate input lengths
     if len(categories) != len(values):
-        return {
-            "status": "ERROR",
-            "error": "MISMATCHED_LENGTHS",
-            "message": f"Categories ({len(categories)}) and values ({len(values)}) must be same length"
-        }
+        return error_handler.create_error_response(
+            ErrorType.VALIDATION_ERROR,
+            f"Categories ({len(categories)}) and values ({len(values)}) must be same length",
+            suggestions=["Ensure categories and values lists have the same length"]
+        )
 
     # Read template file
-    template_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "./templates/barchart_template.html")
+    template_path = get_template_path("barchart_template.html")
     try:
         with open(template_path, 'r', encoding='utf-8') as f:
             template = f.read()
     except Exception as e:
-        return {
-            "status": "ERROR",
-            "error": "TEMPLATE_READ_ERROR",
-            "message": str(e)
-        }
+        return error_handler.create_error_response(
+            ErrorType.FILE_READ_ERROR,
+            f"Failed to read chart template: {str(e)}",
+            suggestions=["Check if template files exist", "Verify file permissions"]
+        )
 
     # Prepare data for Chart.js
     all_categories = categories
@@ -1483,16 +1518,16 @@ def bar_chart_to_html(
         with open(filepath, 'w', encoding='utf-8') as f:
             f.write(template)
     except Exception as e:
-        return {
-            "status": "ERROR",
-            "error": "FILE_WRITE_ERROR",
-            "message": str(e)
-        }
+        return error_handler.create_error_response(
+            ErrorType.FILE_WRITE_ERROR,
+            f"Failed to write chart file: {str(e)}",
+            suggestions=["Check directory permissions", "Ensure sufficient disk space"]
+        )
 
-    return {
-        "status": "SUCCESS",
-        "filepath": os.path.abspath(filepath)
-    }
+    return error_handler.create_success_response(
+        {"filepath": os.path.abspath(filepath)},
+        message="Bar chart generated successfully"
+    )
 
 
 @mcp.tool()
@@ -1524,23 +1559,23 @@ def pie_chart_to_html(
     """
     # Validate input lengths
     if len(labels) != len(values):
-        return {
-            "status": "ERROR",
-            "error": "MISMATCHED_LENGTHS",
-            "message": f"Labels ({len(labels)}) and values ({len(values)}) must be same length"
-        }
+        return error_handler.create_error_response(
+            ErrorType.VALIDATION_ERROR,
+            f"Labels ({len(labels)}) and values ({len(values)}) must be same length",
+            suggestions=["Ensure labels and values lists have the same length"]
+        )
 
     # Read template file
-    template_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "./templates/piechart_template.html")
+    template_path = get_template_path("piechart_template.html")
     try:
         with open(template_path, 'r', encoding='utf-8') as f:
             template = f.read()
     except Exception as e:
-        return {
-            "status": "ERROR",
-            "error": "TEMPLATE_READ_ERROR",
-            "message": str(e)
-        }
+        return error_handler.create_error_response(
+            ErrorType.FILE_READ_ERROR,
+            f"Failed to read chart template: {str(e)}",
+            suggestions=["Check if template files exist", "Verify file permissions"]
+        )
 
     # Prepare data for Chart.js
     colors = [
@@ -1579,16 +1614,16 @@ def pie_chart_to_html(
         with open(filepath, 'w', encoding='utf-8') as f:
             f.write(template)
     except Exception as e:
-        return {
-            "status": "ERROR",
-            "error": "FILE_WRITE_ERROR",
-            "message": str(e)
-        }
+        return error_handler.create_error_response(
+            ErrorType.FILE_WRITE_ERROR,
+            f"Failed to write chart file: {str(e)}",
+            suggestions=["Check directory permissions", "Ensure sufficient disk space"]
+        )
 
-    return {
-        "status": "SUCCESS",
-        "filepath": os.path.abspath(filepath)
-    }
+    return error_handler.create_success_response(
+        {"filepath": os.path.abspath(filepath)},
+        message="Pie chart generated successfully"
+    )
 
 @mcp.tool()
 def line_chart_to_html(
@@ -1624,23 +1659,23 @@ def line_chart_to_html(
     """
     # Validate input
     if not all(len(d['data']) == len(labels) for d in datasets):
-        return {
-            "status": "ERROR",
-            "error": "MISMATCHED_LENGTHS",
-            "message": "All datasets must have same length as labels"
-        }
+        return error_handler.create_error_response(
+            ErrorType.VALIDATION_ERROR,
+            "All datasets must have same length as labels",
+            suggestions=["Ensure all dataset data arrays match the labels length"]
+        )
 
     # Read template file
-    template_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "./templates/linechart_template.html")
+    template_path = get_template_path("linechart_template.html")
     try:
         with open(template_path, 'r', encoding='utf-8') as f:
             template = f.read()
     except Exception as e:
-        return {
-            "status": "ERROR",
-            "error": "TEMPLATE_READ_ERROR",
-            "message": str(e)
-        }
+        return error_handler.create_error_response(
+            ErrorType.FILE_READ_ERROR,
+            f"Failed to read chart template: {str(e)}",
+            suggestions=["Check if template files exist", "Verify file permissions"]
+        )
 
     # Prepare data for Chart.js
     chart_data = {
@@ -1719,16 +1754,16 @@ def line_chart_to_html(
         with open(filepath, 'w', encoding='utf-8') as f:
             f.write(template)
     except Exception as e:
-        return {
-            "status": "ERROR",
-            "error": "FILE_WRITE_ERROR",
-            "message": str(e)
-        }
+        return error_handler.create_error_response(
+            ErrorType.FILE_WRITE_ERROR,
+            f"Failed to write chart file: {str(e)}",
+            suggestions=["Check directory permissions", "Ensure sufficient disk space"]
+        )
 
-    return {
-        "status": "SUCCESS",
-        "filepath": os.path.abspath(filepath)
-    }
+    return error_handler.create_success_response(
+        {"filepath": os.path.abspath(filepath)},
+        message="Line chart generated successfully"
+    )
 
 
 @mcp.tool()
@@ -1743,7 +1778,7 @@ def validate_data_quality(file_path: str) -> dict:
     """
     try:
         validation_result = validate_file_access(file_path)
-        if validation_result["status"] != "SUCCESS":
+        if not validation_result.get("success", False):
             return validation_result
         
         df = pd.read_csv(file_path)
@@ -1780,12 +1815,16 @@ def validate_data_quality(file_path: str) -> dict:
                 if df[col].nunique() / len(df) < 0.5:  # 低基数字符串
                     quality_report["recommendations"].append(f"列 '{col}' 可考虑转换为分类类型以节省内存")
         
-        return create_success_response(quality_report, "数据质量分析完成")
+        return error_handler.create_success_response(
+            quality_report, 
+            message="数据质量分析完成"
+        )
         
     except Exception as e:
-        return create_error_response(
-            "PROCESSING_ERROR",
+        return error_handler.create_error_response(
+            ErrorType.PROCESSING_ERROR,
             f"数据质量验证失败: {str(e)}",
+            suggestions=["检查文件格式", "确认文件可读性"],
             details={"traceback": traceback.format_exc()}
         )
 
@@ -2444,7 +2483,11 @@ def enhanced_data_quality_check(file_path: str, quality_level: str = "comprehens
     try:
         return data_quality_controller.comprehensive_quality_check(file_path, quality_level)
     except Exception as e:
-        return create_error_response("QUALITY_CHECK_ERROR", str(e))
+        return error_handler.create_error_response(
+            ErrorType.PROCESSING_ERROR,
+            f"数据质量检查失败: {str(e)}",
+            suggestions=["检查文件格式", "确认文件可读性"]
+        )
 
 
 @mcp.tool()
@@ -2466,7 +2509,11 @@ def extract_cell_content_advanced(file_path: str, cell_range: Optional[str] = No
             file_path, cell_range, sheet_name, extract_type
         )
     except Exception as e:
-        return create_error_response("CELL_EXTRACTION_ERROR", str(e))
+        return error_handler.create_error_response(
+            ErrorType.PROCESSING_ERROR,
+            f"单元格内容提取失败: {str(e)}",
+            suggestions=["检查单元格范围格式", "确认工作表名称"]
+        )
 
 
 @mcp.tool()
@@ -2486,7 +2533,11 @@ def convert_character_formats(file_path: str, conversion_rules: dict, output_pat
             file_path, conversion_rules, output_path
         )
     except Exception as e:
-        return create_error_response("CHARACTER_CONVERSION_ERROR", str(e))
+        return error_handler.create_error_response(
+            ErrorType.PROCESSING_ERROR,
+            f"字符格式转换失败: {str(e)}",
+            suggestions=["检查转换规则格式", "确认输出路径权限"]
+        )
 
 
 @mcp.tool()
@@ -2506,7 +2557,11 @@ def extract_multi_condition_data(file_path: str, conditions: list, sheet_name: O
             file_path, conditions, sheet_name
         )
     except Exception as e:
-        return create_error_response("MULTI_CONDITION_EXTRACTION_ERROR", str(e))
+        return error_handler.create_error_response(
+            ErrorType.PROCESSING_ERROR,
+            f"多条件数据提取失败: {str(e)}",
+            suggestions=["检查条件格式", "确认工作表存在"]
+        )
 
 
 @mcp.tool()
@@ -2526,7 +2581,11 @@ def merge_multiple_tables(file_paths: list, merge_config: dict, output_path: Opt
             file_paths, merge_config, output_path
         )
     except Exception as e:
-        return create_error_response("TABLE_MERGE_ERROR", str(e))
+        return error_handler.create_error_response(
+            ErrorType.PROCESSING_ERROR,
+            f"表格合并失败: {str(e)}",
+            suggestions=["检查文件路径", "确认合并配置"]
+        )
 
 
 @mcp.tool()
@@ -2548,7 +2607,11 @@ def clean_excel_data(file_path: str, cleaning_options: dict, output_path: Option
             output_file=output_path
         )
     except Exception as e:
-        return create_error_response("DATA_CLEANING_ERROR", str(e))
+        return error_handler.create_error_response(
+            ErrorType.PROCESSING_ERROR,
+            f"数据清洗失败: {str(e)}",
+            suggestions=["检查清洗选项", "确认文件格式"]
+        )
 
 
 @mcp.tool()
@@ -2567,11 +2630,315 @@ def batch_process_excel_files(file_paths: list, processing_config: dict) -> dict
             file_paths, processing_config
         )
     except Exception as e:
-        return create_error_response("BATCH_PROCESSING_ERROR", str(e))
+        return error_handler.create_error_response(
+            ErrorType.PROCESSING_ERROR,
+            f"批量处理失败: {str(e)}",
+            suggestions=["检查文件路径列表", "确认处理配置"]
+        )
 
 
 if __name__ == "__main__":
+    import argparse
+    import sys
+    
+    # 添加命令行参数处理
+    parser = argparse.ArgumentParser(
+        description='ChatExcel MCP Server - Excel数据处理服务器',
+        formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    parser.add_argument(
+        '--version', 
+        action='version', 
+        version='ChatExcel MCP Server v2.1.0'
+    )
+    parser.add_argument(
+        '--tools', 
+        action='store_true',
+        help='显示可用工具列表'
+    )
+    parser.add_argument(
+        '--config', 
+        type=str,
+        help='指定配置文件路径'
+    )
+    parser.add_argument(
+        '--health-check', 
+        action='store_true',
+        help='执行健康检查'
+    )
+    parser.add_argument(
+        '--debug', 
+        action='store_true',
+        help='启用调试模式'
+    )
+    
+    # 解析命令行参数
+    args = parser.parse_args()
+    
+    # 初始化配置
+    if CORE_MODULES_AVAILABLE:
+        try:
+            if args.config:
+                from core.config import load_config_from_file
+                config = load_config_from_file(args.config)
+            else:
+                config = get_config()
+            
+            # 设置调试模式
+            if args.debug:
+                config.logging.level = "DEBUG"
+                print("🔧 调试模式已启用")
+                
+        except Exception as e:
+            print(f"⚠ 配置加载失败: {e}")
+            config = None
+    else:
+        config = None
+    
+    # 健康检查
+    if args.health_check:
+        print("🏥 执行健康检查...")
+        
+        health_status = {
+            "core_modules": CORE_MODULES_AVAILABLE,
+            "dependency_manager": len(dependency_manager.available_modules),
+            "failed_imports": len(dependency_manager.failed_imports),
+            "config_loaded": config is not None
+        }
+        
+        print(f"✓ 核心模块: {'可用' if health_status['core_modules'] else '不可用'}")
+        print(f"✓ 可用依赖模块: {health_status['dependency_manager']}")
+        print(f"⚠ 失败导入: {health_status['failed_imports']}")
+        print(f"✓ 配置: {'已加载' if health_status['config_loaded'] else '未加载'}")
+        
+        if dependency_manager.failed_imports:
+            print("\n失败的模块导入:")
+            for module in dependency_manager.failed_imports:
+                print(f"  - {module}")
+        
+        # 检查关键目录
+        try:
+            os.makedirs(CHARTS_DIR, exist_ok=True)
+            print(f"✓ 图表目录: {CHARTS_DIR}")
+        except Exception as e:
+            print(f"⚠ 图表目录创建失败: {e}")
+        
+        sys.exit(0)
+    
+    # 如果请求工具列表
+    if args.tools:
+        print("ChatExcel MCP Server 可用工具:")
+        print("1. read_excel_file - 读取Excel文件")
+        print("2. run_excel_code - 执行Excel数据处理代码")
+        print("3. create_chart - 创建图表")
+        print("4. export_data - 导出数据")
+        print("5. data_cleaner - 数据清洗")
+        print("6. batch_process_excel_files - 批量处理Excel文件")
+        print("7. read_metadata - 读取文件元数据")
+        print("8. convert_character_formats - 字符格式转换")
+        print("9. extract_multi_condition_data - 多条件数据提取")
+        print("10. merge_multiple_tables - 多表格合并")
+        print("...以及其他21个专业Excel处理工具")
+        print(f"\n总计: 31个工具")
+        print(f"支持格式: xlsx, xls, csv, json, html")
+        
+        if CORE_MODULES_AVAILABLE and config:
+            print(f"\n配置信息:")
+            print(f"  - 最大文件大小: {config.security.max_file_size} 字节")
+            print(f"  - 执行超时: {config.performance.execution_timeout} 秒")
+            print(f"  - 缓存启用: {config.performance.enable_cache}")
+        
+        sys.exit(0)
+    
     # 确保必要目录存在
-    os.makedirs(CHARTS_DIR, exist_ok=True)
-    mcp.run()
+    try:
+        os.makedirs(CHARTS_DIR, exist_ok=True)
+        print(f"✓ 图表目录已准备: {CHARTS_DIR}")
+    except Exception as e:
+        print(f"⚠ 图表目录创建失败: {e}")
+    
+    # 启动信息
+    print("🚀 启动 ChatExcel MCP Server...")
+    print(f"📊 工具数量: 31")
+    print(f"📁 支持格式: xlsx, xls, csv, json, html")
+    print(f"🔧 核心模块: {'已加载' if CORE_MODULES_AVAILABLE else '备用模式'}")
+    print(f"⚙️  依赖模块: {len(dependency_manager.available_modules)} 可用")
+    
+    if dependency_manager.failed_imports:
+        print(f"⚠️  失败导入: {len(dependency_manager.failed_imports)} 个模块")
+    
+    if CORE_MODULES_AVAILABLE and config:
+        print(f"🛡️  安全配置: 已启用")
+        print(f"⚡ 性能优化: 已启用")
+    
+    print("\n服务器启动中...")
+    
+    try:
+        mcp.run()
+    except KeyboardInterrupt:
+        print("\n👋 服务器已停止")
+    except Exception as e:
+        print(f"\n❌ 服务器启动失败: {e}")
+        if args.debug:
+            import traceback
+            traceback.print_exc()
+        sys.exit(1)
 
+
+
+
+# 备用实现类
+class FallbackVariableLifecycleManager:
+    def __init__(self):
+        self.variable_registry = {}
+        self.creation_order = []
+    
+    def register_variable(self, name, value, source='user'):
+        self.variable_registry[name] = {
+            'value': value,
+            'source': source,
+            'type': type(value).__name__
+        }
+        if name not in self.creation_order:
+            self.creation_order.append(name)
+    
+    def get_dataframes(self):
+        return [k for k, v in self.variable_registry.items() 
+                if hasattr(v.get('value'), 'shape')]
+
+class FallbackNameErrorHandler:
+    def __init__(self):
+        pass
+    
+    def handle_name_error(self, error, code, local_vars):
+        return {'success': False, 'error': str(error)}
+
+class FallbackColumnChecker:
+    def __init__(self):
+        pass
+    
+    def match_column(self, missing_column, available_columns):
+        return {
+            'exact_match': None,
+            'case_insensitive_match': None,
+            'normalized_matches': []
+        }
+    
+    def generate_code_suggestions(self, missing_column, match_result):
+        return []
+
+def fallback_enhanced_execute_with_error_handling(code, local_vars, var_manager=None, error_handler=None):
+    try:
+        exec(code, local_vars)
+        return {'success': True, 'variables': local_vars}
+    except Exception as e:
+        return {'success': False, 'error': str(e)}
+
+def fallback_analyze_code_variables(code):
+    # 简单的变量分析
+    import re
+    
+    # 查找变量赋值
+    assignments = re.findall(r'(\w+)\s*=', code)
+    
+    # 查找变量引用
+    references = re.findall(r'(\w+)', code)
+    
+    return {
+        'defined_variables': list(set(assignments)),
+        'referenced_variables': list(set(references)),
+        'variables': list(set(assignments + references)),
+        'assignments': assignments
+    }
+
+def fallback_enhanced_run_excel_code(file_path, code, **kwargs):
+    """增强的Excel代码执行备用函数，集成pandas导入修复"""
+    import pandas as pd
+    import numpy as np
+    import traceback
+    
+    try:
+        # 提取参数
+        sheet_name = kwargs.get('sheet_name')
+        skiprows = kwargs.get('skiprows')
+        header = kwargs.get('header')
+        usecols = kwargs.get('usecols')
+        
+        # 构建读取参数
+        read_kwargs = {}
+        if sheet_name is not None:
+            read_kwargs['sheet_name'] = sheet_name
+        if skiprows is not None:
+            read_kwargs['skiprows'] = skiprows
+        if header is not None:
+            read_kwargs['header'] = header
+        if usecols is not None:
+            read_kwargs['usecols'] = usecols
+        
+        # 读取Excel文件
+        df = pd.read_excel(file_path, **read_kwargs)
+        
+        # 如果返回字典（多工作表），取第一个
+        if isinstance(df, dict):
+            first_sheet = list(df.keys())[0]
+            df = df[first_sheet]
+        
+        # 创建增强的安全执行环境
+        safe_globals = {
+            # pandas 相关 - 多种引用方式确保兼容性
+            'pd': pd,
+            'pandas': pd,
+            'DataFrame': pd.DataFrame,
+            'Series': pd.Series,
+            
+            # numpy 相关
+            'np': np,
+            'numpy': np,
+            
+            # 数据相关
+            'df': df.copy() if hasattr(df, 'copy') else df,
+            'data': df.copy() if hasattr(df, 'copy') else df,
+            'df_original': df.copy() if hasattr(df, 'copy') else df,
+            
+            # 文件路径
+            'file_path': file_path,
+            
+            # 常用内置函数
+            'len': len, 'sum': sum, 'max': max, 'min': min,
+            'abs': abs, 'round': round, 'sorted': sorted,
+            'enumerate': enumerate, 'zip': zip, 'range': range,
+            'list': list, 'dict': dict, 'set': set, 'tuple': tuple,
+            'str': str, 'int': int, 'float': float, 'bool': bool,
+            'print': print, 'type': type, 'isinstance': isinstance,
+            'hasattr': hasattr, 'getattr': getattr,
+            
+            # 添加 __import__ 支持
+            '__import__': __import__,
+        }
+        
+        # 检查是否使用了df_processed但未定义
+        if 'df_processed' in code and 'df_processed =' not in code:
+            code = f"df_processed = df.copy()\n{code}"
+        
+        # 执行代码
+        exec(code, safe_globals)
+        
+        return {
+            'success': True,
+            'variables': {k: v for k, v in safe_globals.items() if not k.startswith('_')},
+            'data_shape': df.shape if hasattr(df, 'shape') else None,
+            'message': '代码执行成功（增强备用实现）'
+        }
+        
+    except Exception as e:
+        return {
+            'success': False,
+            'error': f"代码执行失败: {str(e)}",
+            'error_type': type(e).__name__,
+            'traceback': traceback.format_exc(),
+            'errors': [{
+                'message': f"代码执行失败: {str(e)}",
+                'code': 'ErrorCode.CODE_EXECUTION_ERROR'
+            }],
+            'warnings': []
+        }

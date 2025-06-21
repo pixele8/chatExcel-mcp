@@ -9,7 +9,7 @@ import json
 import yaml
 import threading
 import time
-from typing import Dict, Any, Optional, List, Union, Callable
+from typing import Dict, Any, Optional, List, Union, Callable, Tuple
 from dataclasses import dataclass, field, asdict
 from pathlib import Path
 from enum import Enum
@@ -88,6 +88,97 @@ class SecurityConfig:
     ssl_enabled: bool = False
     ssl_cert_path: Optional[str] = None
     ssl_key_path: Optional[str] = None
+    
+    # 会话安全 - 完全解除限制
+    session_timeout: int = 999999
+    max_login_attempts: int = 999999
+    lockout_duration: int = 0
+    
+    # 密码策略 - 完全解除限制
+    password_policy: Dict[str, Any] = field(default_factory=lambda: {
+        "min_length": 1,
+        "require_uppercase": False,
+        "require_lowercase": False,
+        "require_numbers": False,
+        "require_special_chars": False,
+        "max_age_days": 999999
+    })
+    
+    # CORS 配置 - 完全解除限制
+    cors_enabled: bool = True
+    cors_origins: List[str] = field(default_factory=lambda: ['*'])
+    cors_methods: List[str] = field(default_factory=lambda: ['*'])
+    cors_headers: List[str] = field(default_factory=lambda: ['*'])
+    
+    # 其他安全配置 - 完全解除限制
+    csrf_protection: bool = False
+    xss_protection: bool = False
+    content_type_validation: bool = False
+    request_size_limit: int = 999999999999
+    response_size_limit: int = 999999999999
+    connection_timeout: int = 999999
+    read_timeout: int = 999999
+    write_timeout: int = 999999
+    keep_alive_timeout: int = 999999
+    max_concurrent_connections: int = 999999
+    max_requests_per_connection: int = 999999
+    enable_compression: bool = True
+    compression_level: int = 9
+    enable_caching: bool = True
+    cache_max_age: int = 999999
+    enable_etag: bool = False
+    enable_last_modified: bool = False
+    
+    # 安全头配置 - 完全解除限制
+    security_headers: Dict[str, Any] = field(default_factory=lambda: {
+        "x_frame_options": "ALLOWALL",
+        "x_content_type_options": "nosniff",
+        "x_xss_protection": "0",
+        "strict_transport_security": None,
+        "content_security_policy": None,
+        "referrer_policy": "no-referrer-when-downgrade",
+        "permissions_policy": None
+    })
+    
+    # 输入验证配置 - 完全解除限制
+    input_validation: Dict[str, Any] = field(default_factory=lambda: {
+        "enable_sql_injection_check": False,
+        "enable_xss_check": False,
+        "enable_path_traversal_check": False,
+        "enable_command_injection_check": False,
+        "max_input_length": 999999999999,
+        "allowed_characters": "*",
+        "forbidden_patterns": []
+    })
+    
+    # 输出过滤配置 - 完全解除限制
+    output_filtering: Dict[str, Any] = field(default_factory=lambda: {
+        "enable_sensitive_data_masking": False,
+        "enable_error_message_filtering": False,
+        "max_output_length": 999999999999,
+        "allowed_mime_types": ["*"]
+    })
+    
+    # 资源限制配置 - 完全解除限制
+    resource_limits: Dict[str, Any] = field(default_factory=lambda: {
+        "max_cpu_usage": 100,
+        "max_memory_usage": 999999999999,
+        "max_disk_usage": 999999999999,
+        "max_network_bandwidth": 999999999999,
+        "max_open_files": 999999,
+        "max_processes": 999999,
+        "max_threads": 999999
+    })
+    
+    # 监控配置 - 完全解除限制
+    monitoring: Dict[str, Any] = field(default_factory=lambda: {
+        "enable_performance_monitoring": False,
+        "enable_security_monitoring": False,
+        "enable_error_tracking": False,
+        "log_level": "DEBUG",
+        "log_format": "detailed",
+        "log_rotation": False
+    })
     
     # 日志安全 - 完全解除限制
     log_sensitive_data: bool = True  # 允许记录敏感数据

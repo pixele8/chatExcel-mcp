@@ -39,17 +39,8 @@ except ImportError:
 # 配置日志
 logger = logging.getLogger(__name__)
 
-class SecurityViolationError(Exception):
-    """安全违规异常"""
-    pass
-
-class ExecutionTimeoutError(Exception):
-    """执行超时异常"""
-    pass
-
-class MemoryLimitError(Exception):
-    """内存限制异常"""
-    pass
+# 异常类已移至 core.exceptions 统一管理
+from core.exceptions import SecurityViolationError, ExecutionTimeoutError, MemoryLimitError
 
 class ASTSecurityAnalyzer(ast.NodeVisitor):
     """AST 安全分析器 - 完全解除所有限制版本"""
@@ -148,9 +139,9 @@ class ResourceMonitor:
             
             # 只在真正超出限制时才报错
             if memory_usage_bytes > self.max_memory * 1.5:  # 增加50%缓冲
-                raise MemoryLimitError(
-                    f"内存使用严重超限: {memory_usage_bytes / (1024*1024):.1f}MB > {self.max_memory / (1024*1024)}MB"
-                )
+                limit_mb = int(self.max_memory / (1024*1024))
+                usage_mb = int(memory_usage_bytes / (1024*1024))
+                raise MemoryLimitError(limit_mb, usage_mb)
         except Exception as e:
             # 内存检查失败时不影响执行
             logger.debug(f"内存检查失败: {e}")
@@ -158,7 +149,7 @@ class ResourceMonitor:
     def timeout_handler(self, signum, frame):
         """超时处理器"""
         self.timeout_occurred = True
-        raise ExecutionTimeoutError(f"代码执行超时: {self.max_execution_time}秒")
+        raise ExecutionTimeoutError(self.max_execution_time, "code execution")
     
     @contextmanager
     def monitor_execution(self):

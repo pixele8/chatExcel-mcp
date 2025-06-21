@@ -1,555 +1,400 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-数据验证和核实模块
-提供数据比对、统计验证、质量评估等功能
+数据验证引擎模块
+提供数据处理结果验证和数据验证引擎功能
 """
 
+from typing import Dict, Any, List, Optional, Union, Tuple
+from dataclasses import dataclass, field
+from datetime import datetime
 import pandas as pd
 import numpy as np
-from typing import Dict, Any, List, Optional, Union, Tuple
-from scipy import stats
-import warnings
-warnings.filterwarnings('ignore')
+from enum import Enum
 
+class VerificationLevel(Enum):
+    """验证级别枚举"""
+    BASIC = "basic"
+    STANDARD = "standard"
+    COMPREHENSIVE = "comprehensive"
+    STRICT = "strict"
+
+class VerificationStatus(Enum):
+    """验证状态枚举"""
+    PASSED = "passed"
+    FAILED = "failed"
+    WARNING = "warning"
+    SKIPPED = "skipped"
+
+@dataclass
+class VerificationResult:
+    """验证结果数据类"""
+    status: VerificationStatus
+    message: str
+    details: Dict[str, Any] = field(default_factory=dict)
+    timestamp: datetime = field(default_factory=datetime.now)
+    
+    def to_dict(self) -> Dict[str, Any]:
+        """转换为字典格式"""
+        return {
+            "status": self.status.value,
+            "message": self.message,
+            "details": self.details,
+            "timestamp": self.timestamp.isoformat()
+        }
 
 class DataVerificationEngine:
     """数据验证引擎"""
     
-    def __init__(self):
-        self.tolerance = 1e-10  # 数值比较容差
-        self.verification_history = []
-    
-    def compare_dataframes(self, 
-                          df1: pd.DataFrame, 
-                          df2: pd.DataFrame,
-                          name1: str = "数据集1",
-                          name2: str = "数据集2",
-                          key_columns: Optional[List[str]] = None) -> Dict[str, Any]:
-        """比较两个DataFrame的差异
+    def __init__(self, level: VerificationLevel = VerificationLevel.STANDARD):
+        """初始化验证引擎
         
         Args:
-            df1: 第一个DataFrame
-            df2: 第二个DataFrame
-            name1: 第一个数据集名称
-            name2: 第二个数据集名称
-            key_columns: 用于匹配的关键列
+            level: 验证级别
+        """
+        self.level = level
+        self.rules = []
+        self.results = []
+        
+    def add_rule(self, rule_name: str, rule_func, **kwargs):
+        """添加验证规则
+        
+        Args:
+            rule_name: 规则名称
+            rule_func: 规则函数
+            **kwargs: 规则参数
+        """
+        self.rules.append({
+            "name": rule_name,
+            "function": rule_func,
+            "params": kwargs
+        })
+    
+    def verify_data_structure(self, data: pd.DataFrame) -> VerificationResult:
+        """验证数据结构
+        
+        Args:
+            data: 待验证的DataFrame
             
         Returns:
-            dict: 详细的比较结果
+            验证结果
         """
-        comparison_result = {
-            'summary': {},
-            'structural_differences': {},
-            'content_differences': {},
-            'statistical_comparison': {},
-            'recommendations': [],
-            'match_score': 0.0
-        }
-        
         try:
-            # 基本信息比较
-            basic_info = {
-                name1: {
-                    'shape': df1.shape,
-                    'columns': df1.columns.tolist(),
-                    'dtypes': df1.dtypes.to_dict(),
-                    'memory_usage': df1.memory_usage(deep=True).sum()
-                },
-                name2: {
-                    'shape': df2.shape,
-                    'columns': df2.columns.tolist(),
-                    'dtypes': df2.dtypes.to_dict(),
-                    'memory_usage': df2.memory_usage(deep=True).sum()
-                }
+            if data is None or data.empty:
+                return VerificationResult(
+                    status=VerificationStatus.FAILED,
+                    message="数据为空或None",
+                    details={"row_count": 0, "column_count": 0}
+                )
+            
+            details = {
+                "row_count": len(data),
+                "column_count": len(data.columns),
+                "columns": list(data.columns),
+                "dtypes": data.dtypes.to_dict(),
+                "memory_usage": data.memory_usage(deep=True).sum()
             }
-            comparison_result['summary'] = basic_info
             
-            # 结构差异分析
-            structural_diff = self._analyze_structural_differences(df1, df2, name1, name2)
-            comparison_result['structural_differences'] = structural_diff
-            
-            # 内容差异分析
-            if structural_diff['columns_match'] and structural_diff['shape_compatible']:
-                content_diff = self._analyze_content_differences(df1, df2, name1, name2, key_columns)
-                comparison_result['content_differences'] = content_diff
-                
-                # 统计比较
-                stats_comparison = self._compare_statistics(df1, df2, name1, name2)
-                comparison_result['statistical_comparison'] = stats_comparison
-                
-                # 计算匹配得分
-                match_score = self._calculate_match_score(structural_diff, content_diff, stats_comparison)
-                comparison_result['match_score'] = match_score
-            
-            # 生成建议
-            recommendations = self._generate_recommendations(comparison_result)
-            comparison_result['recommendations'] = recommendations
+            return VerificationResult(
+                status=VerificationStatus.PASSED,
+                message="数据结构验证通过",
+                details=details
+            )
             
         except Exception as e:
-            comparison_result['error'] = str(e)
-        
-        return comparison_result
+            return VerificationResult(
+                status=VerificationStatus.FAILED,
+                message=f"数据结构验证失败: {str(e)}",
+                details={"error": str(e)}
+            )
     
-    def _analyze_structural_differences(self, df1: pd.DataFrame, df2: pd.DataFrame, 
-                                      name1: str, name2: str) -> Dict[str, Any]:
-        """分析结构差异"""
-        structural_diff = {
-            'shape_match': df1.shape == df2.shape,
-            'shape_compatible': True,
-            'columns_match': False,
-            'column_differences': {},
-            'dtype_differences': {}
-        }
+    def verify_data_quality(self, data: pd.DataFrame) -> VerificationResult:
+        """验证数据质量
         
-        # 列名比较
-        cols1, cols2 = set(df1.columns), set(df2.columns)
-        common_cols = cols1.intersection(cols2)
-        only_in_1 = cols1 - cols2
-        only_in_2 = cols2 - cols1
-        
-        structural_diff['columns_match'] = len(only_in_1) == 0 and len(only_in_2) == 0
-        structural_diff['column_differences'] = {
-            'common_columns': list(common_cols),
-            f'only_in_{name1}': list(only_in_1),
-            f'only_in_{name2}': list(only_in_2),
-            'common_count': len(common_cols),
-            'total_unique': len(cols1.union(cols2))
-        }
-        
-        # 数据类型比较
-        dtype_diff = {}
-        for col in common_cols:
-            if df1[col].dtype != df2[col].dtype:
-                dtype_diff[col] = {
-                    name1: str(df1[col].dtype),
-                    name2: str(df2[col].dtype)
-                }
-        
-        structural_diff['dtype_differences'] = dtype_diff
-        
-        # 形状兼容性检查
-        if abs(df1.shape[0] - df2.shape[0]) > max(df1.shape[0], df2.shape[0]) * 0.1:
-            structural_diff['shape_compatible'] = False
-        
-        return structural_diff
-    
-    def _analyze_content_differences(self, df1: pd.DataFrame, df2: pd.DataFrame,
-                                   name1: str, name2: str, 
-                                   key_columns: Optional[List[str]] = None) -> Dict[str, Any]:
-        """分析内容差异"""
-        content_diff = {
-            'identical_rows': 0,
-            'different_rows': 0,
-            'missing_in_1': 0,
-            'missing_in_2': 0,
-            'column_differences': {},
-            'value_differences': []
-        }
-        
+        Args:
+            data: 待验证的DataFrame
+            
+        Returns:
+            验证结果
+        """
         try:
-            # 获取公共列
-            common_cols = list(set(df1.columns).intersection(set(df2.columns)))
+            issues = []
             
-            if not common_cols:
-                content_diff['error'] = "没有公共列可供比较"
-                return content_diff
+            # 检查缺失值
+            missing_counts = data.isnull().sum()
+            if missing_counts.sum() > 0:
+                issues.append({
+                    "type": "missing_values",
+                    "count": int(missing_counts.sum()),
+                    "columns": missing_counts[missing_counts > 0].to_dict()
+                })
             
-            # 如果指定了关键列，使用关键列进行匹配
-            if key_columns:
-                valid_keys = [col for col in key_columns if col in common_cols]
-                if valid_keys:
-                    content_diff.update(self._compare_by_key_columns(df1, df2, valid_keys, common_cols))
-                else:
-                    content_diff['warning'] = "指定的关键列不在公共列中，使用索引比较"
-                    content_diff.update(self._compare_by_index(df1, df2, common_cols))
-            else:
-                content_diff.update(self._compare_by_index(df1, df2, common_cols))
+            # 检查重复行
+            duplicate_count = data.duplicated().sum()
+            if duplicate_count > 0:
+                issues.append({
+                    "type": "duplicate_rows",
+                    "count": int(duplicate_count)
+                })
             
-        except Exception as e:
-            content_diff['error'] = str(e)
-        
-        return content_diff
-    
-    def _compare_by_key_columns(self, df1: pd.DataFrame, df2: pd.DataFrame,
-                               key_columns: List[str], common_cols: List[str]) -> Dict[str, Any]:
-        """基于关键列进行比较"""
-        result = {
-            'comparison_method': 'key_columns',
-            'key_columns': key_columns
-        }
-        
-        try:
-            # 基于关键列合并
-            merged = pd.merge(df1[common_cols], df2[common_cols], 
-                            on=key_columns, how='outer', 
-                            suffixes=('_1', '_2'), indicator=True)
-            
-            # 统计匹配情况
-            both_count = (merged['_merge'] == 'both').sum()
-            left_only = (merged['_merge'] == 'left_only').sum()
-            right_only = (merged['_merge'] == 'right_only').sum()
-            
-            result.update({
-                'matched_records': both_count,
-                'missing_in_2': left_only,
-                'missing_in_1': right_only,
-                'total_unique_records': len(merged)
-            })
-            
-            # 比较匹配记录的值差异
-            both_data = merged[merged['_merge'] == 'both']
-            value_cols = [col for col in common_cols if col not in key_columns]
-            
-            differences = []
-            for col in value_cols:
-                col1, col2 = f"{col}_1", f"{col}_2"
-                if col1 in both_data.columns and col2 in both_data.columns:
-                    diff_mask = both_data[col1] != both_data[col2]
-                    if diff_mask.any():
-                        diff_count = diff_mask.sum()
-                        differences.append({
-                            'column': col,
-                            'different_values': diff_count,
-                            'total_compared': len(both_data),
-                            'difference_rate': diff_count / len(both_data)
+            # 检查数据类型一致性
+            for col in data.columns:
+                if data[col].dtype == 'object':
+                    unique_types = set(type(x).__name__ for x in data[col].dropna())
+                    if len(unique_types) > 1:
+                        issues.append({
+                            "type": "mixed_types",
+                            "column": col,
+                            "types": list(unique_types)
                         })
             
-            result['column_differences'] = differences
+            status = VerificationStatus.PASSED if not issues else VerificationStatus.WARNING
+            message = "数据质量验证通过" if not issues else f"发现 {len(issues)} 个质量问题"
+            
+            return VerificationResult(
+                status=status,
+                message=message,
+                details={"issues": issues, "total_issues": len(issues)}
+            )
             
         except Exception as e:
-            result['error'] = str(e)
-        
-        return result
+            return VerificationResult(
+                status=VerificationStatus.FAILED,
+                message=f"数据质量验证失败: {str(e)}",
+                details={"error": str(e)}
+            )
     
-    def _compare_by_index(self, df1: pd.DataFrame, df2: pd.DataFrame,
-                         common_cols: List[str]) -> Dict[str, Any]:
-        """基于索引进行比较"""
-        result = {
-            'comparison_method': 'index'
+    def verify_data_integrity(self, data: pd.DataFrame, constraints: Dict[str, Any] = None) -> VerificationResult:
+        """验证数据完整性
+        
+        Args:
+            data: 待验证的DataFrame
+            constraints: 约束条件
+            
+        Returns:
+            验证结果
+        """
+        try:
+            violations = []
+            constraints = constraints or {}
+            
+            # 检查必需列
+            required_columns = constraints.get('required_columns', [])
+            missing_columns = [col for col in required_columns if col not in data.columns]
+            if missing_columns:
+                violations.append({
+                    "type": "missing_required_columns",
+                    "columns": missing_columns
+                })
+            
+            # 检查数据范围
+            range_constraints = constraints.get('ranges', {})
+            for col, (min_val, max_val) in range_constraints.items():
+                if col in data.columns and pd.api.types.is_numeric_dtype(data[col]):
+                    out_of_range = ((data[col] < min_val) | (data[col] > max_val)).sum()
+                    if out_of_range > 0:
+                        violations.append({
+                            "type": "out_of_range",
+                            "column": col,
+                            "count": int(out_of_range),
+                            "range": [min_val, max_val]
+                        })
+            
+            status = VerificationStatus.PASSED if not violations else VerificationStatus.FAILED
+            message = "数据完整性验证通过" if not violations else f"发现 {len(violations)} 个完整性违规"
+            
+            return VerificationResult(
+                status=status,
+                message=message,
+                details={"violations": violations, "total_violations": len(violations)}
+            )
+            
+        except Exception as e:
+            return VerificationResult(
+                status=VerificationStatus.FAILED,
+                message=f"数据完整性验证失败: {str(e)}",
+                details={"error": str(e)}
+            )
+    
+    def run_verification(self, data: pd.DataFrame, constraints: Dict[str, Any] = None) -> Dict[str, Any]:
+        """运行完整验证流程
+        
+        Args:
+            data: 待验证的DataFrame
+            constraints: 约束条件
+            
+        Returns:
+            完整验证结果
+        """
+        results = {
+            "structure": self.verify_data_structure(data),
+            "quality": self.verify_data_quality(data),
+            "integrity": self.verify_data_integrity(data, constraints)
         }
         
-        try:
-            # 取较小的行数进行比较
-            min_rows = min(len(df1), len(df2))
-            
-            df1_subset = df1[common_cols].iloc[:min_rows]
-            df2_subset = df2[common_cols].iloc[:min_rows]
-            
-            # 逐列比较
-            differences = []
-            identical_rows = 0
-            
-            for i in range(min_rows):
-                row_identical = True
-                for col in common_cols:
-                    val1, val2 = df1_subset.iloc[i][col], df2_subset.iloc[i][col]
-                    
-                    # 处理NaN值
-                    if pd.isna(val1) and pd.isna(val2):
-                        continue
-                    elif pd.isna(val1) or pd.isna(val2):
-                        row_identical = False
-                        break
-                    elif val1 != val2:
-                        row_identical = False
-                        break
-                
-                if row_identical:
-                    identical_rows += 1
-            
-            result.update({
-                'compared_rows': min_rows,
-                'identical_rows': identical_rows,
-                'different_rows': min_rows - identical_rows,
-                'rows_only_in_1': max(0, len(df1) - min_rows),
-                'rows_only_in_2': max(0, len(df2) - min_rows)
-            })
-            
-        except Exception as e:
-            result['error'] = str(e)
+        # 运行自定义规则
+        custom_results = {}
+        for rule in self.rules:
+            try:
+                result = rule["function"](data, **rule["params"])
+                custom_results[rule["name"]] = result
+            except Exception as e:
+                custom_results[rule["name"]] = VerificationResult(
+                    status=VerificationStatus.FAILED,
+                    message=f"规则执行失败: {str(e)}",
+                    details={"error": str(e)}
+                )
         
-        return result
-    
-    def _compare_statistics(self, df1: pd.DataFrame, df2: pd.DataFrame,
-                          name1: str, name2: str) -> Dict[str, Any]:
-        """比较统计信息"""
-        stats_comparison = {
-            'numeric_columns': {},
-            'categorical_columns': {},
-            'overall_similarity': 0.0
-        }
+        if custom_results:
+            results["custom_rules"] = custom_results
         
-        try:
-            # 数值列统计比较
-            numeric_cols = df1.select_dtypes(include=[np.number]).columns
-            common_numeric = [col for col in numeric_cols if col in df2.columns]
-            
-            for col in common_numeric:
-                try:
-                    stats1 = df1[col].describe()
-                    stats2 = df2[col].describe()
-                    
-                    # 计算统计量差异
-                    stat_diff = {}
-                    for stat in ['mean', 'std', 'min', 'max', '25%', '50%', '75%']:
-                        if stat in stats1.index and stat in stats2.index:
-                            val1, val2 = stats1[stat], stats2[stat]
-                            if not (pd.isna(val1) or pd.isna(val2)):
-                                diff_pct = abs(val1 - val2) / (abs(val1) + 1e-10) * 100
-                                stat_diff[stat] = {
-                                    name1: val1,
-                                    name2: val2,
-                                    'difference_pct': diff_pct
-                                }
-                    
-                    # 进行统计检验
-                    try:
-                        # 去除NaN值
-                        data1 = df1[col].dropna()
-                        data2 = df2[col].dropna()
-                        
-                        if len(data1) > 10 and len(data2) > 10:
-                            # Kolmogorov-Smirnov检验
-                            ks_stat, ks_pvalue = stats.ks_2samp(data1, data2)
-                            stat_diff['ks_test'] = {
-                                'statistic': ks_stat,
-                                'p_value': ks_pvalue,
-                                'significant': ks_pvalue < 0.05
-                            }
-                    except Exception:
-                        pass
-                    
-                    stats_comparison['numeric_columns'][col] = stat_diff
-                    
-                except Exception:
-                    continue
-            
-            # 分类列比较
-            categorical_cols = df1.select_dtypes(include=['object', 'category']).columns
-            common_categorical = [col for col in categorical_cols if col in df2.columns]
-            
-            for col in common_categorical:
-                try:
-                    value_counts1 = df1[col].value_counts()
-                    value_counts2 = df2[col].value_counts()
-                    
-                    # 比较唯一值
-                    unique1 = set(value_counts1.index)
-                    unique2 = set(value_counts2.index)
-                    
-                    cat_comparison = {
-                        'unique_values_1': len(unique1),
-                        'unique_values_2': len(unique2),
-                        'common_values': len(unique1.intersection(unique2)),
-                        'only_in_1': list(unique1 - unique2),
-                        'only_in_2': list(unique2 - unique1)
-                    }
-                    
-                    stats_comparison['categorical_columns'][col] = cat_comparison
-                    
-                except Exception:
-                    continue
-            
-        except Exception as e:
-            stats_comparison['error'] = str(e)
+        # 计算总体状态
+        all_results = list(results.values())
+        if isinstance(results.get("custom_rules"), dict):
+            all_results.extend(results["custom_rules"].values())
         
-        return stats_comparison
-    
-    def _calculate_match_score(self, structural_diff: Dict, content_diff: Dict, 
-                              stats_comparison: Dict) -> float:
-        """计算匹配得分"""
-        score_components = []
+        failed_count = sum(1 for r in all_results if r.status == VerificationStatus.FAILED)
+        warning_count = sum(1 for r in all_results if r.status == VerificationStatus.WARNING)
         
-        # 结构匹配得分 (40%)
-        structure_score = 0.0
-        if structural_diff.get('columns_match', False):
-            structure_score += 0.5
-        if structural_diff.get('shape_match', False):
-            structure_score += 0.3
-        if len(structural_diff.get('dtype_differences', {})) == 0:
-            structure_score += 0.2
-        
-        score_components.append(('structure', structure_score, 0.4))
-        
-        # 内容匹配得分 (40%)
-        content_score = 0.0
-        if 'identical_rows' in content_diff and 'compared_rows' in content_diff:
-            compared = content_diff['compared_rows']
-            if compared > 0:
-                content_score = content_diff['identical_rows'] / compared
-        
-        score_components.append(('content', content_score, 0.4))
-        
-        # 统计匹配得分 (20%)
-        stats_score = 0.0
-        numeric_cols = stats_comparison.get('numeric_columns', {})
-        if numeric_cols:
-            col_scores = []
-            for col, stats in numeric_cols.items():
-                if 'mean' in stats:
-                    mean_diff = stats['mean'].get('difference_pct', 100)
-                    col_score = max(0, 1 - mean_diff / 100)
-                    col_scores.append(col_score)
-            
-            if col_scores:
-                stats_score = sum(col_scores) / len(col_scores)
-        
-        score_components.append(('statistics', stats_score, 0.2))
-        
-        # 计算加权总分
-        total_score = sum(score * weight for _, score, weight in score_components)
-        
-        return min(1.0, max(0.0, total_score))
-    
-    def _generate_recommendations(self, comparison_result: Dict) -> List[str]:
-        """生成改进建议"""
-        recommendations = []
-        
-        match_score = comparison_result.get('match_score', 0)
-        
-        if match_score >= 0.9:
-            recommendations.append("数据匹配度很高，质量良好")
-        elif match_score >= 0.7:
-            recommendations.append("数据匹配度较好，建议检查少量差异")
-        elif match_score >= 0.5:
-            recommendations.append("数据存在明显差异，需要详细检查")
+        if failed_count > 0:
+            overall_status = VerificationStatus.FAILED
+        elif warning_count > 0:
+            overall_status = VerificationStatus.WARNING
         else:
-            recommendations.append("数据差异很大，建议重新检查数据处理流程")
+            overall_status = VerificationStatus.PASSED
         
-        # 结构建议
-        structural = comparison_result.get('structural_differences', {})
-        if not structural.get('columns_match', True):
-            recommendations.append("列结构不匹配，检查列名和数据源")
-        
-        if structural.get('dtype_differences'):
-            recommendations.append("存在数据类型差异，可能影响计算结果")
-        
-        # 内容建议
-        content = comparison_result.get('content_differences', {})
-        if content.get('different_rows', 0) > 0:
-            recommendations.append("存在内容差异，建议逐行检查关键字段")
-        
-        return recommendations
+        return {
+            "overall_status": overall_status.value,
+            "summary": {
+                "total_checks": len(all_results),
+                "passed": sum(1 for r in all_results if r.status == VerificationStatus.PASSED),
+                "failed": failed_count,
+                "warnings": warning_count
+            },
+            "results": {k: v.to_dict() for k, v in results.items() if not isinstance(v, dict)},
+            "custom_results": {k: v.to_dict() for k, v in results.get("custom_rules", {}).items()},
+            "timestamp": datetime.now().isoformat()
+        }
 
-
-def verify_data_processing_result(original_data: Union[str, pd.DataFrame],
-                                processed_data: pd.DataFrame,
-                                processing_description: str = "",
-                                key_columns: Optional[List[str]] = None) -> Dict[str, Any]:
+def verify_data_processing_result(
+    original_data: pd.DataFrame,
+    processed_data: pd.DataFrame,
+    operation: str,
+    expected_changes: Dict[str, Any] = None
+) -> Dict[str, Any]:
     """验证数据处理结果
     
     Args:
-        original_data: 原始数据（文件路径或DataFrame）
-        processed_data: 处理后的数据
-        processing_description: 处理过程描述
-        key_columns: 关键列名
+        original_data: 原始数据
+        processed_data: 处理后数据
+        operation: 操作类型
+        expected_changes: 预期变化
         
     Returns:
-        dict: 验证结果
+        验证结果字典
     """
-    verification_engine = DataVerificationEngine()
-    
-    result = {
-        'verification_summary': {},
-        'detailed_comparison': {},
-        'quality_assessment': {},
-        'recommendations': [],
-        'processing_info': {
-            'description': processing_description,
-            'timestamp': pd.Timestamp.now().isoformat()
-        }
-    }
-    
     try:
-        # 加载原始数据
-        if isinstance(original_data, str):
-            from enhanced_excel_helper import smart_read_excel
-            read_result = smart_read_excel(original_data)
-            if not read_result['success']:
-                result['error'] = f"无法读取原始数据: {read_result.get('errors', [])}" 
-                return result
-            original_df = read_result['dataframe']
-        else:
-            original_df = original_data
-        
-        # 执行详细比较
-        comparison = verification_engine.compare_dataframes(
-            original_df, processed_data, 
-            "原始数据", "处理后数据",
-            key_columns
-        )
-        
-        result['detailed_comparison'] = comparison
-        
-        # 生成验证摘要
-        summary = {
-            'match_score': comparison.get('match_score', 0),
-            'data_integrity': 'good' if comparison.get('match_score', 0) > 0.8 else 'needs_review',
-            'structural_changes': not comparison.get('structural_differences', {}).get('columns_match', True),
-            'content_changes': comparison.get('content_differences', {}).get('different_rows', 0) > 0
+        verification_results = {
+            "operation": operation,
+            "timestamp": datetime.now().isoformat(),
+            "status": "success",
+            "checks": {},
+            "summary": {},
+            "issues": []
         }
         
-        result['verification_summary'] = summary
+        # 基本数据检查
+        if original_data is None or processed_data is None:
+            verification_results["status"] = "failed"
+            verification_results["issues"].append("原始数据或处理后数据为None")
+            return verification_results
         
-        # 质量评估
-        quality_assessment = {
-            'completeness': _assess_completeness(original_df, processed_data),
-            'consistency': _assess_consistency(processed_data),
-            'accuracy': _assess_accuracy(comparison),
-            'validity': _assess_validity(processed_data)
+        # 数据形状检查
+        orig_shape = original_data.shape
+        proc_shape = processed_data.shape
+        
+        verification_results["checks"]["shape_change"] = {
+            "original": orig_shape,
+            "processed": proc_shape,
+            "row_change": proc_shape[0] - orig_shape[0],
+            "column_change": proc_shape[1] - orig_shape[1]
         }
         
-        result['quality_assessment'] = quality_assessment
+        # 列名检查
+        orig_columns = set(original_data.columns)
+        proc_columns = set(processed_data.columns)
         
-        # 综合建议
-        recommendations = comparison.get('recommendations', [])
-        if summary['match_score'] < 0.7:
-            recommendations.append("建议重新检查数据处理逻辑")
+        verification_results["checks"]["columns"] = {
+            "original_columns": list(orig_columns),
+            "processed_columns": list(proc_columns),
+            "added_columns": list(proc_columns - orig_columns),
+            "removed_columns": list(orig_columns - proc_columns),
+            "common_columns": list(orig_columns & proc_columns)
+        }
         
-        result['recommendations'] = recommendations
+        # 数据类型检查
+        common_columns = orig_columns & proc_columns
+        dtype_changes = {}
+        for col in common_columns:
+            orig_dtype = str(original_data[col].dtype)
+            proc_dtype = str(processed_data[col].dtype)
+            if orig_dtype != proc_dtype:
+                dtype_changes[col] = {
+                    "original": orig_dtype,
+                    "processed": proc_dtype
+                }
+        
+        verification_results["checks"]["dtype_changes"] = dtype_changes
+        
+        # 缺失值检查
+        orig_nulls = original_data.isnull().sum().sum()
+        proc_nulls = processed_data.isnull().sum().sum()
+        
+        verification_results["checks"]["null_values"] = {
+            "original_nulls": int(orig_nulls),
+            "processed_nulls": int(proc_nulls),
+            "null_change": int(proc_nulls - orig_nulls)
+        }
+        
+        # 重复行检查
+        orig_duplicates = original_data.duplicated().sum()
+        proc_duplicates = processed_data.duplicated().sum()
+        
+        verification_results["checks"]["duplicates"] = {
+            "original_duplicates": int(orig_duplicates),
+            "processed_duplicates": int(proc_duplicates),
+            "duplicate_change": int(proc_duplicates - orig_duplicates)
+        }
+        
+        # 预期变化验证
+        if expected_changes:
+            expected_results = {}
+            for key, expected_value in expected_changes.items():
+                if key in verification_results["checks"]:
+                    actual_value = verification_results["checks"][key]
+                    expected_results[key] = {
+                        "expected": expected_value,
+                        "actual": actual_value,
+                        "matches": actual_value == expected_value
+                    }
+            verification_results["expected_validation"] = expected_results
+        
+        # 生成摘要
+        verification_results["summary"] = {
+            "data_preserved": len(common_columns) > 0,
+            "structure_changed": orig_shape != proc_shape,
+            "columns_modified": len(dtype_changes) > 0,
+            "quality_improved": proc_nulls < orig_nulls or proc_duplicates < orig_duplicates
+        }
+        
+        return verification_results
         
     except Exception as e:
-        result['error'] = str(e)
-    
-    return result
-
-
-def _assess_completeness(original_df: pd.DataFrame, processed_df: pd.DataFrame) -> Dict[str, Any]:
-    """评估数据完整性"""
-    return {
-        'row_retention_rate': len(processed_df) / len(original_df) if len(original_df) > 0 else 0,
-        'column_retention_rate': len(processed_df.columns) / len(original_df.columns) if len(original_df.columns) > 0 else 0,
-        'null_value_rate': processed_df.isnull().sum().sum() / (processed_df.shape[0] * processed_df.shape[1]) if processed_df.size > 0 else 0
-    }
-
-
-def _assess_consistency(df: pd.DataFrame) -> Dict[str, Any]:
-    """评估数据一致性"""
-    return {
-        'duplicate_rate': df.duplicated().sum() / len(df) if len(df) > 0 else 0,
-        'data_type_consistency': len(df.dtypes.unique()) / len(df.columns) if len(df.columns) > 0 else 0
-    }
-
-
-def _assess_accuracy(comparison: Dict) -> Dict[str, Any]:
-    """评估数据准确性"""
-    return {
-        'match_score': comparison.get('match_score', 0),
-        'statistical_similarity': len(comparison.get('statistical_comparison', {}).get('numeric_columns', {}))
-    }
-
-
-def _assess_validity(df: pd.DataFrame) -> Dict[str, Any]:
-    """评估数据有效性"""
-    numeric_cols = df.select_dtypes(include=[np.number]).columns
-    validity_issues = 0
-    
-    for col in numeric_cols:
-        if df[col].isin([np.inf, -np.inf]).any():
-            validity_issues += 1
-    
-    return {
-        'infinite_values': validity_issues,
-        'validity_score': 1 - (validity_issues / len(numeric_cols)) if len(numeric_cols) > 0 else 1
-    }
+        return {
+            "operation": operation,
+            "timestamp": datetime.now().isoformat(),
+            "status": "error",
+            "error": str(e),
+            "checks": {},
+            "summary": {},
+            "issues": [f"验证过程出错: {str(e)}"]
+        }

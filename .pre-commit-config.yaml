@@ -1,0 +1,202 @@
+# Pre-commit 配置文件 - ChatExcel MCP 项目
+# 自动化代码质量检查和格式化
+
+repos:
+  # 基础代码质量检查
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      # 基础文件检查
+      - id: trailing-whitespace
+        description: 移除行尾空白字符
+      - id: end-of-file-fixer
+        description: 确保文件以换行符结尾
+      - id: check-yaml
+        description: 检查 YAML 文件语法
+      - id: check-toml
+        description: 检查 TOML 文件语法
+      - id: check-json
+        description: 检查 JSON 文件语法
+      - id: check-xml
+        description: 检查 XML 文件语法
+      
+      # Python 特定检查
+      - id: check-ast
+        description: 检查 Python AST 语法
+      - id: check-builtin-literals
+        description: 检查内置字面量使用
+      - id: check-case-conflict
+        description: 检查文件名大小写冲突
+      - id: check-docstring-first
+        description: 检查文档字符串位置
+      - id: debug-statements
+        description: 检查调试语句
+      - id: name-tests-test
+        description: 检查测试文件命名
+        args: ['--pytest-test-first']
+      
+      # 安全检查
+      - id: check-merge-conflict
+        description: 检查合并冲突标记
+      - id: check-added-large-files
+        description: 检查大文件添加
+        args: ['--maxkb=1000']
+      - id: detect-private-key
+        description: 检测私钥泄露
+      
+      # 文件格式检查
+      - id: mixed-line-ending
+        description: 检查混合行结束符
+      - id: check-executables-have-shebangs
+        description: 检查可执行文件有 shebang
+      - id: check-shebang-scripts-are-executable
+        description: 检查 shebang 脚本可执行
+
+  # Python 代码格式化
+  - repo: https://github.com/psf/black
+    rev: 23.12.1
+    hooks:
+      - id: black
+        description: Python 代码格式化
+        language_version: python3
+        args: ['--line-length=88']
+
+  # 导入排序
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        description: Python 导入排序
+        args: ['--profile=black', '--line-length=88']
+
+  # 代码风格检查
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.0.0
+    hooks:
+      - id: flake8
+        description: Python 代码风格检查
+        additional_dependencies:
+          - flake8-docstrings
+          - flake8-import-order
+          - flake8-bugbear
+          - flake8-comprehensions
+          - flake8-simplify
+        args:
+          - '--max-line-length=88'
+          - '--extend-ignore=E203,W503,D100,D101,D102,D103,D104,D105'
+          - '--per-file-ignores=__init__.py:F401,tests/*:D'
+
+  # 类型检查
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.8.0
+    hooks:
+      - id: mypy
+        description: Python 静态类型检查
+        additional_dependencies:
+          - types-requests
+          - types-PyYAML
+          - types-toml
+        args:
+          - '--config-file=mypy.ini'
+          - '--ignore-missing-imports'
+        exclude: '^(tests/|scripts/|docs/)'
+
+  # 安全检查
+  - repo: https://github.com/pycqa/bandit
+    rev: 1.7.5
+    hooks:
+      - id: bandit
+        description: Python 安全漏洞检查
+        args:
+          - '-r'
+          - '--format=custom'
+          - '--skip=B101,B601'
+        exclude: '^tests/'
+
+  # 文档字符串检查
+  - repo: https://github.com/pycqa/pydocstyle
+    rev: 6.3.0
+    hooks:
+      - id: pydocstyle
+        description: Python 文档字符串风格检查
+        args:
+          - '--convention=google'
+          - '--add-ignore=D100,D101,D102,D103,D104,D105,D107'
+        exclude: '^(tests/|scripts/)'
+
+  # 复杂度检查
+  - repo: https://github.com/xenon-analyzer/xenon
+    rev: v0.9.1
+    hooks:
+      - id: xenon
+        description: 代码复杂度检查
+        args:
+          - '--max-average=B'
+          - '--max-modules=B'
+          - '--max-absolute=B'
+        exclude: '^(tests/|scripts/)'
+
+  # 依赖安全检查
+  - repo: https://github.com/pyupio/safety
+    rev: 2.3.5
+    hooks:
+      - id: safety
+        description: 依赖安全漏洞检查
+        args:
+          - '--ignore=70612'  # 忽略已知的非关键漏洞
+
+  # Jupyter Notebook 清理
+  - repo: https://github.com/nbQA-dev/nbQA
+    rev: 1.7.1
+    hooks:
+      - id: nbqa-black
+        description: Jupyter Notebook 代码格式化
+      - id: nbqa-isort
+        description: Jupyter Notebook 导入排序
+        args: ['--profile=black']
+      - id: nbqa-flake8
+        description: Jupyter Notebook 代码风格检查
+        args: ['--max-line-length=88', '--extend-ignore=E203,W503']
+
+  # YAML 格式化
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v4.0.0-alpha.8
+    hooks:
+      - id: prettier
+        description: YAML/JSON/Markdown 格式化
+        types_or: [yaml, json, markdown]
+        args: ['--tab-width=2', '--prose-wrap=always']
+
+  # Shell 脚本检查
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.9.0.6
+    hooks:
+      - id: shellcheck
+        description: Shell 脚本静态分析
+        args: ['--severity=warning']
+
+  # 提交消息检查
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v3.13.0
+    hooks:
+      - id: commitizen
+        description: 提交消息格式检查
+        stages: [commit-msg]
+
+# 全局配置
+default_stages: [commit]
+fail_fast: false
+minimum_pre_commit_version: '3.0.0'
+
+# CI 配置
+ci:
+  autofix_commit_msg: |
+    [pre-commit.ci] auto fixes from pre-commit.com hooks
+    
+    for more information, see https://pre-commit.ci
+  autofix_prs: true
+  autoupdate_branch: ''
+  autoupdate_commit_msg: '[pre-commit.ci] pre-commit autoupdate'
+  autoupdate_schedule: weekly
+  skip: []
+  submodules: false

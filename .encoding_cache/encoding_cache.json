@@ -248,5 +248,1620 @@
     "encoding": "utf-8",
     "timestamp": 1750222294.501599,
     "file_path": "/tmp/test_advanced.xlsx"
+  },
+  "743698f9eb76d934c50e4a757d603119": {
+    "encoding": "utf-8",
+    "timestamp": 1750242763.231128,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpj4bcksxt.xlsx"
+  },
+  "fdfc358801b0e3c51b33388aa91d773c": {
+    "encoding": "utf-8",
+    "timestamp": 1750242967.668997,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmppllq76i3.xlsx"
+  },
+  "90323e7ec84ac545ab7f0372dad287c0": {
+    "encoding": "utf-8",
+    "timestamp": 1750253806.315231,
+    "file_path": "/nonexistent/file.xlsx"
+  },
+  "e32b6c6e3622cbe779f2dc4e0c5f2612": {
+    "encoding": "utf-8",
+    "timestamp": 1750302678.275969,
+    "file_path": "/another/nonexistent/file.xlsx"
+  },
+  "4580bed3e12c0a3197f11d6fa01086ae": {
+    "encoding": "utf-8",
+    "timestamp": 1750303323.255401,
+    "file_path": "/tmp/test_excel.xlsx"
+  },
+  "ec5ef16fb74846fa568f3f8c26488148": {
+    "encoding": "utf-8",
+    "timestamp": 1750303423.900387,
+    "file_path": "/tmp/test_excel.xlsx"
+  },
+  "03686b7e127886910bd5984251a85611": {
+    "encoding": "utf-8",
+    "timestamp": 1750303710.90768,
+    "file_path": "/tmp/test_excel.xlsx"
+  },
+  "d76bdaa19d64aeb59eaf78c370c68da1": {
+    "encoding": "utf-8",
+    "timestamp": 1750303759.781754,
+    "file_path": "/tmp/test_excel.xlsx"
+  },
+  "e5ff3a7198aafda2ebc6b874510b98fd": {
+    "encoding": "utf-8",
+    "timestamp": 1750304025.077214,
+    "file_path": "/tmp/test_excel.xlsx"
+  },
+  "b06969e9e7846f4e7adc64954de44a9f": {
+    "encoding": "utf-8",
+    "timestamp": 1750304205.429714,
+    "file_path": "/tmp/test_excel.xlsx"
+  },
+  "a8ea4f16dbadde5014080f6433419e13": {
+    "encoding": "utf-8",
+    "timestamp": 1750304333.542451,
+    "file_path": "/tmp/test_excel.xlsx"
+  },
+  "bd8e4166205a7da70d6336fff9e01e64": {
+    "encoding": "utf-8",
+    "timestamp": 1750304395.9251,
+    "file_path": "/tmp/test_excel.xlsx"
+  },
+  "ca58bd01e6a90200bc21f946db135d3e": {
+    "encoding": "utf-8",
+    "timestamp": 1750304482.130979,
+    "file_path": "/tmp/test_excel.xlsx"
+  },
+  "61148a559280ba7d83d916b7f3fe18df": {
+    "encoding": "utf-8",
+    "timestamp": 1750304575.607599,
+    "file_path": "/tmp/test_excel.xlsx"
+  },
+  "0be0ce0c42770aac813349fbd4b608fa": {
+    "encoding": "utf-8",
+    "timestamp": 1750304619.387876,
+    "file_path": "/tmp/test_excel.xlsx"
+  },
+  "3d07f1dd23df2c9afc087e82216d06bf": {
+    "encoding": "utf-8",
+    "timestamp": 1750304664.746426,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpyh_wqwy1.xlsx"
+  },
+  "47af4bd91fb7b92e8e97ea9b758aa4a1": {
+    "encoding": "utf-8",
+    "timestamp": 1750304926.119872,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmputc1ick0.xlsx"
+  },
+  "faf723223f8b4ebae7221a1f68c062de": {
+    "encoding": "utf-8",
+    "timestamp": 1750313525.653439,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_data.xlsx"
+  },
+  "14fc3ff95ee632785edc141c2ab5f671": {
+    "encoding": "utf-8",
+    "timestamp": 1750313535.450457,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_data.xlsx"
+  },
+  "2354b9431a5185d464e7576dde1c4e8d": {
+    "encoding": "utf-8",
+    "timestamp": 1750313535.5016892,
+    "file_path": "/tmp/multi_sheet.xlsx"
+  },
+  "96b9b2509046e5d2dd3b69ed9b1d33f9": {
+    "encoding": "utf-8",
+    "timestamp": 1750313535.640557,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_data.xlsx"
+  },
+  "0a02ebc6e21c2e4e6a1e3449d335f653": {
+    "encoding": "utf-8",
+    "timestamp": 1750313535.834402,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_data.xlsx"
+  },
+  "1da338cc7d108d408ad4a12fb8db7bcc": {
+    "encoding": "utf-8",
+    "timestamp": 1750313535.9758809,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_data.xlsx"
+  },
+  "9596f599db66bc1b8d961ffea5ce5790": {
+    "encoding": "utf-8",
+    "timestamp": 1750313536.048373,
+    "file_path": "/tmp/test_batch_0.xlsx"
+  },
+  "73367436b987efc3490951c33c65a19d": {
+    "encoding": "utf-8",
+    "timestamp": 1750313536.064435,
+    "file_path": "/tmp/test_batch_1.xlsx"
+  },
+  "6c9ad0374c60756c94c6771d8b092f5c": {
+    "encoding": "utf-8",
+    "timestamp": 1750313536.0790029,
+    "file_path": "/tmp/test_batch_2.xlsx"
+  },
+  "3a316528c53b60271583e6d624dc50ea": {
+    "encoding": "utf-8",
+    "timestamp": 1750313536.103704,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_data.xlsx"
+  },
+  "68b2afc9fa6a42eaa63dcd2cebbbe1a3": {
+    "encoding": "utf-8",
+    "timestamp": 1750313536.14468,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_data.xlsx"
+  },
+  "ef8ed072916f192ce28883c6e7deb0e1": {
+    "encoding": "utf-8",
+    "timestamp": 1750313536.1832802,
+    "file_path": "/tmp/compat_test.xlsx"
+  },
+  "461289dc5f16bca5bb23d861bb091f15": {
+    "encoding": "utf-8",
+    "timestamp": 1750313536.2074409,
+    "file_path": "/tmp/compat_test.xlsx"
+  },
+  "9f1afb7cf337e4ecdba8a8baf3681b92": {
+    "encoding": "utf-8",
+    "timestamp": 1750313664.282607,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_data.xlsx"
+  },
+  "9e0f84ff7eecedf65c700f4304ed5f56": {
+    "encoding": "utf-8",
+    "timestamp": 1750313664.345408,
+    "file_path": "/tmp/multi_sheet.xlsx"
+  },
+  "69c9b6658c7c39c198173fbcb4ffccbd": {
+    "encoding": "utf-8",
+    "timestamp": 1750313664.376031,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_data.xlsx"
+  },
+  "56541c6d21dc0edea11480924af272d4": {
+    "encoding": "utf-8",
+    "timestamp": 1750313664.512929,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_data.xlsx"
+  },
+  "cdd8851722035e445e8f3054c31ddf76": {
+    "encoding": "utf-8",
+    "timestamp": 1750313664.590583,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_data.xlsx"
+  },
+  "4b6a06bfcbe036791ed61022355c0cae": {
+    "encoding": "utf-8",
+    "timestamp": 1750313664.676298,
+    "file_path": "/tmp/test_batch_0.xlsx"
+  },
+  "eae65863a5dba49c4544ac174bf754f2": {
+    "encoding": "utf-8",
+    "timestamp": 1750313664.6933079,
+    "file_path": "/tmp/test_batch_1.xlsx"
+  },
+  "30aa289bcb08166fe22bb19925535701": {
+    "encoding": "utf-8",
+    "timestamp": 1750313664.709562,
+    "file_path": "/tmp/test_batch_2.xlsx"
+  },
+  "17ce7200e63aa7ea6c903855e0fa66e3": {
+    "encoding": "utf-8",
+    "timestamp": 1750313664.7353249,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_data.xlsx"
+  },
+  "530ffe999b0567e77f14f4e8cf0b43a3": {
+    "encoding": "utf-8",
+    "timestamp": 1750313664.778738,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_data.xlsx"
+  },
+  "44b2671999a6fe34c9e7cd437db60312": {
+    "encoding": "utf-8",
+    "timestamp": 1750313664.817408,
+    "file_path": "/tmp/compat_test.xlsx"
+  },
+  "2c40c71150f2495478185c51c3a53878": {
+    "encoding": "utf-8",
+    "timestamp": 1750313664.8843431,
+    "file_path": "/tmp/compat_test.xlsx"
+  },
+  "a223f0b3cc6cbc524620275f7de673b0": {
+    "encoding": "utf-8",
+    "timestamp": 1750313717.4028978,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_data.xlsx"
+  },
+  "e512f81830dfa2597d6ec86dd1baf206": {
+    "encoding": "utf-8",
+    "timestamp": 1750313717.4665449,
+    "file_path": "/tmp/multi_sheet.xlsx"
+  },
+  "5006e4bb976093fa3d68f14e40a0aeda": {
+    "encoding": "utf-8",
+    "timestamp": 1750313717.4959948,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_data.xlsx"
+  },
+  "7469d7ef853db82e133657b2db279f2a": {
+    "encoding": "utf-8",
+    "timestamp": 1750313717.617341,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_data.xlsx"
+  },
+  "011dacc562183fa625086d991eb48236": {
+    "encoding": "utf-8",
+    "timestamp": 1750313717.681005,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_data.xlsx"
+  },
+  "c86275dd6b719e2296d1b96973a01910": {
+    "encoding": "utf-8",
+    "timestamp": 1750313717.75063,
+    "file_path": "/tmp/test_batch_0.xlsx"
+  },
+  "3cca92180c1394a290a97856dcd11083": {
+    "encoding": "utf-8",
+    "timestamp": 1750313717.768969,
+    "file_path": "/tmp/test_batch_1.xlsx"
+  },
+  "b7fefc4fb32a002b3925e82b5ab8cbac": {
+    "encoding": "utf-8",
+    "timestamp": 1750313717.787873,
+    "file_path": "/tmp/test_batch_2.xlsx"
+  },
+  "125052122009167a19d30a6fcaa37fad": {
+    "encoding": "utf-8",
+    "timestamp": 1750313717.825876,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_data.xlsx"
+  },
+  "d3b679c6b298fb1e942e2776645ef454": {
+    "encoding": "utf-8",
+    "timestamp": 1750313717.881942,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_data.xlsx"
+  },
+  "f8abde15abbf75afad197a2976b2a234": {
+    "encoding": "utf-8",
+    "timestamp": 1750313717.930309,
+    "file_path": "/tmp/compat_test.xlsx"
+  },
+  "ad9347c8d63243177ecb776e8f79d2c9": {
+    "encoding": "utf-8",
+    "timestamp": 1750313717.960742,
+    "file_path": "/tmp/compat_test.xlsx"
+  },
+  "7c73987af39161a30a0ba175db0314ec": {
+    "encoding": "utf-8",
+    "timestamp": 1750313740.960247,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_data.xlsx"
+  },
+  "4f5a63d4c37d4f83b57c56d6f4e9b3f2": {
+    "encoding": "utf-8",
+    "timestamp": 1750313769.5073931,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_data.xlsx"
+  },
+  "16c12269b2a7f3c849c1728479411e0b": {
+    "encoding": "utf-8",
+    "timestamp": 1750313815.681947,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_data.xlsx"
+  },
+  "20e32b1f31fdd094059700ac274194bc": {
+    "encoding": "utf-8",
+    "timestamp": 1750313874.07726,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_data.xlsx"
+  },
+  "d6aa28d227c999cff169b64edf8e8e83": {
+    "encoding": "utf-8",
+    "timestamp": 1750313921.743428,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_data.xlsx"
+  },
+  "299ff6315f76916744bcbc2c28d68845": {
+    "encoding": "utf-8",
+    "timestamp": 1750313982.53877,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_data.xlsx"
+  },
+  "0180f709791473b2da614ec9e3d0c831": {
+    "encoding": "utf-8",
+    "timestamp": 1750313982.594893,
+    "file_path": "/tmp/multi_sheet.xlsx"
+  },
+  "a95a58e94c7b17287d9e1141270be06e": {
+    "encoding": "utf-8",
+    "timestamp": 1750313982.6292338,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_data.xlsx"
+  },
+  "23693eaf4f54b03c56cda72af7d29287": {
+    "encoding": "utf-8",
+    "timestamp": 1750313982.658561,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_data.xlsx"
+  },
+  "855c998f33c99ea36c96ecee5f0b0a3b": {
+    "encoding": "utf-8",
+    "timestamp": 1750313982.72859,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_data.xlsx"
+  },
+  "22b26761aa5d399b0922049d822fbca0": {
+    "encoding": "utf-8",
+    "timestamp": 1750313982.809942,
+    "file_path": "/tmp/test_batch_0.xlsx"
+  },
+  "279470a6a9ce413fb23126b2afa7f1cb": {
+    "encoding": "utf-8",
+    "timestamp": 1750313982.827231,
+    "file_path": "/tmp/test_batch_1.xlsx"
+  },
+  "8ca525d484f07059999fdf2b36be8b20": {
+    "encoding": "utf-8",
+    "timestamp": 1750313982.843769,
+    "file_path": "/tmp/test_batch_2.xlsx"
+  },
+  "1e7a6d47f15cff1f6b7d9a92c77cc871": {
+    "encoding": "utf-8",
+    "timestamp": 1750313982.874044,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_data.xlsx"
+  },
+  "183c9900942eac47f893980be97b4104": {
+    "encoding": "utf-8",
+    "timestamp": 1750313982.9114292,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_data.xlsx"
+  },
+  "b176467426c18d2df3c99a0d51f80c11": {
+    "encoding": "utf-8",
+    "timestamp": 1750313982.965801,
+    "file_path": "/tmp/compat_test.xlsx"
+  },
+  "fe86e5d710f138a31d326f0c8caa30ee": {
+    "encoding": "utf-8",
+    "timestamp": 1750313982.999596,
+    "file_path": "/tmp/compat_test.xlsx"
+  },
+  "d0e0d34e853471aed48174b27d88baa3": {
+    "encoding": "utf-8",
+    "timestamp": 1750314297.025771,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpzh93jo9i/simple.xlsx"
+  },
+  "25a1219b43760c98f228a88a8b254e75": {
+    "encoding": "utf-8",
+    "timestamp": 1750314297.085114,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpb2z8wi8f/corrupted.xlsx"
+  },
+  "99bcc73b224685ed60820d87e677a652": {
+    "encoding": "utf-8",
+    "timestamp": 1750314297.1903858,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpa7nss54w/test.csv"
+  },
+  "8f58cf3bbb6c2d60ee517a36048f07b5": {
+    "encoding": "utf-8",
+    "timestamp": 1750314297.332054,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpd25tztvk/multiheader.xlsx"
+  },
+  "077f45fe6bec4d6a6aad72f3671e84f5": {
+    "encoding": "utf-8",
+    "timestamp": 1750314297.419544,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpnqrsgzi8/simple.xlsx"
+  },
+  "1c1f75fe1af6215765b5e53399fba979": {
+    "encoding": "utf-8",
+    "timestamp": 1750314297.472938,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpuvnwxy87/simple.xlsx"
+  },
+  "b2aabc4bff8edd4b8f6d075514ac7898": {
+    "encoding": "utf-8",
+    "timestamp": 1750314297.820606,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp50jca99v/simple.xlsx"
+  },
+  "3a6404b92ad387a085b4ad04885e7421": {
+    "encoding": "utf-8",
+    "timestamp": 1750314298.066037,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpqu1m7_bm/simple.xlsx"
+  },
+  "2a92b163889a16aff24b171fb14c9b4a": {
+    "encoding": "utf-8",
+    "timestamp": 1750314298.245012,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpz1lw6epe/corrupted.xlsx"
+  },
+  "4b928a6b4a088e50d50a3084c3cdbefd": {
+    "encoding": "utf-8",
+    "timestamp": 1750314298.369765,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp_7hax55z/large.xlsx"
+  },
+  "a7aeb95478579c566162abb52eb223d1": {
+    "encoding": "utf-8",
+    "timestamp": 1750314299.580703,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp3b88zo3w/medium.xlsx"
+  },
+  "348098b4772ffddea6a4235b8d546a24": {
+    "encoding": "utf-8",
+    "timestamp": 1750314301.946473,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpskg71c1p/large.xlsx"
+  },
+  "83401daecbd0e6ea21a78bbceed15fc1": {
+    "encoding": "utf-8",
+    "timestamp": 1750314305.642127,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpjsj8bpub/small.xlsx"
+  },
+  "dc941afab68ee96b6b91dcc64523d09b": {
+    "encoding": "utf-8",
+    "timestamp": 1750314305.669253,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpjsj8bpub/medium.xlsx"
+  },
+  "16a93ae7917fc2e9f0cbdc8f31a5bfb4": {
+    "encoding": "utf-8",
+    "timestamp": 1750314305.774237,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpjsj8bpub/large.xlsx"
+  },
+  "06afe72cd2463716d1fbbdbdfbe40fc2": {
+    "encoding": "utf-8",
+    "timestamp": 1750314307.87131,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmplswurytc/empty.xlsx"
+  },
+  "c0d2f4dc84b05ef623fdfc8ffede14b5": {
+    "encoding": "utf-8",
+    "timestamp": 1750314307.9681122,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp4pse3kef/single_cell.xlsx"
+  },
+  "4fcbbaea208d9cbda3fb2a27c10b3bee": {
+    "encoding": "utf-8",
+    "timestamp": 1750314308.038851,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmplj719rsb/special_chars.xlsx"
+  },
+  "d657bfc1851cc5aedd5d7cc50d061308": {
+    "encoding": "utf-8",
+    "timestamp": 1750314308.1092439,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpp1jfa4_m/long_names.xlsx"
+  },
+  "8ecb38f3098fc09143de40aec3a616a7": {
+    "encoding": "utf-8",
+    "timestamp": 1750314308.1700668,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpokdbdiby/test_utf-8.csv"
+  },
+  "2c0f2564813d0ad1624c4dbc37177368": {
+    "encoding": "GB2312",
+    "timestamp": 1750314308.178862,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpokdbdiby/test_gbk.csv"
+  },
+  "cd315d2a2a75e14bb21d8a57327a74dd": {
+    "encoding": "utf-8",
+    "timestamp": 1750314342.001023,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp0getc8ys/simple.xlsx"
+  },
+  "6871dd5e0d9964097145b0f80dc54e0e": {
+    "encoding": "utf-8",
+    "timestamp": 1750314342.06056,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpgr1a0mmx/corrupted.xlsx"
+  },
+  "962f6fc70816e06706aab42b2d9a3dab": {
+    "encoding": "utf-8",
+    "timestamp": 1750314342.108423,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp340pog_6/test.csv"
+  },
+  "fe8bf48aaaa0c71baa0b3e01b2426b61": {
+    "encoding": "utf-8",
+    "timestamp": 1750314342.243488,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp7fcqpeba/multiheader.xlsx"
+  },
+  "1a800386c2eebc9d587df6f67cac9bf1": {
+    "encoding": "utf-8",
+    "timestamp": 1750314342.329721,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpxl4ev8l4/simple.xlsx"
+  },
+  "7ad713be66a36b2df280940ef4508971": {
+    "encoding": "utf-8",
+    "timestamp": 1750314342.3843222,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpobnqkspq/simple.xlsx"
+  },
+  "c289884b056c13eb90d4bb57ee926562": {
+    "encoding": "utf-8",
+    "timestamp": 1750314342.572948,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpj4_5ub4a/simple.xlsx"
+  },
+  "c8fce58dd09b2fbc829555a3dc59efbb": {
+    "encoding": "utf-8",
+    "timestamp": 1750314342.8201091,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp91j2zkb6/simple.xlsx"
+  },
+  "3cc4ae5b0abd855e8b3816462d79048d": {
+    "encoding": "utf-8",
+    "timestamp": 1750314343.006934,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpr0mi49zg/corrupted.xlsx"
+  },
+  "0cbcc893d6495a925c181b0fd8184a7f": {
+    "encoding": "utf-8",
+    "timestamp": 1750314343.138987,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmplg4erdzz/large.xlsx"
+  },
+  "97beb8f5560322aca45f0d3dc1c67b5c": {
+    "encoding": "utf-8",
+    "timestamp": 1750314344.3565838,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpo579djgt/medium.xlsx"
+  },
+  "01bc18afa688b908cf765a6ece0d764c": {
+    "encoding": "utf-8",
+    "timestamp": 1750314346.6007402,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp9fbuetow/large.xlsx"
+  },
+  "7ad14d5185033dc8f504a50147e8d9ea": {
+    "encoding": "utf-8",
+    "timestamp": 1750314350.184282,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpedx2se61/small.xlsx"
+  },
+  "7cef227ef37f14f01b7d9270669af40d": {
+    "encoding": "utf-8",
+    "timestamp": 1750314350.20733,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpedx2se61/medium.xlsx"
+  },
+  "46afd51353c84a67067aa0b97e876ef5": {
+    "encoding": "utf-8",
+    "timestamp": 1750314350.29735,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpedx2se61/large.xlsx"
+  },
+  "70c548f160912071ccd3dc4ba706da12": {
+    "encoding": "utf-8",
+    "timestamp": 1750314351.0465448,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpqd_8xuk1/empty.xlsx"
+  },
+  "1375c95e85ec02a32c7b1879ce90c0c2": {
+    "encoding": "utf-8",
+    "timestamp": 1750314351.120738,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp8gc50wah/single_cell.xlsx"
+  },
+  "a1ee84d8ba30518f7ef6e69103f297c8": {
+    "encoding": "utf-8",
+    "timestamp": 1750314351.17045,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpwq18fjvw/special_chars.xlsx"
+  },
+  "f31d85f78e0fb5c7496c182a1ebbb37f": {
+    "encoding": "utf-8",
+    "timestamp": 1750314351.223437,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpbuevh5wf/long_names.xlsx"
+  },
+  "acefe8d2420c213383192c7864c23315": {
+    "encoding": "utf-8",
+    "timestamp": 1750314351.269422,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpn8gxjr1k/test_utf-8.csv"
+  },
+  "a0b2970d1022b31d64fba75bb3044f8b": {
+    "encoding": "GB2312",
+    "timestamp": 1750314351.277864,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpn8gxjr1k/test_gbk.csv"
+  },
+  "734a31e828aa7b86f56c7f5a59d704e0": {
+    "encoding": "utf-8",
+    "timestamp": 1750314384.021106,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpbui3d09t/simple.xlsx"
+  },
+  "37adeb5f39ebfa2cdfa0ef1ed4b948e7": {
+    "encoding": "utf-8",
+    "timestamp": 1750314384.077997,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpgrr9h4h2/corrupted.xlsx"
+  },
+  "d2f88438494c05e7a022e31dc0e98603": {
+    "encoding": "utf-8",
+    "timestamp": 1750314384.1248262,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpumc8w98m/test.csv"
+  },
+  "cc74e08519b25b5576a2b728d0b00047": {
+    "encoding": "utf-8",
+    "timestamp": 1750314384.377151,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpt6rsr0te/multiheader.xlsx"
+  },
+  "22199f9a28116201ff2bb150c95341af": {
+    "encoding": "utf-8",
+    "timestamp": 1750314384.469232,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp29h1za0e/simple.xlsx"
+  },
+  "eda138e385206b3c15cfe15721e1d881": {
+    "encoding": "utf-8",
+    "timestamp": 1750314384.523059,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpoyg9n3wd/simple.xlsx"
+  },
+  "afc397357d66ef0310678e80f532e59f": {
+    "encoding": "utf-8",
+    "timestamp": 1750314384.672095,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp1iypgfwk/simple.xlsx"
+  },
+  "4a0fdd1d34a9dda3670caae8af43e74c": {
+    "encoding": "utf-8",
+    "timestamp": 1750314384.9116318,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpsffe8yju/simple.xlsx"
+  },
+  "d6b4244402a74bd8de149728afa750b8": {
+    "encoding": "utf-8",
+    "timestamp": 1750314385.098281,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmphlpuhrnh/corrupted.xlsx"
+  },
+  "29a58df1e937682933c2034661f6255c": {
+    "encoding": "utf-8",
+    "timestamp": 1750314385.226065,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpphakz2kf/large.xlsx"
+  },
+  "797f1615978152127201e07249242a57": {
+    "encoding": "utf-8",
+    "timestamp": 1750314386.388984,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpjd1beycb/medium.xlsx"
+  },
+  "93b2522e9615b6c88dcb1428161b5899": {
+    "encoding": "utf-8",
+    "timestamp": 1750314388.6127481,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpk4tsebv5/large.xlsx"
+  },
+  "62b524e8223ec069dc1222e77ed8222d": {
+    "encoding": "utf-8",
+    "timestamp": 1750314392.391176,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmps8byutlb/small.xlsx"
+  },
+  "dd9819f791a91c3ad1886064865cc87b": {
+    "encoding": "utf-8",
+    "timestamp": 1750314392.421361,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmps8byutlb/medium.xlsx"
+  },
+  "03c9494d6626b0e68b432d583ce66d01": {
+    "encoding": "utf-8",
+    "timestamp": 1750314392.523987,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmps8byutlb/large.xlsx"
+  },
+  "ea7af456dfef475d2604ac7268ff5eb4": {
+    "encoding": "utf-8",
+    "timestamp": 1750314393.4127092,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp6hzwaj3f/empty.xlsx"
+  },
+  "a19977b286696d6ab3cb344d263a544a": {
+    "encoding": "utf-8",
+    "timestamp": 1750314393.49162,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp_bf5yv2t/single_cell.xlsx"
+  },
+  "e1f2241fc747c942236566dd553da000": {
+    "encoding": "utf-8",
+    "timestamp": 1750314393.545299,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmprfekx1th/special_chars.xlsx"
+  },
+  "ab86ed3b0ff60d95ac2f10e57a536e4a": {
+    "encoding": "utf-8",
+    "timestamp": 1750314393.6012008,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp4drvgobf/long_names.xlsx"
+  },
+  "3ccc448ce19d90b743bb3199afb57a15": {
+    "encoding": "utf-8",
+    "timestamp": 1750314393.6500978,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp_h77jfz0/test_utf-8.csv"
+  },
+  "862294b53d4ef4e811cde84dafe54c99": {
+    "encoding": "GB2312",
+    "timestamp": 1750314393.656393,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp_h77jfz0/test_gbk.csv"
+  },
+  "1e663b917ac5475eaf76daacce0112ef": {
+    "encoding": "utf-8",
+    "timestamp": 1750314429.593729,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpalojwb4h/simple.xlsx"
+  },
+  "247e03c4da997b3f669be9e2e054cffa": {
+    "encoding": "utf-8",
+    "timestamp": 1750314429.6563041,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpe55vyv5v/corrupted.xlsx"
+  },
+  "39200fa81f3111fb2279a175f905d6bc": {
+    "encoding": "utf-8",
+    "timestamp": 1750314429.7061272,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpwcssombl/test.csv"
+  },
+  "37b9ead7d95970507709f21b38231790": {
+    "encoding": "utf-8",
+    "timestamp": 1750314429.8342988,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp5d76hc4k/multiheader.xlsx"
+  },
+  "a175d65728a44f321d0a148812b49032": {
+    "encoding": "utf-8",
+    "timestamp": 1750314429.90498,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpj95s21_0/simple.xlsx"
+  },
+  "b887ddf2f6406fd091f470f71de304aa": {
+    "encoding": "utf-8",
+    "timestamp": 1750314429.954192,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpw1hxx9uw/simple.xlsx"
+  },
+  "809fbd12655c54c43420d0188d35a31e": {
+    "encoding": "utf-8",
+    "timestamp": 1750314430.105192,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmprq4r5mxz/simple.xlsx"
+  },
+  "d66ec88c36f6aa3302052138528445b5": {
+    "encoding": "utf-8",
+    "timestamp": 1750314430.3539772,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpb2yz2141/simple.xlsx"
+  },
+  "4682c5cb2e311bf800657d296906bb48": {
+    "encoding": "utf-8",
+    "timestamp": 1750314430.5263019,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpwzcpf1v8/corrupted.xlsx"
+  },
+  "3bf7d0ff2eb3bcc549dddd9a81dbd9f7": {
+    "encoding": "utf-8",
+    "timestamp": 1750314430.649608,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp57if12e5/large.xlsx"
+  },
+  "ec305d10a3d2935201268ac1da541d67": {
+    "encoding": "utf-8",
+    "timestamp": 1750314431.78744,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpv0rrjwni/medium.xlsx"
+  },
+  "a62eab78d637f5b14f9904a8bebbeade": {
+    "encoding": "utf-8",
+    "timestamp": 1750314434.002826,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp37m1oy_j/large.xlsx"
+  },
+  "a93a9bf8ba5c78cdc7f619f5ee7ef0ce": {
+    "encoding": "utf-8",
+    "timestamp": 1750314437.616273,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpqmk5dc9z/small.xlsx"
+  },
+  "f9e93ad4aded59b345eb8ae1f5fc76f0": {
+    "encoding": "utf-8",
+    "timestamp": 1750314437.6428,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpqmk5dc9z/medium.xlsx"
+  },
+  "a531a00b2c3c858914d0d11bbeeeb785": {
+    "encoding": "utf-8",
+    "timestamp": 1750314437.741736,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpqmk5dc9z/large.xlsx"
+  },
+  "f77fe60ebb8b456d0fa2a9342f64b7f5": {
+    "encoding": "utf-8",
+    "timestamp": 1750314439.374753,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpybkn2mci/empty.xlsx"
+  },
+  "c20304cca77d076606e4df776c22f52f": {
+    "encoding": "utf-8",
+    "timestamp": 1750314439.574077,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpcgkht64l/single_cell.xlsx"
+  },
+  "58a1c88cd88ebfc49774bf46f70b94e5": {
+    "encoding": "utf-8",
+    "timestamp": 1750314439.686778,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpaq8qz4s4/special_chars.xlsx"
+  },
+  "93221760de2f29c3660310e301b3673a": {
+    "encoding": "utf-8",
+    "timestamp": 1750314439.800129,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpjg8oztdx/long_names.xlsx"
+  },
+  "cad4ad0fe34cd69f7027a762bf1a7e93": {
+    "encoding": "utf-8",
+    "timestamp": 1750314439.911789,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpj2h6qpwx/test_utf-8.csv"
+  },
+  "f8bd522ffcd6ff004cfeddf3c08b14a1": {
+    "encoding": "GB2312",
+    "timestamp": 1750314439.9367511,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpj2h6qpwx/test_gbk.csv"
+  },
+  "8a42f643da7ade01026d673783754b48": {
+    "encoding": "utf-8",
+    "timestamp": 1750314481.7588348,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpu8iw3xw3/simple.xlsx"
+  },
+  "adc396ab4585d1d3eb76a8911fc2327f": {
+    "encoding": "utf-8",
+    "timestamp": 1750314481.823315,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmphlj_im_6/corrupted.xlsx"
+  },
+  "c25e4028c2980271af759eca15e5fb00": {
+    "encoding": "utf-8",
+    "timestamp": 1750314481.9045,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpa99bmdea/test.csv"
+  },
+  "10a6f5eacc5bc772b9059baff7b5e2d8": {
+    "encoding": "utf-8",
+    "timestamp": 1750314482.0603049,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp29070azo/multiheader.xlsx"
+  },
+  "1a49f959c509b2ed5e4b42d675195096": {
+    "encoding": "utf-8",
+    "timestamp": 1750314482.134521,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpx6zaqecr/simple.xlsx"
+  },
+  "e080d618e5458f3bcc2c15a35ca6b03b": {
+    "encoding": "utf-8",
+    "timestamp": 1750314482.1865118,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpk3nxt3dv/simple.xlsx"
+  },
+  "b4926e59d3d9a306065a4721dfcab27c": {
+    "encoding": "utf-8",
+    "timestamp": 1750314482.342005,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpxj7qz8wi/simple.xlsx"
+  },
+  "397d0a92011a7e07847f8650b0e6379f": {
+    "encoding": "utf-8",
+    "timestamp": 1750314482.7797298,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp23rvg8tk/simple.xlsx"
+  },
+  "6301e6caf81e07d8ce822573b21f6844": {
+    "encoding": "utf-8",
+    "timestamp": 1750314483.351352,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpv4vgt_qi/corrupted.xlsx"
+  },
+  "c69b052234bbca9f4d31ccfe453b0fda": {
+    "encoding": "utf-8",
+    "timestamp": 1750314483.7635,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp5339ghlv/large.xlsx"
+  },
+  "dd50002462398b959e7dcbb6bf450e1c": {
+    "encoding": "utf-8",
+    "timestamp": 1750314486.2283819,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpl5237qhm/medium.xlsx"
+  },
+  "2915bec965fafbd4c3129db11e7a5038": {
+    "encoding": "utf-8",
+    "timestamp": 1750314489.093132,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp9v73_69b/large.xlsx"
+  },
+  "7d3e319d95d20243f5c8a25d12158fb2": {
+    "encoding": "utf-8",
+    "timestamp": 1750314493.570347,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpxrljsmgn/small.xlsx"
+  },
+  "d45fc94173d54411678b93f2470d542a": {
+    "encoding": "utf-8",
+    "timestamp": 1750314493.607577,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpxrljsmgn/medium.xlsx"
+  },
+  "8a1b610c7ce8c24cb7d86f3a69d0fb33": {
+    "encoding": "utf-8",
+    "timestamp": 1750314493.727724,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpxrljsmgn/large.xlsx"
+  },
+  "255ea54f59e78ea123377153cd0bdaa5": {
+    "encoding": "utf-8",
+    "timestamp": 1750314495.595823,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpckcz3l_n/empty.xlsx"
+  },
+  "56027a41d7c9224641956ae5a42ac0fc": {
+    "encoding": "utf-8",
+    "timestamp": 1750314495.8572822,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpk2ho13ya/single_cell.xlsx"
+  },
+  "39b91d3ff56e14e9f6a16548ecb2d2ff": {
+    "encoding": "utf-8",
+    "timestamp": 1750314495.999424,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpwj4s8y1t/special_chars.xlsx"
+  },
+  "b6a3973495cdf9c25a485de978625192": {
+    "encoding": "utf-8",
+    "timestamp": 1750314496.112957,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmplkipz6kb/long_names.xlsx"
+  },
+  "919b9a72408a70c7a97ff07835fa0f6b": {
+    "encoding": "utf-8",
+    "timestamp": 1750314496.2311301,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpnw749bbi/test_utf-8.csv"
+  },
+  "e2575cfc4f7d2514c1e842d0e1aee0b0": {
+    "encoding": "GB2312",
+    "timestamp": 1750314496.2497559,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpnw749bbi/test_gbk.csv"
+  },
+  "1101cea35a18407f7f74de22bd2de526": {
+    "encoding": "utf-8",
+    "timestamp": 1750314589.622495,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpu_vx9l3_/simple.xlsx"
+  },
+  "43816ba414c75835b988101ea0a29238": {
+    "encoding": "utf-8",
+    "timestamp": 1750314589.684217,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpxir43qya/corrupted.xlsx"
+  },
+  "19bc22bae844659da309f71194eb6635": {
+    "encoding": "utf-8",
+    "timestamp": 1750314589.731926,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp53olm7oe/test.csv"
+  },
+  "31d83b47e858ee0197b92c7201a8a8a8": {
+    "encoding": "utf-8",
+    "timestamp": 1750314589.8765771,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp0221rsoz/multiheader.xlsx"
+  },
+  "32232bd41fcab1b0ca4c4994500b352f": {
+    "encoding": "utf-8",
+    "timestamp": 1750314589.961801,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp28nh_uuo/simple.xlsx"
+  },
+  "d413c1a7ae56a9cde6b8b84777253fb9": {
+    "encoding": "utf-8",
+    "timestamp": 1750314590.012615,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp7u11v6cg/simple.xlsx"
+  },
+  "1d7289d4ff2ca330874f88987794b798": {
+    "encoding": "utf-8",
+    "timestamp": 1750314590.171666,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmplyp1swkc/simple.xlsx"
+  },
+  "797c88b59e064060ab3533ddbd457b85": {
+    "encoding": "utf-8",
+    "timestamp": 1750314590.419009,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpysbtyfgn/simple.xlsx"
+  },
+  "e564e195e27cbfd8aebc024eadfb10bd": {
+    "encoding": "utf-8",
+    "timestamp": 1750314590.59808,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmplw5j0wtm/corrupted.xlsx"
+  },
+  "663f4d9d3fdad0a94f77048ab0d13b7d": {
+    "encoding": "utf-8",
+    "timestamp": 1750314590.725248,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp66929qd9/large.xlsx"
+  },
+  "913486bdef01ce857e6fb20cf251edef": {
+    "encoding": "utf-8",
+    "timestamp": 1750314591.908782,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpbrf7zw4r/medium.xlsx"
+  },
+  "c73cea0c4bfa058cc35e7e690983ab01": {
+    "encoding": "utf-8",
+    "timestamp": 1750314594.388339,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp832k7qlv/large.xlsx"
+  },
+  "bda5c640a10ba39d5e5763863808046f": {
+    "encoding": "utf-8",
+    "timestamp": 1750314598.239454,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpz14i1p16/small.xlsx"
+  },
+  "a0eab5cd77e3daf043bfadfc6f114f12": {
+    "encoding": "utf-8",
+    "timestamp": 1750314598.264493,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpz14i1p16/medium.xlsx"
+  },
+  "9318a760c53faf8e65af35fd65110b3e": {
+    "encoding": "utf-8",
+    "timestamp": 1750314598.3577101,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpz14i1p16/large.xlsx"
+  },
+  "52551ff698e90eaf963b246e17a3e3bd": {
+    "encoding": "utf-8",
+    "timestamp": 1750314599.11176,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpeni_ya6p/empty.xlsx"
+  },
+  "c4cfc86fb007ab21c76994f2c6d8826e": {
+    "encoding": "utf-8",
+    "timestamp": 1750314599.205651,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpvs7o8vv5/single_cell.xlsx"
+  },
+  "1c9f10ba0d31e9589bda50e0d87388bc": {
+    "encoding": "utf-8",
+    "timestamp": 1750314599.266725,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpubujgjh5/special_chars.xlsx"
+  },
+  "bf389633ba8146fa18c3f9d58bf9bba6": {
+    "encoding": "utf-8",
+    "timestamp": 1750314599.322308,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpg0gqg2j_/long_names.xlsx"
+  },
+  "c0f4c837007621602818f079bd6ada0f": {
+    "encoding": "utf-8",
+    "timestamp": 1750314599.366503,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpgyhbk9ar/test_utf-8.csv"
+  },
+  "ec04d33f54c7e85cc266f18527575379": {
+    "encoding": "GB2312",
+    "timestamp": 1750314599.373418,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpgyhbk9ar/test_gbk.csv"
+  },
+  "97d33aa994c55f5d7a0bd15b1fcf9900": {
+    "encoding": "utf-8",
+    "timestamp": 1750314669.490973,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp842u7ub2/simple.xlsx"
+  },
+  "4b0491e6b97deea8b4bc794351b43111": {
+    "encoding": "utf-8",
+    "timestamp": 1750314669.678646,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp_h_xy2wb/corrupted.xlsx"
+  },
+  "0b14e0ad383c827717acc9c95ea2db0c": {
+    "encoding": "utf-8",
+    "timestamp": 1750314669.822346,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmph_5krrnd/test.csv"
+  },
+  "199ef714b1b446ceb98f586750ab8e4b": {
+    "encoding": "utf-8",
+    "timestamp": 1750314670.359645,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp9og9p5t4/multiheader.xlsx"
+  },
+  "a259b970b0a6b35916215f82b3bb53f5": {
+    "encoding": "utf-8",
+    "timestamp": 1750314670.665979,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpv0a23pj9/simple.xlsx"
+  },
+  "af2c251704887d61f4f8f44457705cb1": {
+    "encoding": "utf-8",
+    "timestamp": 1750314670.818031,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpp1y2xbej/simple.xlsx"
+  },
+  "bffa035d7ed682e66029d20f81fb270c": {
+    "encoding": "utf-8",
+    "timestamp": 1750314670.9664419,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp115gcyag/simple.xlsx"
+  },
+  "5b508d88f5ccde3d67727ef407ba7e48": {
+    "encoding": "utf-8",
+    "timestamp": 1750314671.265741,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp1edrsfxg/simple.xlsx"
+  },
+  "4fb9779ae92605b4fd324a1919385957": {
+    "encoding": "utf-8",
+    "timestamp": 1750314671.414104,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp6bvj7a7o/corrupted.xlsx"
+  },
+  "519afc4c05aa19c3e499d6ebffb2f961": {
+    "encoding": "utf-8",
+    "timestamp": 1750314671.541782,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpzv39lht9/large.xlsx"
+  },
+  "9c24c8d02837d61cda0de576bc2b410a": {
+    "encoding": "utf-8",
+    "timestamp": 1750314672.907552,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp00l3brez/medium.xlsx"
+  },
+  "5d80fef035b6404ef3d995dced1d0bed": {
+    "encoding": "utf-8",
+    "timestamp": 1750314675.454915,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpku8sr6us/large.xlsx"
+  },
+  "08962d652cbf586bd8c126263ef08c93": {
+    "encoding": "utf-8",
+    "timestamp": 1750314678.900349,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpwokennxm/small.xlsx"
+  },
+  "dde3a2d0f6f66e96bf4be0ab3b6f9a9c": {
+    "encoding": "utf-8",
+    "timestamp": 1750314678.926173,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpwokennxm/medium.xlsx"
+  },
+  "2ed45ad3d8a8fe873c44fb734ebe7169": {
+    "encoding": "utf-8",
+    "timestamp": 1750314679.065572,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpwokennxm/large.xlsx"
+  },
+  "639d1710d47bc4a2db78bef4c06f91ce": {
+    "encoding": "utf-8",
+    "timestamp": 1750314679.750893,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpbw0nldo2/empty.xlsx"
+  },
+  "5ea2e622c38c3ea0bb27b4db2b42db69": {
+    "encoding": "utf-8",
+    "timestamp": 1750314679.82305,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp2c85ql2z/single_cell.xlsx"
+  },
+  "54362b32541e1c97cbd1984285892ac1": {
+    "encoding": "utf-8",
+    "timestamp": 1750314679.877957,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpv3hw3g1z/special_chars.xlsx"
+  },
+  "84b0c5ca5a091b662c31472039ab79c8": {
+    "encoding": "utf-8",
+    "timestamp": 1750314679.943124,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp0ocfprjq/long_names.xlsx"
+  },
+  "65a8b9067815fb0ceaca44ca348a4687": {
+    "encoding": "utf-8",
+    "timestamp": 1750314679.9891489,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpwhu83_fe/test_utf-8.csv"
+  },
+  "0ca7cef41dfb9a075cd12d65a599367a": {
+    "encoding": "GB2312",
+    "timestamp": 1750314679.996225,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpwhu83_fe/test_gbk.csv"
+  },
+  "c8400babd4838ab95a4285918ec43fcc": {
+    "encoding": "utf-8",
+    "timestamp": 1750314745.849947,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpg_q50o7n/simple.xlsx"
+  },
+  "4f91b3e167162d259d1b6efe5bb85f47": {
+    "encoding": "utf-8",
+    "timestamp": 1750314746.0333161,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpcq_bnm39/corrupted.xlsx"
+  },
+  "92f7c91b28a8263b2e3586e948f113ac": {
+    "encoding": "utf-8",
+    "timestamp": 1750314746.1811478,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp5iy54qn6/test.csv"
+  },
+  "68070a6d35de1c3a2811b7cb9f0a9323": {
+    "encoding": "utf-8",
+    "timestamp": 1750314746.711274,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmphdmcbqk6/multiheader.xlsx"
+  },
+  "af6cfbe9554de0664b06432becd3646c": {
+    "encoding": "utf-8",
+    "timestamp": 1750314747.0319638,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpahrjo3f5/simple.xlsx"
+  },
+  "79c81c8c70ad15c0398f2528b5678cf0": {
+    "encoding": "utf-8",
+    "timestamp": 1750314747.18264,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp96e1obwe/simple.xlsx"
+  },
+  "75ef7f97b7c40633e5519facb9627d4b": {
+    "encoding": "utf-8",
+    "timestamp": 1750314747.332321,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpaw4km2kn/simple.xlsx"
+  },
+  "77d96b04264dd5367a76989e9bbcb2f8": {
+    "encoding": "utf-8",
+    "timestamp": 1750314747.616339,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp5qocacrf/simple.xlsx"
+  },
+  "bc18fca60f27a827cfe2c110d05d9fec": {
+    "encoding": "utf-8",
+    "timestamp": 1750314747.7740512,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpzc3bltc7/corrupted.xlsx"
+  },
+  "264cf898cd027ad925d36f03a61b304b": {
+    "encoding": "utf-8",
+    "timestamp": 1750314747.909305,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpntv49q9z/large.xlsx"
+  },
+  "05529d17a16aac11369b6aae1487d2f0": {
+    "encoding": "utf-8",
+    "timestamp": 1750314749.151529,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp19w7vws4/medium.xlsx"
+  },
+  "2675742a03344667154140a8512f1630": {
+    "encoding": "utf-8",
+    "timestamp": 1750314751.3926241,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp7vqssltl/large.xlsx"
+  },
+  "ca5d2f27b74c6f6effce39260f68404a": {
+    "encoding": "utf-8",
+    "timestamp": 1750314755.0223072,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpxxi4u1gp/small.xlsx"
+  },
+  "732e58ff807b7d4f1a98cdee90c4d525": {
+    "encoding": "utf-8",
+    "timestamp": 1750314755.047155,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpxxi4u1gp/medium.xlsx"
+  },
+  "dda1c2dcd936e82c933a591da453486c": {
+    "encoding": "utf-8",
+    "timestamp": 1750314755.190442,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpxxi4u1gp/large.xlsx"
+  },
+  "595ad023f37af82cdf73b54c46723343": {
+    "encoding": "utf-8",
+    "timestamp": 1750314756.0976572,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpkby75a97/empty.xlsx"
+  },
+  "8c8017d8b2b64a9ba7eb1bbe979684df": {
+    "encoding": "utf-8",
+    "timestamp": 1750314756.2655401,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpv7n4ubc8/large_test.xlsx"
+  },
+  "d543597711cab920e708d440b6838e1d": {
+    "encoding": "utf-8",
+    "timestamp": 1750314756.477132,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp84nt58_h/single_cell.xlsx"
+  },
+  "ba5d501ecdd645ce5bba402b0fa5cc1d": {
+    "encoding": "utf-8",
+    "timestamp": 1750314756.626495,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp0bxgt5x4/special_chars.xlsx"
+  },
+  "88a31e498babac133b52c15eae28d432": {
+    "encoding": "utf-8",
+    "timestamp": 1750314756.776832,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpajuq3efp/long_names.xlsx"
+  },
+  "6fab282e405e3e875365084e34a07a8b": {
+    "encoding": "utf-8",
+    "timestamp": 1750314756.826407,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpslfgtbwi/test_utf-8.csv"
+  },
+  "789eac352384f5fb38a7106ce5d80371": {
+    "encoding": "GB2312",
+    "timestamp": 1750314756.834659,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpslfgtbwi/test_gbk.csv"
+  },
+  "a95e62dab150bc46cb07812e04ddfeec": {
+    "encoding": "utf-8",
+    "timestamp": 1750314791.203083,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmptda6g2gf/simple.xlsx"
+  },
+  "57b61c157b8bba6961c69294b1b0492b": {
+    "encoding": "utf-8",
+    "timestamp": 1750314791.3915148,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpz4f94lun/corrupted.xlsx"
+  },
+  "37620cbf63f6c1bb0f23e979e6ca6353": {
+    "encoding": "utf-8",
+    "timestamp": 1750314791.54147,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpd7boig8d/test.csv"
+  },
+  "196d57330e538ecc2984161b9fd8549f": {
+    "encoding": "utf-8",
+    "timestamp": 1750314792.0544949,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp08ojonn2/multiheader.xlsx"
+  },
+  "d9a60e3e342cd40acb928085e88bea7f": {
+    "encoding": "utf-8",
+    "timestamp": 1750314792.364627,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmphfhohb24/simple.xlsx"
+  },
+  "596ab1ba9e9d402177478fd06cde357a": {
+    "encoding": "utf-8",
+    "timestamp": 1750314792.5117671,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp9dzn11ys/simple.xlsx"
+  },
+  "ea32d09aa078558fc3a651ad2d7f3ade": {
+    "encoding": "utf-8",
+    "timestamp": 1750314792.658807,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmprdowjow7/simple.xlsx"
+  },
+  "66d619e78a46c525d3374b1bba472fe6": {
+    "encoding": "utf-8",
+    "timestamp": 1750314792.935318,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp11owgcgp/simple.xlsx"
+  },
+  "9e48efcf1303bde6a19e5392f45e30d4": {
+    "encoding": "utf-8",
+    "timestamp": 1750314793.091106,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpv427u1qa/corrupted.xlsx"
+  },
+  "daa0cea735103382e03c1d4c3d6663bf": {
+    "encoding": "utf-8",
+    "timestamp": 1750314793.218567,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp16nqak8y/large.xlsx"
+  },
+  "356fa12424301674e146e16bf3ede05c": {
+    "encoding": "utf-8",
+    "timestamp": 1750314794.470371,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp6aqpk75h/medium.xlsx"
+  },
+  "ec439c90f9bd4f1dd43b69dd1256ffac": {
+    "encoding": "utf-8",
+    "timestamp": 1750314796.753255,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp869h9zl_/large.xlsx"
+  },
+  "e647c4b245621be49391bb680393fe83": {
+    "encoding": "utf-8",
+    "timestamp": 1750314800.408175,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpdna81v5q/small.xlsx"
+  },
+  "8e9159e09f76c6d75b339bdde20a0fef": {
+    "encoding": "utf-8",
+    "timestamp": 1750314800.438252,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpdna81v5q/medium.xlsx"
+  },
+  "27bd0df8aafc0450ca6c1b015b81e189": {
+    "encoding": "utf-8",
+    "timestamp": 1750314800.8836591,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpdna81v5q/large.xlsx"
+  },
+  "fa1a021b207e1de760d8759e5175330e": {
+    "encoding": "utf-8",
+    "timestamp": 1750314802.947298,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp0pzdncfm/empty.xlsx"
+  },
+  "606606e5487ad034f576c3775cbd8049": {
+    "encoding": "utf-8",
+    "timestamp": 1750314803.1986308,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp7rukwmnc/large_test.xlsx"
+  },
+  "2f081fd2f8ff277beb0ca375c9b215b2": {
+    "encoding": "utf-8",
+    "timestamp": 1750314803.751231,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpc8c20zlj/single_cell.xlsx"
+  },
+  "0f4803c758cde72d5014247685e43a21": {
+    "encoding": "utf-8",
+    "timestamp": 1750314804.223218,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp4kznfs58/special_chars.xlsx"
+  },
+  "9f578a8d3d28adbcc039b46d6f5e6460": {
+    "encoding": "utf-8",
+    "timestamp": 1750314804.6400902,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp712wfsme/long_names.xlsx"
+  },
+  "9f88d77fc552c68fd2362f450f0caec9": {
+    "encoding": "utf-8",
+    "timestamp": 1750314804.774604,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp38pm72dr/test_utf-8.csv"
+  },
+  "1ec972cd6d3d314f1419a28806d1be1f": {
+    "encoding": "GB2312",
+    "timestamp": 1750314804.793886,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp38pm72dr/test_gbk.csv"
+  },
+  "6ebe0a49882da4a7562985548d8a7fa2": {
+    "encoding": "utf-8",
+    "timestamp": 1750314953.672734,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpyggx2jjr/simple.xlsx"
+  },
+  "765e76a832a1ea01ff5af4e883844154": {
+    "encoding": "utf-8",
+    "timestamp": 1750314953.9351192,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpo596w1ng/corrupted.xlsx"
+  },
+  "3c37b6f16f123553272c27d7cbcffa27": {
+    "encoding": "utf-8",
+    "timestamp": 1750314954.086688,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp4jhk0cyz/test.csv"
+  },
+  "ac858a697bf5465d74180517e3094de4": {
+    "encoding": "utf-8",
+    "timestamp": 1750314955.442514,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp3mogi8ho/multiheader.xlsx"
+  },
+  "a3d1026ea7e5e384fc78b52b71d856d3": {
+    "encoding": "utf-8",
+    "timestamp": 1750314956.3457248,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpxijulk56/simple.xlsx"
+  },
+  "5a5fee4d9139b3df8005d7c41684ea77": {
+    "encoding": "utf-8",
+    "timestamp": 1750314956.774432,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp467tr9oq/simple.xlsx"
+  },
+  "01d8e87dca57a37d653c7f79df81be21": {
+    "encoding": "utf-8",
+    "timestamp": 1750314956.9510021,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp1rr2wlrv/simple.xlsx"
+  },
+  "4672d59dd4212b8b00873bf13a74aa0d": {
+    "encoding": "utf-8",
+    "timestamp": 1750314957.310229,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpfkply249/simple.xlsx"
+  },
+  "024499af394759e03798ec5aaa71dbfd": {
+    "encoding": "utf-8",
+    "timestamp": 1750314957.604962,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp5o1new6a/corrupted.xlsx"
+  },
+  "a8dc9d4cbef074cdbe53a17498e2a287": {
+    "encoding": "utf-8",
+    "timestamp": 1750314957.765898,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpkl92w9t3/large.xlsx"
+  },
+  "4f8f4da29614f9e59a2e3d763ebc1894": {
+    "encoding": "utf-8",
+    "timestamp": 1750314960.551853,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpcyyy16qo/medium.xlsx"
+  },
+  "b59a36eabf6c0f17b9cc2bb2c1fc59d5": {
+    "encoding": "utf-8",
+    "timestamp": 1750314963.1419241,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpu0_q6qla/large.xlsx"
+  },
+  "d13223dbefd38ba1f58126dc7884b11a": {
+    "encoding": "utf-8",
+    "timestamp": 1750314966.6087098,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmppva9lluy/small.xlsx"
+  },
+  "1c9b79fdf6a45232f1a942352056490a": {
+    "encoding": "utf-8",
+    "timestamp": 1750314966.63391,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmppva9lluy/medium.xlsx"
+  },
+  "c2409c17182e0808059867004eedc09c": {
+    "encoding": "utf-8",
+    "timestamp": 1750314966.729784,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmppva9lluy/large.xlsx"
+  },
+  "767e5c777d6e4a623ace39887e70c4e3": {
+    "encoding": "utf-8",
+    "timestamp": 1750314968.733682,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmplc353e5m/empty.xlsx"
+  },
+  "97c19341742021a3c0d8c67adf4c888f": {
+    "encoding": "utf-8",
+    "timestamp": 1750314968.987944,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpfkv0mq0r/large_test.xlsx"
+  },
+  "09334fd594592831659b2fa571f6040f": {
+    "encoding": "utf-8",
+    "timestamp": 1750314969.309412,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp91n4lsbx/single_cell.xlsx"
+  },
+  "e316dc67d13e74b5a59a4f9efccfc307": {
+    "encoding": "utf-8",
+    "timestamp": 1750314969.486722,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpu58p0azm/special_chars.xlsx"
+  },
+  "39bfba79381c2cdedb0cb1613f5bcbc2": {
+    "encoding": "utf-8",
+    "timestamp": 1750314969.8735812,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpr6fttihe/long_names.xlsx"
+  },
+  "5f179f1a7d915ca4bf96320998dc2c2a": {
+    "encoding": "utf-8",
+    "timestamp": 1750314969.955688,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpzvohe9iq/test_utf-8.csv"
+  },
+  "49ee0b0e712672a75b21a5a344def3ff": {
+    "encoding": "utf-8",
+    "timestamp": 1750315606.4960709,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpawd2xs6n.xlsx"
+  },
+  "a47ead46b55e17f0796e5622ce3b0754": {
+    "encoding": "utf-8",
+    "timestamp": 1750317234.071072,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_data.xlsx"
+  },
+  "7b2c94c91fe85b7bf34168f318c2df2f": {
+    "encoding": "utf-8",
+    "timestamp": 1750317302.8802109,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_data.xlsx"
+  },
+  "50b6e7e06fb460ff71e2e03c4dadc35e": {
+    "encoding": "utf-8",
+    "timestamp": 1750317353.472919,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_data.xlsx"
+  },
+  "eaddcdf9244437f97a99c4dab53e6539": {
+    "encoding": "utf-8",
+    "timestamp": 1750317381.888316,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_data.xlsx"
+  },
+  "615064b231624ebabef2f6035943da40": {
+    "encoding": "utf-8",
+    "timestamp": 1750317465.041876,
+    "file_path": "simple_test.xlsx"
+  },
+  "051a0e817632927f09b1278c7cf228da": {
+    "encoding": "utf-8",
+    "timestamp": 1750317589.3096,
+    "file_path": "simple_test.xlsx"
+  },
+  "2382528418e0d1df92db4ec92d5445c8": {
+    "encoding": "utf-8",
+    "timestamp": 1750317816.234586,
+    "file_path": "simple_test.xlsx"
+  },
+  "26a9900786e077031d45763dae0e070a": {
+    "encoding": "utf-8",
+    "timestamp": 1750318226.339408,
+    "file_path": "simple_test.xlsx"
+  },
+  "5e358c870cc4edc64784cb75135f7c4f": {
+    "encoding": "utf-8",
+    "timestamp": 1750318615.667532,
+    "file_path": "simple_test.xlsx"
+  },
+  "d6c3ceb876e57490fddd2951c439badb": {
+    "encoding": "utf-8",
+    "timestamp": 1750318684.4877892,
+    "file_path": "simple_test.xlsx"
+  },
+  "ef33b68ce1e8e3e986f1fab4cbde0a42": {
+    "encoding": "utf-8",
+    "timestamp": 1750318735.573168,
+    "file_path": "simple_test.xlsx"
+  },
+  "84bc57855147af2c5ad0681c59d0919f": {
+    "encoding": "utf-8",
+    "timestamp": 1750318980.860491,
+    "file_path": "simple_test.xlsx"
+  },
+  "83933079041232fd2a212b9426d5b89b": {
+    "encoding": "utf-8",
+    "timestamp": 1750319034.00527,
+    "file_path": "simple_test.xlsx"
+  },
+  "ea88b35ed25b8ddaae24b4bc53f16bf1": {
+    "encoding": "utf-8",
+    "timestamp": 1750319106.504117,
+    "file_path": "simple_test.xlsx"
+  },
+  "663f6762b9a032544e7b71863fec677b": {
+    "encoding": "utf-8",
+    "timestamp": 1750319177.949749,
+    "file_path": "simple_test.xlsx"
+  },
+  "44b75d971cbbd8f9e904ad6a8409cedb": {
+    "encoding": "utf-8",
+    "timestamp": 1750322022.758018,
+    "file_path": "final_test.xlsx"
+  },
+  "9e77ed5643cf3bb43f07ae0b209101b7": {
+    "encoding": "utf-8",
+    "timestamp": 1750385296.0444129,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_metadata.xlsx"
+  },
+  "196a4d28aa8bbb1bbab3fd3a97d41ca9": {
+    "encoding": "utf-8",
+    "timestamp": 1750385352.755106,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_components.xlsx"
+  },
+  "5ba27080dafe53d1fb27116d778e1de4": {
+    "encoding": "utf-8",
+    "timestamp": 1750385352.8324962,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_timeout.xlsx"
+  },
+  "e83af1080384d71bdd998f7d836cf3ea": {
+    "encoding": "utf-8",
+    "timestamp": 1750389126.24527,
+    "file_path": "test_data.xlsx"
+  },
+  "58f3df561fe405c9d6053f3c1aab3f0f": {
+    "encoding": "utf-8",
+    "timestamp": 1750391019.3624918,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_pandas_fix.xlsx"
+  },
+  "aa4d38121f8c28c911693a5d82a00936": {
+    "encoding": "utf-8",
+    "timestamp": 1750391081.528904,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_pandas_simple.xlsx"
+  },
+  "53aee17e66fb3451174aee8c587dc6a7": {
+    "encoding": "utf-8",
+    "timestamp": 1750391141.4213371,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_pandas_simple.xlsx"
+  },
+  "e7aca307da47fe4c88c1470859508148": {
+    "encoding": "utf-8",
+    "timestamp": 1750391163.6586828,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_pandas_simple.xlsx"
+  },
+  "2edd1a8963b0bcc9e8f1874d445a7e12": {
+    "encoding": "utf-8",
+    "timestamp": 1750391191.341365,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_pandas_simple.xlsx"
+  },
+  "0ea5bd9d2d803f881efccb0bf932c198": {
+    "encoding": "utf-8",
+    "timestamp": 1750391238.028429,
+    "file_path": "/Users/wangdada/Downloads/mcp/chatExcel-mcp/test_pandas_simple.xlsx"
+  },
+  "11e67c3cbdb92c6c3cec8c4017a345fd": {
+    "encoding": "utf-8",
+    "timestamp": 1750392821.3828669,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpr7gqkrlc.xlsx"
+  },
+  "af71349d8a52dbbff4daf5064c81fcc5": {
+    "encoding": "utf-8",
+    "timestamp": 1750392880.077607,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpju4bnbnv.xlsx"
+  },
+  "e4965f742fd2d77089a334334a3f13c4": {
+    "encoding": "utf-8",
+    "timestamp": 1750392884.393942,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpz8cd5dan.xlsx"
+  },
+  "8b04a31b77cdb62eda5816ba4491d704": {
+    "encoding": "utf-8",
+    "timestamp": 1750393029.549375,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp4pkifrg4.xlsx"
+  },
+  "7f6e0b89f862c4bad3abfdb532773013": {
+    "encoding": "utf-8",
+    "timestamp": 1750393034.284194,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpjdgdxftf.xlsx"
+  },
+  "b625f3644d216039fbe3cd10dcf381c3": {
+    "encoding": "utf-8",
+    "timestamp": 1750393527.9096398,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp9enfnqvs.xlsx"
+  },
+  "58db349b43097fc9e2ac0dedfe2ec315": {
+    "encoding": "utf-8",
+    "timestamp": 1750393532.863935,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp5ap1inx3.xlsx"
+  },
+  "842a089e28d0d1bdb5f6cc5bd3ace66a": {
+    "encoding": "utf-8",
+    "timestamp": 1750393839.677063,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpz1awo8xl.xlsx"
+  },
+  "eecd30522859bbe2b0c5d16dd8ba57bc": {
+    "encoding": "utf-8",
+    "timestamp": 1750393844.210921,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpo_oaoljg.xlsx"
+  },
+  "f0304f48ffc73b02c9ac054b48b4bfd1": {
+    "encoding": "utf-8",
+    "timestamp": 1750393969.195178,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpat_1wr4u.xlsx"
+  },
+  "79ba4648e52de9bc4356fbeda1c999aa": {
+    "encoding": "utf-8",
+    "timestamp": 1750393973.664087,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmp6dzgfhz3.xlsx"
+  },
+  "057bb80ddf9f8078575f9074e42f113b": {
+    "encoding": "utf-8",
+    "timestamp": 1750394221.4757729,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpja7llcl6.xlsx"
+  },
+  "16e77a482e82d320d2b2414bbe22888b": {
+    "encoding": "utf-8",
+    "timestamp": 1750394225.751971,
+    "file_path": "/var/folders/z2/6628bfvd175881k883mhk0nh0000gn/T/tmpr_lv3pkp.xlsx"
   }
 }

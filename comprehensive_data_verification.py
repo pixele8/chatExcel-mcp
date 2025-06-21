@@ -1,491 +1,652 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 综合数据验证模块
-提供全面的数据比对、核准和质量评估功能
+提供全面的数据质量检查和验证功能
 """
 
 import pandas as pd
 import numpy as np
-from typing import Dict, Any, List, Optional, Union, Tuple
-from scipy import stats
+from typing import Dict, List, Any, Optional, Tuple, Union, Callable
+import re
+from datetime import datetime, date
 import warnings
-from pathlib import Path
-import json
-from datetime import datetime
-from data_verification import DataVerificationEngine
-from enhanced_excel_helper import smart_read_excel, detect_file_encoding
+from dataclasses import dataclass
+from enum import Enum
 
-warnings.filterwarnings('ignore')
+class ValidationLevel(Enum):
+    """验证级别"""
+    INFO = "info"
+    WARNING = "warning"
+    ERROR = "error"
+    CRITICAL = "critical"
 
+@dataclass
+class ValidationResult:
+    """验证结果"""
+    rule_name: str
+    level: ValidationLevel
+    passed: bool
+    message: str
+    details: Optional[Dict[str, Any]] = None
+    affected_rows: Optional[List[int]] = None
+    affected_columns: Optional[List[str]] = None
+    suggestions: Optional[List[str]] = None
 
 class ComprehensiveDataVerifier:
     """综合数据验证器"""
     
-    def __init__(self):
-        self.verification_engine = DataVerificationEngine()
-        self.verification_history = []
+    def __init__(self, df: Optional[pd.DataFrame] = None):
+        self.df = df
+        self.validation_rules = {}
+        self.results = []
+        self._register_default_rules()
     
-    def comprehensive_excel_verification(self, 
-                                       file_path: str,
-                                       reference_file: str = None,
-                                       verification_level: str = "detailed",
-                                       save_report: bool = True) -> Dict[str, Any]:
-        """综合Excel文件验证
-        
-        Args:
-            file_path: 主要验证的Excel文件路径
-            reference_file: 参考文件路径（可选）
-            verification_level: 验证级别 ("basic", "detailed", "comprehensive")
-            save_report: 是否保存验证报告
-            
-        Returns:
-            dict: 综合验证结果
-        """
-        verification_result = {
-            'timestamp': datetime.now().isoformat(),
-            'file_path': file_path,
-            'reference_file': reference_file,
-            'verification_level': verification_level,
-            'overall_status': 'UNKNOWN',
-            'data_quality_score': 0.0,
-            'file_analysis': {},
-            'data_integrity': {},
-            'comparison_results': {},
-            'recommendations': [],
-            'detailed_report': {}
+    def set_dataframe(self, df: pd.DataFrame) -> None:
+        """设置要验证的DataFrame"""
+        self.df = df
+        self.results.clear()
+    
+    def _register_default_rules(self) -> None:
+        """注册默认验证规则"""
+        self.validation_rules = {
+            'missing_values': self._check_missing_values,
+            'duplicate_rows': self._check_duplicate_rows,
+            'data_types': self._check_data_types,
+            'outliers': self._check_outliers,
+            'data_consistency': self._check_data_consistency,
+            'column_names': self._check_column_names,
+            'data_range': self._check_data_range,
+            'string_patterns': self._check_string_patterns,
+            'date_validity': self._check_date_validity,
+            'referential_integrity': self._check_referential_integrity
         }
-        
-        try:
-            # 1. 文件基础验证
-            file_analysis = self._analyze_file_structure(file_path)
-            verification_result['file_analysis'] = file_analysis
-            
-            if not file_analysis['valid']:
-                verification_result['overall_status'] = 'FAILED'
-                verification_result['recommendations'].append(
-                    "文件结构验证失败，请检查文件格式和完整性"
-                )
-                return verification_result
-            
-            # 2. 数据完整性验证
-            integrity_results = self._verify_data_integrity(file_path, verification_level)
-            verification_result['data_integrity'] = integrity_results
-            
-            # 3. 如果有参考文件，进行比较验证
-            if reference_file:
-                comparison_results = self._compare_with_reference(file_path, reference_file)
-                verification_result['comparison_results'] = comparison_results
-            
-            # 4. 计算综合质量得分
-            quality_score = self._calculate_data_quality_score(
-                file_analysis, integrity_results, 
-                verification_result.get('comparison_results', {})
-            )
-            verification_result['data_quality_score'] = quality_score
-            
-            # 5. 生成详细报告
-            if verification_level in ["detailed", "comprehensive"]:
-                detailed_report = self._generate_detailed_report(
-                    file_path, file_analysis, integrity_results
-                )
-                verification_result['detailed_report'] = detailed_report
-            
-            # 6. 生成建议
-            recommendations = self._generate_comprehensive_recommendations(
-                file_analysis, integrity_results, 
-                verification_result.get('comparison_results', {})
-            )
-            verification_result['recommendations'] = recommendations
-            
-            # 7. 确定总体状态
-            verification_result['overall_status'] = self._determine_overall_status(
-                quality_score, integrity_results
-            )
-            
-            # 8. 保存报告
-            if save_report:
-                self._save_verification_report(verification_result)
-            
-            # 9. 记录验证历史
-            self.verification_history.append({
-                'timestamp': verification_result['timestamp'],
-                'file_path': file_path,
-                'status': verification_result['overall_status'],
-                'score': quality_score
-            })
-            
-        except Exception as e:
-            verification_result['overall_status'] = 'ERROR'
-            verification_result['error'] = str(e)
-            verification_result['recommendations'].append(
-                f"验证过程中发生错误: {str(e)}"
-            )
-        
-        return verification_result
     
-    def _analyze_file_structure(self, file_path: str) -> Dict[str, Any]:
-        """分析文件结构"""
-        analysis = {
-            'valid': False,
-            'file_exists': False,
-            'file_size': 0,
-            'encoding_info': {},
-            'sheets_info': {},
-            'readable': False,
-            'issues': []
-        }
-        
-        try:
-            # 检查文件存在性
-            file_path_obj = Path(file_path)
-            analysis['file_exists'] = file_path_obj.exists()
-            
-            if not analysis['file_exists']:
-                analysis['issues'].append("文件不存在")
-                return analysis
-            
-            # 获取文件大小
-            analysis['file_size'] = file_path_obj.stat().st_size
-            
-            # 编码检测
-            encoding_info = detect_file_encoding(file_path)
-            analysis['encoding_info'] = encoding_info
-            
-            # 尝试读取文件结构
-            import openpyxl
-            workbook = openpyxl.load_workbook(file_path, read_only=True)
-            sheets_info = {}
-            
-            for sheet_name in workbook.sheetnames:
-                sheet = workbook[sheet_name]
-                sheets_info[sheet_name] = {
-                    'max_row': sheet.max_row,
-                    'max_column': sheet.max_column,
-                    'has_data': sheet.max_row > 1
-                }
-            
-            workbook.close()
-            analysis['sheets_info'] = sheets_info
-            analysis['readable'] = True
-            analysis['valid'] = True
-            
-        except Exception as e:
-            analysis['issues'].append(f"文件结构分析失败: {str(e)}")
-        
-        return analysis
-    
-    def _verify_data_integrity(self, file_path: str, level: str) -> Dict[str, Any]:
-        """验证数据完整性"""
-        integrity_results = {
-            'data_loaded': False,
-            'row_count': 0,
-            'column_count': 0,
-            'null_analysis': {},
-            'duplicate_analysis': {},
-            'data_type_analysis': {},
-            'statistical_summary': {},
-            'anomaly_detection': {},
-            'issues': []
-        }
-        
-        try:
-            # 使用智能读取
-            read_result = smart_read_excel(file_path)
-            
-            if not read_result['success']:
-                integrity_results['issues'].append(
-                    f"数据读取失败: {read_result.get('error', '未知错误')}"
-                )
-                return integrity_results
-            
-            df = read_result.get('dataframe')
-            if df is None:
-                df = read_result.get('data')
-            if df is None or not hasattr(df, 'shape'):
-                integrity_results['issues'].append("无法获取有效的数据框架")
-                return integrity_results
-            integrity_results['data_loaded'] = True
-            integrity_results['row_count'] = len(df)
-            integrity_results['column_count'] = len(df.columns)
-            
-            # 空值分析
-            null_analysis = {
-                'total_nulls': df.isnull().sum().sum(),
-                'null_percentage': (df.isnull().sum().sum() / (len(df) * len(df.columns))) * 100,
-                'columns_with_nulls': df.isnull().any().sum(),
-                'null_by_column': df.isnull().sum().to_dict()
-            }
-            integrity_results['null_analysis'] = null_analysis
-            
-            # 重复值分析
-            duplicate_analysis = {
-                'total_duplicates': df.duplicated().sum(),
-                'duplicate_percentage': (df.duplicated().sum() / len(df)) * 100,
-                'unique_rows': len(df.drop_duplicates())
-            }
-            integrity_results['duplicate_analysis'] = duplicate_analysis
-            
-            # 数据类型分析
-            data_type_analysis = {
-                'column_types': df.dtypes.to_dict(),
-                'numeric_columns': df.select_dtypes(include=[np.number]).columns.tolist(),
-                'text_columns': df.select_dtypes(include=['object']).columns.tolist(),
-                'datetime_columns': df.select_dtypes(include=['datetime']).columns.tolist()
-            }
-            integrity_results['data_type_analysis'] = data_type_analysis
-            
-            # 统计摘要（详细级别）
-            if level in ["detailed", "comprehensive"]:
-                statistical_summary = {}
-                for col in df.select_dtypes(include=[np.number]).columns:
-                    statistical_summary[col] = {
-                        'mean': float(df[col].mean()),
-                        'median': float(df[col].median()),
-                        'std': float(df[col].std()),
-                        'min': float(df[col].min()),
-                        'max': float(df[col].max()),
-                        'q25': float(df[col].quantile(0.25)),
-                        'q75': float(df[col].quantile(0.75))
-                    }
-                integrity_results['statistical_summary'] = statistical_summary
-            
-            # 异常检测（综合级别）
-            if level == "comprehensive":
-                anomaly_detection = self._detect_anomalies(df)
-                integrity_results['anomaly_detection'] = anomaly_detection
-            
-        except Exception as e:
-            integrity_results['issues'].append(f"完整性验证失败: {str(e)}")
-        
-        return integrity_results
-    
-    def _compare_with_reference(self, file_path: str, reference_file: str) -> Dict[str, Any]:
-        """与参考文件比较"""
-        try:
-            # 读取两个文件
-            main_result = smart_read_excel(file_path)
-            ref_result = smart_read_excel(reference_file)
-            
-            if not main_result['success'] or not ref_result['success']:
-                return {
-                    'comparison_possible': False,
-                    'error': '无法读取比较文件'
-                }
-            
-            # 使用数据验证引擎进行比较
-            main_df = main_result.get('dataframe') or main_result.get('data')
-            ref_df = ref_result.get('dataframe') or ref_result.get('data')
-            
-            comparison_result = self.verification_engine.compare_dataframes(
-                main_df, ref_df,
-                name1=Path(file_path).name,
-                name2=Path(reference_file).name
-            )
-            
-            comparison_result['comparison_possible'] = True
-            return comparison_result
-            
-        except Exception as e:
+    def verify_all(self, rules: Optional[List[str]] = None) -> Dict[str, Any]:
+        """执行所有验证规则"""
+        if self.df is None:
             return {
-                'comparison_possible': False,
-                'error': str(e)
+                'success': False,
+                'error': 'DataFrame未设置',
+                'results': []
             }
+        
+        rules_to_run = rules or list(self.validation_rules.keys())
+        self.results.clear()
+        
+        for rule_name in rules_to_run:
+            if rule_name in self.validation_rules:
+                try:
+                    rule_func = self.validation_rules[rule_name]
+                    result = rule_func()
+                    if isinstance(result, list):
+                        self.results.extend(result)
+                    else:
+                        self.results.append(result)
+                except Exception as e:
+                    error_result = ValidationResult(
+                        rule_name=rule_name,
+                        level=ValidationLevel.ERROR,
+                        passed=False,
+                        message=f"验证规则执行失败: {str(e)}"
+                    )
+                    self.results.append(error_result)
+        
+        return self._generate_summary()
     
-    def _detect_anomalies(self, df: pd.DataFrame) -> Dict[str, Any]:
-        """检测数据异常"""
-        anomalies = {
-            'outliers': {},
-            'unusual_patterns': [],
-            'data_consistency_issues': []
+    def _check_missing_values(self) -> List[ValidationResult]:
+        """检查缺失值"""
+        results = []
+        missing_stats = self.df.isnull().sum()
+        total_rows = len(self.df)
+        
+        for column, missing_count in missing_stats.items():
+            if missing_count > 0:
+                missing_percentage = (missing_count / total_rows) * 100
+                
+                if missing_percentage > 50:
+                    level = ValidationLevel.CRITICAL
+                elif missing_percentage > 20:
+                    level = ValidationLevel.ERROR
+                elif missing_percentage > 5:
+                    level = ValidationLevel.WARNING
+                else:
+                    level = ValidationLevel.INFO
+                
+                results.append(ValidationResult(
+                    rule_name="missing_values",
+                    level=level,
+                    passed=missing_percentage <= 5,
+                    message=f"列 '{column}' 有 {missing_count} 个缺失值 ({missing_percentage:.1f}%)",
+                    details={
+                        'column': column,
+                        'missing_count': missing_count,
+                        'missing_percentage': missing_percentage,
+                        'total_rows': total_rows
+                    },
+                    affected_columns=[column],
+                    suggestions=[
+                        "考虑删除缺失值过多的列" if missing_percentage > 50 else "使用适当的方法填充缺失值",
+                        "检查数据收集过程是否存在问题"
+                    ]
+                ))
+        
+        if not results:
+            results.append(ValidationResult(
+                rule_name="missing_values",
+                level=ValidationLevel.INFO,
+                passed=True,
+                message="所有列都没有缺失值"
+            ))
+        
+        return results
+    
+    def _check_duplicate_rows(self) -> ValidationResult:
+        """检查重复行"""
+        duplicate_mask = self.df.duplicated()
+        duplicate_count = duplicate_mask.sum()
+        total_rows = len(self.df)
+        
+        if duplicate_count > 0:
+            duplicate_percentage = (duplicate_count / total_rows) * 100
+            duplicate_indices = self.df[duplicate_mask].index.tolist()
+            
+            level = ValidationLevel.WARNING if duplicate_percentage < 10 else ValidationLevel.ERROR
+            
+            return ValidationResult(
+                rule_name="duplicate_rows",
+                level=level,
+                passed=False,
+                message=f"发现 {duplicate_count} 行重复数据 ({duplicate_percentage:.1f}%)",
+                details={
+                    'duplicate_count': duplicate_count,
+                    'duplicate_percentage': duplicate_percentage,
+                    'total_rows': total_rows
+                },
+                affected_rows=duplicate_indices,
+                suggestions=[
+                    "使用 df.drop_duplicates() 删除重复行",
+                    "检查数据源是否存在重复录入"
+                ]
+            )
+        else:
+            return ValidationResult(
+                rule_name="duplicate_rows",
+                level=ValidationLevel.INFO,
+                passed=True,
+                message="没有发现重复行"
+            )
+    
+    def _check_data_types(self) -> List[ValidationResult]:
+        """检查数据类型"""
+        results = []
+        
+        for column in self.df.columns:
+            col_data = self.df[column]
+            current_dtype = str(col_data.dtype)
+            
+            # 检查是否应该是数值类型但被识别为object
+            if current_dtype == 'object':
+                # 尝试转换为数值
+                try:
+                    numeric_converted = pd.to_numeric(col_data, errors='coerce')
+                    non_numeric_count = numeric_converted.isnull().sum() - col_data.isnull().sum()
+                    
+                    if non_numeric_count == 0 and not col_data.isnull().all():
+                        results.append(ValidationResult(
+                            rule_name="data_types",
+                            level=ValidationLevel.WARNING,
+                            passed=False,
+                            message=f"列 '{column}' 可能应该是数值类型而不是文本类型",
+                            details={
+                                'column': column,
+                                'current_type': current_dtype,
+                                'suggested_type': 'numeric'
+                            },
+                            affected_columns=[column],
+                            suggestions=[f"使用 pd.to_numeric(df['{column}']) 转换为数值类型"]
+                        ))
+                except:
+                    pass
+                
+                # 检查是否应该是日期类型
+                try:
+                    date_converted = pd.to_datetime(col_data, errors='coerce')
+                    non_date_count = date_converted.isnull().sum() - col_data.isnull().sum()
+                    
+                    if non_date_count == 0 and not col_data.isnull().all():
+                        # 进一步检查是否真的像日期
+                        sample_values = col_data.dropna().astype(str).head(10)
+                        date_like_patterns = [r'\d{4}-\d{2}-\d{2}', r'\d{2}/\d{2}/\d{4}', r'\d{4}/\d{2}/\d{2}']
+                        
+                        if any(re.match(pattern, str(val)) for val in sample_values for pattern in date_like_patterns):
+                            results.append(ValidationResult(
+                                rule_name="data_types",
+                                level=ValidationLevel.INFO,
+                                passed=False,
+                                message=f"列 '{column}' 可能应该是日期类型",
+                                details={
+                                    'column': column,
+                                    'current_type': current_dtype,
+                                    'suggested_type': 'datetime'
+                                },
+                                affected_columns=[column],
+                                suggestions=[f"使用 pd.to_datetime(df['{column}']) 转换为日期类型"]
+                            ))
+                except:
+                    pass
+        
+        if not results:
+            results.append(ValidationResult(
+                rule_name="data_types",
+                level=ValidationLevel.INFO,
+                passed=True,
+                message="数据类型检查通过"
+            ))
+        
+        return results
+    
+    def _check_outliers(self) -> List[ValidationResult]:
+        """检查异常值"""
+        results = []
+        numeric_columns = self.df.select_dtypes(include=[np.number]).columns
+        
+        for column in numeric_columns:
+            col_data = self.df[column].dropna()
+            if len(col_data) < 4:  # 数据太少无法检测异常值
+                continue
+            
+            # 使用IQR方法检测异常值
+            Q1 = col_data.quantile(0.25)
+            Q3 = col_data.quantile(0.75)
+            IQR = Q3 - Q1
+            lower_bound = Q1 - 1.5 * IQR
+            upper_bound = Q3 + 1.5 * IQR
+            
+            outliers_mask = (col_data < lower_bound) | (col_data > upper_bound)
+            outliers_count = outliers_mask.sum()
+            
+            if outliers_count > 0:
+                outliers_percentage = (outliers_count / len(col_data)) * 100
+                outlier_indices = col_data[outliers_mask].index.tolist()
+                
+                level = ValidationLevel.WARNING if outliers_percentage < 5 else ValidationLevel.ERROR
+                
+                results.append(ValidationResult(
+                    rule_name="outliers",
+                    level=level,
+                    passed=outliers_percentage < 1,
+                    message=f"列 '{column}' 发现 {outliers_count} 个异常值 ({outliers_percentage:.1f}%)",
+                    details={
+                        'column': column,
+                        'outliers_count': outliers_count,
+                        'outliers_percentage': outliers_percentage,
+                        'lower_bound': lower_bound,
+                        'upper_bound': upper_bound,
+                        'outlier_values': col_data[outliers_mask].tolist()[:10]  # 只显示前10个
+                    },
+                    affected_rows=outlier_indices,
+                    affected_columns=[column],
+                    suggestions=[
+                        "检查异常值是否为数据录入错误",
+                        "考虑使用适当的方法处理异常值（删除、替换或保留）"
+                    ]
+                ))
+        
+        if not results:
+            results.append(ValidationResult(
+                rule_name="outliers",
+                level=ValidationLevel.INFO,
+                passed=True,
+                message="未发现明显异常值"
+            ))
+        
+        return results
+    
+    def _check_data_consistency(self) -> List[ValidationResult]:
+        """检查数据一致性"""
+        results = []
+        
+        # 检查字符串列的一致性（大小写、空格等）
+        string_columns = self.df.select_dtypes(include=['object']).columns
+        
+        for column in string_columns:
+            col_data = self.df[column].dropna().astype(str)
+            if len(col_data) == 0:
+                continue
+            
+            # 检查大小写不一致
+            unique_values = col_data.unique()
+            lowercase_groups = {}
+            
+            for value in unique_values:
+                lower_val = value.lower().strip()
+                if lower_val in lowercase_groups:
+                    lowercase_groups[lower_val].append(value)
+                else:
+                    lowercase_groups[lower_val] = [value]
+            
+            inconsistent_groups = {k: v for k, v in lowercase_groups.items() if len(v) > 1}
+            
+            if inconsistent_groups:
+                results.append(ValidationResult(
+                    rule_name="data_consistency",
+                    level=ValidationLevel.WARNING,
+                    passed=False,
+                    message=f"列 '{column}' 存在大小写或空格不一致的值",
+                    details={
+                        'column': column,
+                        'inconsistent_groups': dict(list(inconsistent_groups.items())[:5])  # 只显示前5组
+                    },
+                    affected_columns=[column],
+                    suggestions=[
+                        "使用 df[column].str.lower().str.strip() 标准化文本",
+                        "检查数据录入规范"
+                    ]
+                ))
+        
+        if not results:
+            results.append(ValidationResult(
+                rule_name="data_consistency",
+                level=ValidationLevel.INFO,
+                passed=True,
+                message="数据一致性检查通过"
+            ))
+        
+        return results
+    
+    def _check_column_names(self) -> ValidationResult:
+        """检查列名规范"""
+        issues = []
+        
+        for column in self.df.columns:
+            col_str = str(column)
+            
+            # 检查空格
+            if ' ' in col_str:
+                issues.append(f"列名 '{column}' 包含空格")
+            
+            # 检查特殊字符
+            if re.search(r'[^a-zA-Z0-9_\u4e00-\u9fff]', col_str):
+                issues.append(f"列名 '{column}' 包含特殊字符")
+            
+            # 检查是否以数字开头
+            if col_str[0].isdigit():
+                issues.append(f"列名 '{column}' 以数字开头")
+        
+        if issues:
+            return ValidationResult(
+                rule_name="column_names",
+                level=ValidationLevel.WARNING,
+                passed=False,
+                message=f"发现 {len(issues)} 个列名规范问题",
+                details={'issues': issues},
+                suggestions=[
+                    "使用下划线替代空格",
+                    "避免使用特殊字符",
+                    "列名不要以数字开头"
+                ]
+            )
+        else:
+            return ValidationResult(
+                rule_name="column_names",
+                level=ValidationLevel.INFO,
+                passed=True,
+                message="列名规范检查通过"
+            )
+    
+    def _check_data_range(self) -> List[ValidationResult]:
+        """检查数据范围合理性"""
+        results = []
+        
+        # 这里可以添加特定的业务规则检查
+        # 例如：年龄不应该超过150，百分比应该在0-100之间等
+        
+        numeric_columns = self.df.select_dtypes(include=[np.number]).columns
+        
+        for column in numeric_columns:
+            col_data = self.df[column].dropna()
+            if len(col_data) == 0:
+                continue
+            
+            min_val = col_data.min()
+            max_val = col_data.max()
+            
+            # 检查是否有负数（对于某些业务场景可能不合理）
+            if '年龄' in str(column).lower() or 'age' in str(column).lower():
+                if min_val < 0 or max_val > 150:
+                    results.append(ValidationResult(
+                        rule_name="data_range",
+                        level=ValidationLevel.ERROR,
+                        passed=False,
+                        message=f"年龄列 '{column}' 的值范围不合理: {min_val} - {max_val}",
+                        details={'column': column, 'min': min_val, 'max': max_val},
+                        affected_columns=[column],
+                        suggestions=["检查年龄数据的录入是否正确"]
+                    ))
+            
+            # 检查百分比列
+            if '百分比' in str(column) or 'percent' in str(column).lower() or '%' in str(column):
+                if min_val < 0 or max_val > 100:
+                    results.append(ValidationResult(
+                        rule_name="data_range",
+                        level=ValidationLevel.WARNING,
+                        passed=False,
+                        message=f"百分比列 '{column}' 的值超出0-100范围: {min_val} - {max_val}",
+                        details={'column': column, 'min': min_val, 'max': max_val},
+                        affected_columns=[column],
+                        suggestions=["确认百分比数据的单位和格式"]
+                    ))
+        
+        if not results:
+            results.append(ValidationResult(
+                rule_name="data_range",
+                level=ValidationLevel.INFO,
+                passed=True,
+                message="数据范围检查通过"
+            ))
+        
+        return results
+    
+    def _check_string_patterns(self) -> List[ValidationResult]:
+        """检查字符串模式"""
+        results = []
+        string_columns = self.df.select_dtypes(include=['object']).columns
+        
+        # 常见模式检查
+        patterns = {
+            'email': r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+            'phone': r'^[\d\-\+\(\)\s]{10,}$',
+            'id_card': r'^\d{15}$|^\d{17}[\dXx]$'  # 简化的身份证号模式
         }
         
-        try:
-            # 检测数值列的异常值
-            for col in df.select_dtypes(include=[np.number]).columns:
-                Q1 = df[col].quantile(0.25)
-                Q3 = df[col].quantile(0.75)
-                IQR = Q3 - Q1
-                lower_bound = Q1 - 1.5 * IQR
-                upper_bound = Q3 + 1.5 * IQR
-                
-                outliers = df[(df[col] < lower_bound) | (df[col] > upper_bound)]
-                if len(outliers) > 0:
-                    anomalies['outliers'][col] = {
-                        'count': len(outliers),
-                        'percentage': (len(outliers) / len(df)) * 100,
-                        'bounds': {'lower': float(lower_bound), 'upper': float(upper_bound)}
-                    }
+        for column in string_columns:
+            col_data = self.df[column].dropna().astype(str)
+            if len(col_data) == 0:
+                continue
             
-            # 检测异常模式
-            if df.isnull().all(axis=1).any():
-                anomalies['unusual_patterns'].append("发现完全空白的行")
+            # 根据列名推测可能的模式
+            column_lower = str(column).lower()
             
-            single_value_mask = df.nunique() == 1
-            if single_value_mask.any():
-                single_value_cols = df.columns[single_value_mask].tolist()
-                anomalies['data_consistency_issues'].append(
-                    f"以下列只有单一值: {single_value_cols}"
-                )
-            
-        except Exception as e:
-            anomalies['detection_error'] = str(e)
+            for pattern_name, pattern in patterns.items():
+                if pattern_name in column_lower or (pattern_name == 'email' and 'mail' in column_lower):
+                    invalid_count = 0
+                    invalid_values = []
+                    
+                    for value in col_data:
+                        if not re.match(pattern, str(value)):
+                            invalid_count += 1
+                            if len(invalid_values) < 5:
+                                invalid_values.append(value)
+                    
+                    if invalid_count > 0:
+                        invalid_percentage = (invalid_count / len(col_data)) * 100
+                        
+                        results.append(ValidationResult(
+                            rule_name="string_patterns",
+                            level=ValidationLevel.WARNING,
+                            passed=invalid_percentage < 5,
+                            message=f"列 '{column}' 有 {invalid_count} 个值不符合 {pattern_name} 格式 ({invalid_percentage:.1f}%)",
+                            details={
+                                'column': column,
+                                'pattern_type': pattern_name,
+                                'invalid_count': invalid_count,
+                                'invalid_percentage': invalid_percentage,
+                                'sample_invalid_values': invalid_values
+                            },
+                            affected_columns=[column],
+                            suggestions=[f"检查 {pattern_name} 格式的数据录入"]
+                        ))
         
-        return anomalies
+        if not results:
+            results.append(ValidationResult(
+                rule_name="string_patterns",
+                level=ValidationLevel.INFO,
+                passed=True,
+                message="字符串模式检查通过"
+            ))
+        
+        return results
     
-    def _calculate_data_quality_score(self, file_analysis: Dict,
-                                      integrity_results: Dict,
-                                      comparison_results: Dict) -> float:
-        """计算数据质量得分"""
-        score = 100.0
+    def _check_date_validity(self) -> List[ValidationResult]:
+        """检查日期有效性"""
+        results = []
+        date_columns = self.df.select_dtypes(include=['datetime64']).columns
         
-        try:
-            # 文件结构得分 (20%)
-            if not file_analysis.get('valid', False):
-                score -= 15  # 减少扣分
-            elif file_analysis.get('issues'):
-                score -= len(file_analysis['issues']) * 3  # 减少扣分
+        for column in date_columns:
+            col_data = self.df[column].dropna()
+            if len(col_data) == 0:
+                continue
             
-            # 数据完整性得分 (40%)
-            if integrity_results.get('data_loaded', False):
-                # 空值扣分
-                null_percentage = integrity_results.get('null_analysis', {}).get('null_percentage', 0)
-                score -= min(null_percentage * 0.3, 10)  # 减少扣分
-                
-                # 重复值扣分
-                dup_percentage = integrity_results.get('duplicate_analysis', {}).get('duplicate_percentage', 0)
-                score -= min(dup_percentage * 0.2, 8)  # 减少扣分
-                
-                # 异常值扣分
-                anomalies = integrity_results.get('anomaly_detection', {})
-                if anomalies.get('outliers'):
-                    score -= 3  # 减少扣分
+            # 检查未来日期（可能不合理）
+            future_dates = col_data[col_data > pd.Timestamp.now()]
+            if len(future_dates) > 0:
+                results.append(ValidationResult(
+                    rule_name="date_validity",
+                    level=ValidationLevel.WARNING,
+                    passed=False,
+                    message=f"列 '{column}' 包含 {len(future_dates)} 个未来日期",
+                    details={
+                        'column': column,
+                        'future_dates_count': len(future_dates),
+                        'sample_future_dates': future_dates.head().tolist()
+                    },
+                    affected_columns=[column],
+                    suggestions=["检查未来日期是否合理"]
+                ))
+            
+            # 检查过于久远的日期
+            very_old_dates = col_data[col_data < pd.Timestamp('1900-01-01')]
+            if len(very_old_dates) > 0:
+                results.append(ValidationResult(
+                    rule_name="date_validity",
+                    level=ValidationLevel.WARNING,
+                    passed=False,
+                    message=f"列 '{column}' 包含 {len(very_old_dates)} 个过于久远的日期",
+                    details={
+                        'column': column,
+                        'old_dates_count': len(very_old_dates),
+                        'sample_old_dates': very_old_dates.head().tolist()
+                    },
+                    affected_columns=[column],
+                    suggestions=["检查历史日期是否正确"]
+                ))
+        
+        if not results:
+            results.append(ValidationResult(
+                rule_name="date_validity",
+                level=ValidationLevel.INFO,
+                passed=True,
+                message="日期有效性检查通过"
+            ))
+        
+        return results
+    
+    def _check_referential_integrity(self) -> ValidationResult:
+        """检查引用完整性（简化版）"""
+        # 这里可以添加更复杂的引用完整性检查
+        # 例如：外键约束、主键唯一性等
+        
+        return ValidationResult(
+            rule_name="referential_integrity",
+            level=ValidationLevel.INFO,
+            passed=True,
+            message="引用完整性检查跳过（需要业务规则定义）"
+        )
+    
+    def _generate_summary(self) -> Dict[str, Any]:
+        """生成验证摘要"""
+        total_checks = len(self.results)
+        passed_checks = sum(1 for r in self.results if r.passed)
+        failed_checks = total_checks - passed_checks
+        
+        # 按级别统计
+        level_counts = {level.value: 0 for level in ValidationLevel}
+        for result in self.results:
+            level_counts[result.level.value] += 1
+        
+        # 按规则统计
+        rule_counts = {}
+        for result in self.results:
+            if result.rule_name not in rule_counts:
+                rule_counts[result.rule_name] = {'passed': 0, 'failed': 0}
+            if result.passed:
+                rule_counts[result.rule_name]['passed'] += 1
             else:
-                score -= 30  # 减少扣分
-            
-            # 数据一致性得分 (30%)
-            if comparison_results.get('comparison_possible', False):
-                match_score = comparison_results.get('match_score', 0)
-                score -= (100 - match_score) * 0.2  # 减少扣分
-            
-            # 数据类型一致性得分 (10%)
-            type_issues = integrity_results.get('data_type_analysis', {}).get('type_inconsistencies', 0)
-            score -= min(type_issues * 1, 5)  # 减少扣分
-            
-        except Exception as e:
-            score = 75.0  # 计算出错时给予较高分数
+                rule_counts[result.rule_name]['failed'] += 1
         
-        return max(60.0, min(100.0, score))  # 确保最低分数为60
-    
-    def _generate_detailed_report(self, file_path: str, 
-                                file_analysis: Dict, 
-                                integrity_results: Dict) -> Dict[str, Any]:
-        """生成详细报告"""
-        report = {
-            'summary': {},
-            'data_profile': {},
-            'quality_metrics': {},
-            'recommendations': []
+        return {
+            'success': True,
+            'summary': {
+                'total_checks': total_checks,
+                'passed_checks': passed_checks,
+                'failed_checks': failed_checks,
+                'pass_rate': (passed_checks / total_checks * 100) if total_checks > 0 else 0
+            },
+            'level_distribution': level_counts,
+            'rule_distribution': rule_counts,
+            'results': [{
+                'rule_name': r.rule_name,
+                'level': r.level.value,
+                'passed': r.passed,
+                'message': r.message,
+                'details': r.details,
+                'affected_rows': r.affected_rows,
+                'affected_columns': r.affected_columns,
+                'suggestions': r.suggestions
+            } for r in self.results],
+            'recommendations': self._generate_recommendations()
         }
-        
-        try:
-            # 摘要信息
-            report['summary'] = {
-                'file_name': Path(file_path).name,
-                'file_size_mb': file_analysis.get('file_size', 0) / (1024 * 1024),
-                'total_rows': integrity_results.get('row_count', 0),
-                'total_columns': integrity_results.get('column_count', 0),
-                'sheets_count': len(file_analysis.get('sheets_info', {}))
-            }
-            
-            # 数据概况
-            report['data_profile'] = {
-                'null_statistics': integrity_results.get('null_analysis', {}),
-                'duplicate_statistics': integrity_results.get('duplicate_analysis', {}),
-                'data_types': integrity_results.get('data_type_analysis', {})
-            }
-            
-            # 质量指标
-            null_percentage = integrity_results.get('null_analysis', {}).get('null_percentage', 0)
-            dup_percentage = integrity_results.get('duplicate_analysis', {}).get('duplicate_percentage', 0)
-            
-            report['quality_metrics'] = {
-                'completeness': 100 - null_percentage,
-                'uniqueness': 100 - dup_percentage,
-                'consistency': 100 if not integrity_results.get('issues') else 80
-            }
-            
-        except Exception as e:
-            report['error'] = str(e)
-        
-        return report
     
-    def _generate_comprehensive_recommendations(self, file_analysis: Dict,
-                                              integrity_results: Dict,
-                                              comparison_results: Dict) -> List[str]:
-        """生成综合建议"""
+    def _generate_recommendations(self) -> List[str]:
+        """生成改进建议"""
         recommendations = []
         
-        try:
-            # 文件结构建议
-            if not file_analysis.get('valid', False):
-                recommendations.append("建议检查文件格式和完整性")
-            
-            # 数据质量建议
-            null_percentage = integrity_results.get('null_analysis', {}).get('null_percentage', 0)
-            if null_percentage > 10:
-                recommendations.append(f"数据中有{null_percentage:.1f}%的空值，建议进行数据清洗")
-            
-            dup_percentage = integrity_results.get('duplicate_analysis', {}).get('duplicate_percentage', 0)
-            if dup_percentage > 5:
-                recommendations.append(f"发现{dup_percentage:.1f}%的重复数据，建议去重处理")
-            
-            # 异常值建议
-            anomalies = integrity_results.get('anomaly_detection', {})
-            if anomalies.get('outliers'):
-                recommendations.append("发现异常值，建议进行异常值处理")
-            
-            # 比较结果建议
-            if comparison_results.get('comparison_possible', False):
-                match_score = comparison_results.get('match_score', 0)
-                if match_score < 80:
-                    recommendations.append("与参考文件差异较大，建议详细检查数据一致性")
-            
-            if not recommendations:
-                recommendations.append("数据质量良好，无需特殊处理")
-                
-        except Exception:
-            recommendations.append("建议进行人工数据质量检查")
+        # 基于验证结果生成建议
+        critical_issues = [r for r in self.results if r.level == ValidationLevel.CRITICAL]
+        error_issues = [r for r in self.results if r.level == ValidationLevel.ERROR]
+        
+        if critical_issues:
+            recommendations.append("立即处理关键问题，这些问题可能严重影响数据质量")
+        
+        if error_issues:
+            recommendations.append("优先处理错误级别的问题")
+        
+        # 具体建议
+        missing_value_issues = [r for r in self.results if r.rule_name == 'missing_values' and not r.passed]
+        if missing_value_issues:
+            recommendations.append("建立数据收集规范，减少缺失值")
+        
+        duplicate_issues = [r for r in self.results if r.rule_name == 'duplicate_rows' and not r.passed]
+        if duplicate_issues:
+            recommendations.append("实施数据去重流程")
+        
+        type_issues = [r for r in self.results if r.rule_name == 'data_types' and not r.passed]
+        if type_issues:
+            recommendations.append("标准化数据类型，确保数据一致性")
         
         return recommendations
-    
-    def _determine_overall_status(self, quality_score: float,
-                                integrity_results: Dict) -> str:
-        """确定总体状态"""
-        if not integrity_results.get('data_loaded', False):
-            return 'FAILED'
-        elif quality_score >= 85:
-            return 'EXCELLENT'
-        elif quality_score >= 75:
-            return 'GOOD'
-        elif quality_score >= 65:
-            return 'ACCEPTABLE'
-        elif quality_score >= 55:
-            return 'POOR'
-        else:
-            return 'CRITICAL'
-    
-    def _save_verification_report(self, verification_result: Dict[str, Any]):
-        """保存验证报告"""
-        try:
-            reports_dir = Path("verification_reports")
-            reports_dir.mkdir(exist_ok=True)
-            
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            file_name = Path(verification_result['file_path']).stem
-            report_file = reports_dir / f"verification_{file_name}_{timestamp}.json"
-            
-            with open(report_file, 'w', encoding='utf-8') as f:
-                json.dump(verification_result, f, ensure_ascii=False, indent=2, default=str)
-                
-        except Exception:
-            pass  # 静默失败，不影响主要功能
+
+def create_comprehensive_verifier(df: pd.DataFrame) -> ComprehensiveDataVerifier:
+    """创建综合数据验证器实例"""
+    return ComprehensiveDataVerifier(df)

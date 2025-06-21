@@ -1,4 +1,6 @@
-# ChatExcel MCP Server
+# ChatExcel MCP Server - 企业级增强版 v2.1.1
+
+> **最新更新 (2025-06-19)**: pandas导入问题完全修复，项目结构优化完成，企业级功能全面就绪
 
 > 🚀 **企业级Excel智能处理与数据分析MCP服务器** - 基于FastMCP构建的高性能数据处理解决方案
 
@@ -85,8 +87,8 @@ ChatExcel MCP Server 是一个功能强大的模型上下文协议(MCP)服务器
 ### 🔧 数据处理与执行工具 (6个)
 | 工具名称 | 功能描述 | 主要特性 |
 |---------|----------|----------|
-| `run_excel_code` | Excel代码执行引擎 | 安全沙箱、复杂格式参数支持 |
-| `run_code` | CSV代码执行引擎 | 安全环境、pandas集成 |
+| `run_excel_code` | Excel代码执行引擎 | 安全沙箱、复杂格式参数支持、✅ pandas导入完全修复 |
+| `run_code` | CSV代码执行引擎 | 安全环境、pandas集成、✅ 增强执行环境 |
 | `excel_write_enhanced` | 增强版Excel写入工具 | 格式优化、样式支持 |
 | `excel_chart_enhanced` | 增强版Excel图表生成 | 多种图表类型、自定义样式 |
 | `excel_performance_comparison` | Excel性能对比分析 | Go vs Python性能测试 |
@@ -132,6 +134,573 @@ ChatExcel MCP Server 是一个功能强大的模型上下文协议(MCP)服务器
 | `merge_multiple_tables` | 多表格数据合并 | 智能合并、配置化处理 |
 | `clean_excel_data` | Excel数据清洗 | 全面清洗、质量提升 |
 | `batch_process_excel_files` | 批量Excel文件处理 | 并行处理、统一配置 |
+
+---
+
+## 📋 Workflow使用手册 - 31个MCP工具全流程指南
+
+本章节按照用户实际使用场景和数据处理全流程，将31个MCP工具进行分类关联，提供完整的workflow使用指南。
+
+### 🎯 数据处理全流程概览
+
+```mermaid
+flowchart TD
+    A[📁 数据源] --> B[🔍 数据探索阶段]
+    B --> C[📊 数据读取阶段]
+    C --> D[🔧 数据处理阶段]
+    D --> E[✅ 数据验证阶段]
+    E --> F[📈 数据可视化阶段]
+    F --> G[🧮 公式计算阶段]
+    G --> H[🔍 质量控制阶段]
+    H --> I[📤 数据输出阶段]
+    
+    B --> B1[文件结构检测]
+    B --> B2[元数据分析]
+    B --> B3[参数推荐]
+    
+    C --> C1[智能读取]
+    C --> C2[编码检测]
+    C --> C3[模板生成]
+    
+    D --> D1[代码执行]
+    D --> D2[数据转换]
+    D --> D3[批量处理]
+    
+    E --> E1[完整性验证]
+    E --> E2[质量检查]
+    E --> E3[数据比对]
+    
+    F --> F1[图表生成]
+    F --> F2[交互可视化]
+    F --> F3[报告输出]
+    
+    G --> G1[公式解析]
+    G --> G2[公式执行]
+    G --> G3[依赖分析]
+    
+    H --> H1[数据清洗]
+    H --> H2[格式转换]
+    H --> H3[多表合并]
+    
+    I --> I1[Excel写入]
+    I --> I2[图表嵌入]
+    I --> I3[性能对比]
+```
+
+### 🚀 阶段一：数据探索与准备 (7个工具)
+
+#### 📋 使用场景
+当您拿到一个新的Excel文件时，首先需要了解文件结构、数据特征和最佳读取方式。
+
+#### 🛠️ 核心工具组合
+
+| 步骤 | 工具名称 | 使用目的 | 输出结果 |
+|------|----------|----------|----------|
+| 1️⃣ | `excel_info_enhanced` | 获取文件基本信息 | 工作表列表、文件大小、格式信息 |
+| 2️⃣ | `read_excel_metadata` | 深度元数据分析 | 数据类型、编码格式、统计信息 |
+| 3️⃣ | `detect_excel_file_structure_tool` | 智能结构检测 | 表头位置、数据区域、合并单元格 |
+| 4️⃣ | `suggest_excel_read_parameters_tool` | 参数智能推荐 | 最佳读取参数配置 |
+| 5️⃣ | `create_excel_read_template_tool` | 生成读取模板 | 可执行的读取代码模板 |
+
+#### 💡 Workflow示例
+
+```python
+# 步骤1: 文件信息探索
+file_info = await mcp_client.call_tool(
+    "excel_info_enhanced",
+    {"file_path": "/path/to/data.xlsx"}
+)
+print(f"发现 {file_info['sheets_count']} 个工作表")
+
+# 步骤2: 元数据深度分析
+metadata = await mcp_client.call_tool(
+    "read_excel_metadata",
+    {"file_path": "/path/to/data.xlsx"}
+)
+print(f"数据编码: {metadata['encoding']}, 总行数: {metadata['total_rows']}")
+
+# 步骤3: 智能结构检测
+structure = await mcp_client.call_tool(
+    "detect_excel_file_structure_tool",
+    {"file_path": "/path/to/data.xlsx", "sheet_name": "Sheet1"}
+)
+print(f"表头位置: {structure['header_row']}, 数据区域: {structure['data_range']}")
+
+# 步骤4: 获取最佳读取参数
+params = await mcp_client.call_tool(
+    "suggest_excel_read_parameters_tool",
+    {"file_path": "/path/to/data.xlsx"}
+)
+print(f"推荐参数: {params['recommended_params']}")
+
+# 步骤5: 生成读取模板
+template = await mcp_client.call_tool(
+    "create_excel_read_template_tool",
+    {
+        "file_path": "/path/to/data.xlsx",
+        "parameters": params['recommended_params']
+    }
+)
+print(f"生成的读取代码:\n{template['code_template']}")
+```
+
+### 📊 阶段二：数据读取与加载 (4个工具)
+
+#### 📋 使用场景
+基于探索阶段的分析结果，执行高效、准确的数据读取操作。
+
+#### 🛠️ 核心工具组合
+
+| 工具名称 | 适用场景 | 核心优势 | 性能特点 |
+|----------|----------|----------|----------|
+| `excel_read_enhanced` | 标准Excel文件读取 | Go引擎加速、智能参数 | 高性能、大文件支持 |
+| `read_metadata` | CSV文件元数据读取 | 编码自动检测、分隔符识别 | 轻量级、快速响应 |
+| `read_excel_metadata` | Excel元数据专用 | 多工作表分析、完整性验证 | 全面分析、准确可靠 |
+| `excel_performance_comparison` | 性能基准测试 | Python vs Go性能对比 | 性能优化、引擎选择 |
+
+#### 💡 Workflow示例
+
+```python
+# 智能读取策略选择
+async def smart_read_excel(file_path, optimization_level="balanced"):
+    # 1. 性能基准测试（可选）
+    if optimization_level == "performance":
+        perf_result = await mcp_client.call_tool(
+            "excel_performance_comparison",
+            {"file_path": file_path, "test_operations": ["read", "parse"]}
+        )
+        best_engine = perf_result['recommended_engine']
+    
+    # 2. 执行优化读取
+    data = await mcp_client.call_tool(
+        "excel_read_enhanced",
+        {
+            "file_path": file_path,
+            "engine": best_engine if 'best_engine' in locals() else "auto",
+            "optimize_memory": True,
+            "chunk_size": 10000 if optimization_level == "memory" else None
+        }
+    )
+    
+    return data
+```
+
+### 🔧 阶段三：数据处理与转换 (6个工具)
+
+#### 📋 使用场景
+对读取的数据进行清洗、转换、计算和处理操作。
+
+#### 🛠️ 核心工具组合
+
+| 处理类型 | 工具名称 | 功能描述 | 安全等级 |
+|----------|----------|----------|----------|
+| **代码执行** | `run_excel_code` | Excel数据代码执行引擎 | 🔒 沙箱隔离 |
+| **代码执行** | `run_code` | CSV数据代码执行引擎 | 🔒 安全环境 |
+| **数据写入** | `excel_write_enhanced` | 增强版Excel写入工具 | ✅ 格式优化 |
+| **图表生成** | `excel_chart_enhanced` | Excel内嵌图表生成 | 📊 多样式支持 |
+| **批量验证** | `batch_data_verification_tool` | 批量数据验证处理 | ⚡ 并发处理 |
+| **性能对比** | `excel_performance_comparison` | 处理性能基准测试 | 📈 优化建议 |
+
+#### 💡 Workflow示例
+
+```python
+# 完整数据处理流水线
+async def data_processing_pipeline(file_path, processing_code):
+    # 1. 安全代码执行
+    processed_data = await mcp_client.call_tool(
+        "run_excel_code",
+        {
+            "file_path": file_path,
+            "code": processing_code,
+            "security_level": "strict",
+            "timeout": 30,
+            "memory_limit": "1GB"
+        }
+    )
+    
+    # 2. 数据验证
+    validation_result = await mcp_client.call_tool(
+        "batch_data_verification_tool",
+        {
+            "data": processed_data['result'],
+            "validation_rules": [
+                "check_null_values",
+                "validate_data_types",
+                "check_duplicates"
+            ]
+        }
+    )
+    
+    # 3. 结果写入
+    if validation_result['is_valid']:
+        output_result = await mcp_client.call_tool(
+            "excel_write_enhanced",
+            {
+                "data": processed_data['result'],
+                "output_path": "/path/to/output.xlsx",
+                "formatting": {
+                    "auto_adjust_columns": True,
+                    "add_filters": True,
+                    "freeze_header": True
+                }
+            }
+        )
+        return output_result
+    else:
+        raise ValueError(f"数据验证失败: {validation_result['errors']}")
+```
+
+### ✅ 阶段四：数据验证与质量控制 (10个工具)
+
+#### 📋 使用场景
+确保数据质量、完整性和准确性，是数据处理流程中的关键环节。
+
+#### 🛠️ 核心工具组合
+
+##### 🔍 基础验证工具 (3个)
+| 工具名称 | 验证重点 | 输出报告 |
+|----------|----------|----------|
+| `verify_data_integrity` | 数据完整性、一致性验证 | 详细验证报告、问题定位 |
+| `validate_data_quality` | 数据质量评估、改进建议 | 质量评分、优化建议 |
+| `comprehensive_data_verification_tool` | 综合验证、全面评估 | 完整验证报告、质量认证 |
+
+##### 🧹 高级质量控制工具 (7个)
+| 工具名称 | 专业领域 | 核心功能 |
+|----------|----------|----------|
+| `enhanced_data_quality_check` | 多级质量检查 | 深度质量分析、综合评估 |
+| `extract_cell_content_advanced` | 内容提取分析 | 多类型提取、格式化处理 |
+| `convert_character_formats` | 字符格式标准化 | 批量转换、规则配置 |
+| `extract_multi_condition_data` | 复杂条件筛选 | 多维度筛选、灵活配置 |
+| `merge_multiple_tables` | 多表数据整合 | 智能合并、关系处理 |
+| `clean_excel_data` | 数据清洗优化 | 全面清洗、质量提升 |
+| `batch_process_excel_files` | 批量文件处理 | 并行处理、统一标准 |
+
+#### 💡 Workflow示例
+
+```python
+# 数据质量控制完整流程
+async def comprehensive_quality_control(file_path):
+    # 第一层：基础验证
+    integrity_check = await mcp_client.call_tool(
+        "verify_data_integrity",
+        {
+            "file_path": file_path,
+            "validation_mode": "comprehensive",
+            "check_duplicates": True,
+            "check_missing_values": True
+        }
+    )
+    
+    # 第二层：质量评估
+    quality_assessment = await mcp_client.call_tool(
+        "validate_data_quality",
+        {
+            "file_path": file_path,
+            "quality_metrics": ["completeness", "accuracy", "consistency"],
+            "generate_suggestions": True
+        }
+    )
+    
+    # 第三层：深度质量检查
+    enhanced_check = await mcp_client.call_tool(
+        "enhanced_data_quality_check",
+        {
+            "file_path": file_path,
+            "check_levels": ["basic", "advanced", "expert"],
+            "custom_rules": {
+                "date_format_validation": True,
+                "numeric_range_check": True,
+                "text_pattern_validation": True
+            }
+        }
+    )
+    
+    # 数据清洗（如果需要）
+    if quality_assessment['quality_score'] < 0.8:
+        cleaned_data = await mcp_client.call_tool(
+            "clean_excel_data",
+            {
+                "file_path": file_path,
+                "cleaning_operations": [
+                    "remove_duplicates",
+                    "fill_missing_values",
+                    "standardize_formats",
+                    "validate_data_types"
+                ],
+                "output_path": "/path/to/cleaned_data.xlsx"
+            }
+        )
+        return cleaned_data
+    
+    return {
+        "status": "quality_approved",
+        "integrity_score": integrity_check['integrity_score'],
+        "quality_score": quality_assessment['quality_score'],
+        "recommendations": enhanced_check['recommendations']
+    }
+```
+
+### 📈 阶段五：数据可视化与报告 (3个工具)
+
+#### 📋 使用场景
+将处理后的数据转换为直观的图表和交互式可视化报告。
+
+#### 🛠️ 核心工具组合
+
+| 图表类型 | 工具名称 | 适用场景 | 技术特性 |
+|----------|----------|----------|----------|
+| **柱状图** | `bar_chart_to_html` | 分类数据对比、趋势分析 | Chart.js、响应式设计 |
+| **饼图** | `pie_chart_to_html` | 占比分析、构成展示 | 动画效果、数据标签 |
+| **折线图** | `line_chart_to_html` | 时间序列、趋势变化 | 多维数据、交互缩放 |
+
+#### 💡 Workflow示例
+
+```python
+# 智能可视化决策系统
+async def smart_visualization_pipeline(data, chart_preferences=None):
+    # 数据特征分析
+    data_analysis = analyze_data_characteristics(data)
+    
+    # 智能图表推荐
+    if data_analysis['has_categories'] and data_analysis['has_numeric']:
+        # 分类数据 -> 柱状图
+        chart_result = await mcp_client.call_tool(
+            "bar_chart_to_html",
+            {
+                "data": data,
+                "x_column": data_analysis['category_column'],
+                "y_column": data_analysis['numeric_column'],
+                "title": "数据分布分析",
+                "chart_options": {
+                    "responsive": True,
+                    "animation": True,
+                    "export_enabled": True
+                }
+            }
+        )
+    
+    elif data_analysis['is_composition_data']:
+        # 构成数据 -> 饼图
+        chart_result = await mcp_client.call_tool(
+            "pie_chart_to_html",
+            {
+                "data": data,
+                "label_column": data_analysis['label_column'],
+                "value_column": data_analysis['value_column'],
+                "title": "构成比例分析",
+                "chart_options": {
+                    "show_percentages": True,
+                    "enable_legend": True,
+                    "interactive": True
+                }
+            }
+        )
+    
+    elif data_analysis['has_time_series']:
+        # 时间序列 -> 折线图
+        chart_result = await mcp_client.call_tool(
+            "line_chart_to_html",
+            {
+                "data": data,
+                "x_column": data_analysis['time_column'],
+                "y_columns": data_analysis['numeric_columns'],
+                "title": "趋势变化分析",
+                "chart_options": {
+                    "smooth_lines": True,
+                    "show_points": True,
+                    "zoom_enabled": True
+                }
+            }
+        )
+    
+    return chart_result
+```
+
+### 🧮 阶段六：Excel公式处理与计算 (5个工具)
+
+#### 📋 使用场景
+处理复杂的Excel公式、进行高级计算和依赖关系分析。
+
+#### 🛠️ 核心工具组合
+
+| 处理阶段 | 工具名称 | 核心功能 | 安全特性 |
+|----------|----------|----------|----------|
+| **解析** | `parse_formula` | 公式语法分析、AST构建 | 🔒 安全验证、语法检查 |
+| **编译** | `compile_workbook` | 工作簿编译、代码生成 | ⚡ 性能优化、依赖分析 |
+| **执行** | `execute_formula` | 公式安全执行、结果计算 | 🛡️ 沙箱环境、上下文隔离 |
+| **分析** | `analyze_dependencies` | 依赖关系分析、影响评估 | 🔍 循环检测、关系图谱 |
+| **验证** | `validate_formula` | 公式安全验证、风险评估 | ✅ 安全检查、合规验证 |
+
+#### 💡 Workflow示例
+
+```python
+# Excel公式处理完整流程
+async def excel_formula_processing_pipeline(workbook_path, target_formulas):
+    results = {}
+    
+    for formula in target_formulas:
+        # 1. 公式解析与验证
+        parse_result = await mcp_client.call_tool(
+            "parse_formula",
+            {
+                "formula": formula,
+                "validate_security": True,
+                "extract_references": True
+            }
+        )
+        
+        if not parse_result['is_safe']:
+            results[formula] = {"status": "rejected", "reason": "安全风险"}
+            continue
+        
+        # 2. 安全验证
+        validation_result = await mcp_client.call_tool(
+            "validate_formula",
+            {
+                "formula": formula,
+                "security_level": "strict",
+                "check_functions": True
+            }
+        )
+        
+        if validation_result['risk_level'] > 3:
+            results[formula] = {"status": "high_risk", "details": validation_result}
+            continue
+        
+        # 3. 依赖分析
+        dependency_result = await mcp_client.call_tool(
+            "analyze_dependencies",
+            {
+                "workbook_path": workbook_path,
+                "target_formula": formula,
+                "check_circular": True
+            }
+        )
+        
+        # 4. 公式执行
+        if not dependency_result['has_circular_dependency']:
+            execution_result = await mcp_client.call_tool(
+                "execute_formula",
+                {
+                    "formula": formula,
+                    "context": dependency_result['context'],
+                    "timeout": 10,
+                    "memory_limit": "100MB"
+                }
+            )
+            
+            results[formula] = {
+                "status": "success",
+                "result": execution_result['value'],
+                "performance": execution_result['execution_time'],
+                "dependencies": dependency_result['dependencies']
+            }
+        else:
+            results[formula] = {
+                "status": "circular_dependency",
+                "cycle_path": dependency_result['cycle_path']
+            }
+    
+    return results
+```
+
+### 🎯 完整Workflow集成示例
+
+#### 📋 端到端数据处理流程
+
+```python
+# 企业级数据处理完整流程
+async def enterprise_data_workflow(input_file, output_requirements):
+    workflow_results = {}
+    
+    # 阶段1: 数据探索
+    print("🔍 开始数据探索阶段...")
+    exploration_results = await data_exploration_phase(input_file)
+    workflow_results['exploration'] = exploration_results
+    
+    # 阶段2: 数据读取
+    print("📊 开始数据读取阶段...")
+    data = await smart_read_excel(
+        input_file, 
+        optimization_level=exploration_results['recommended_optimization']
+    )
+    workflow_results['data_loading'] = {"rows": len(data), "columns": len(data.columns)}
+    
+    # 阶段3: 数据处理
+    print("🔧 开始数据处理阶段...")
+    if output_requirements.get('processing_code'):
+        processed_data = await data_processing_pipeline(
+            input_file, 
+            output_requirements['processing_code']
+        )
+        data = processed_data['result']
+    
+    # 阶段4: 质量控制
+    print("✅ 开始质量控制阶段...")
+    quality_results = await comprehensive_quality_control(input_file)
+    workflow_results['quality_control'] = quality_results
+    
+    # 阶段5: 可视化（如果需要）
+    if output_requirements.get('generate_charts'):
+        print("📈 开始可视化阶段...")
+        charts = await smart_visualization_pipeline(
+            data, 
+            output_requirements.get('chart_preferences')
+        )
+        workflow_results['visualization'] = charts
+    
+    # 阶段6: 公式处理（如果需要）
+    if output_requirements.get('formulas'):
+        print("🧮 开始公式处理阶段...")
+        formula_results = await excel_formula_processing_pipeline(
+            input_file, 
+            output_requirements['formulas']
+        )
+        workflow_results['formula_processing'] = formula_results
+    
+    # 最终输出
+    print("📤 生成最终输出...")
+    final_output = await generate_final_output(
+        data, 
+        workflow_results, 
+        output_requirements
+    )
+    
+    return {
+        "status": "completed",
+        "workflow_results": workflow_results,
+        "final_output": final_output,
+        "processing_summary": {
+            "total_tools_used": count_tools_used(workflow_results),
+            "processing_time": calculate_total_time(workflow_results),
+            "quality_score": quality_results.get('quality_score', 'N/A')
+        }
+    }
+```
+
+### 📚 最佳实践建议
+
+#### 🎯 工具选择策略
+
+1. **小文件 (<10MB)**: 使用Python引擎工具，响应快速
+2. **大文件 (>50MB)**: 优先使用Go引擎工具，性能更佳
+3. **复杂公式**: 必须使用公式处理工具链，确保安全性
+4. **批量处理**: 使用批量工具，提升效率
+5. **质量要求高**: 使用完整质量控制流程
+
+#### ⚡ 性能优化建议
+
+1. **缓存策略**: 重复操作启用缓存机制
+2. **并发处理**: 批量任务使用并发工具
+3. **内存管理**: 大文件使用分块处理
+4. **引擎选择**: 根据性能测试结果选择最佳引擎
+
+#### 🔒 安全使用原则
+
+1. **代码执行**: 始终在沙箱环境中执行
+2. **公式处理**: 必须进行安全验证
+3. **文件访问**: 验证文件路径和权限
+4. **资源限制**: 设置合理的超时和内存限制
 
 ---
 
@@ -197,30 +766,35 @@ result = validate_formula("=SUM(A1:A10)")
 
 ## 📋 版本更新日志
 
+### v2.1.1 (2025-06-19) - pandas导入修复版
+
+**🔧 关键修复**
+- ✅ **pandas导入问题完全修复**: 彻底解决MCP服务器中pandas导入失败的问题
+  - 增强了`fallback_enhanced_run_excel_code`函数的执行环境
+  - 添加了多种pandas和numpy引用方式支持 (`pd`, `pandas`, `np`, `numpy`)
+  - 完善了内置函数和常用模块的导入
+  - 改进了错误处理和返回格式
+- ✅ **项目结构优化**: 完成项目文件整理和结构优化
+  - 移动文档文件到`record/`目录统一管理
+  - 清理冗余文件，优化目录结构
+  - 完善配置文件和依赖管理
+
+**🆕 新增模块**
+- `enhanced_globals_config.py` - 增强的全局配置模块
+- `pandas_fix_patch.py` - pandas导入修复补丁
+- `mcp_pandas_integration.py` - MCP服务器集成修复模块
+- 完整的测试验证套件
+
 ### v2.1.0 (2025-06-18) - 企业级增强版
 
 **🎉 重大更新**
 - ✅ **tabulate库完全集成**: 彻底解决tabulate ImportError问题，支持pandas.to_markdown()功能
 - ✅ **Excel公式引擎增强**: 基于formulas==1.2.10的完整公式处理系统
 - ✅ **31个MCP工具**: 新增7个数据质量控制工具，覆盖完整数据处理生命周期
-  - enhanced_data_quality_check - 增强数据质量检查
-  - extract_cell_content_advanced - 高级单元格内容提取
-  - convert_character_formats - 字符格式自动化转换
-  - extract_multi_condition_data - 多条件数据提取
-  - merge_multiple_tables - 多表格数据合并
-  - clean_excel_data - Excel数据清洗
-  - batch_process_excel_files - 批量Excel文件处理
 - ✅ **安全机制优化**: 增强代码执行沙箱，完善安全验证机制
 - ✅ **性能提升**: Go excelize集成，缓存机制，并发处理优化
 - ✅ **健康监控**: 完整的服务监控、日志记录和错误追踪系统
 - ✅ **环境兼容性**: 完善的虚拟环境支持和依赖检查
-
-**🔧 技术改进**
-- 修复了tabulate库在MCP环境中的兼容性问题
-- 优化了安全沙箱的模块加载机制
-- 提升了表格数据格式化的性能和稳定性
-- 增强了Excel公式解析、编译和执行能力
-- 完善了数据质量控制和验证机制
 
 ### v2.0.0 (2025-06-18) - 重大更新
 
@@ -248,18 +822,89 @@ result = validate_formula("=SUM(A1:A10)")
 | **磁盘空间** | 1GB+ | 包含依赖和缓存空间 |
 | **Go** | 1.21+ (可选) | 用于高性能Excel处理 |
 
+### 📦 依赖管理
+
+#### 核心依赖
+- **MCP协议**: `mcp>=1.9.4`, `fastmcp>=2.8.0`
+- **数据处理**: `pandas>=1.5.3`, `numpy>=1.26.4`, `pandasai>=2.3.0`
+- **Excel处理**: `openpyxl>=3.1.5`, `xlsxwriter>=3.2.5`
+- **机器学习**: `torch>=2.1.0`, `transformers>=4.39.2`, `scikit-learn>=1.2.2`
+- **可视化**: `matplotlib>=3.10.1`, `seaborn>=0.13.2`, `plotly>=6.0.1`
+- **Web服务**: `fastapi>=0.115.12`, `uvicorn>=0.30.6`, `gradio>=5.23.3`
+
+#### 📦 依赖兼容性说明
+
+本项目已解决以下依赖冲突问题：
+- ✅ **pandas导入修复**: 完全解决MCP环境中pandas导入失败问题 (v2.1.1)
+- ✅ **执行环境增强**: 支持多种pandas/numpy引用方式 (`pd`, `pandas`, `np`, `numpy`)
+- ✅ **Torch版本**: 降级至 `torch==2.1.0` 以兼容 `torchvision==0.16.0`
+- ✅ **PandasAI兼容**: 升级至 `pandasai==2.3.0` 并保持 `pandas==1.5.3`
+- ✅ **Pydantic版本**: 升级至 `pydantic==2.11.7` 以支持MCP和其他现代依赖
+- ✅ **SSL证书问题**: 提供 `--trusted-host` 参数解决方案
+- ✅ **项目结构优化**: 文档整理到`record/`目录，清理冗余文件
+
+#### 故障排除
+
+如果遇到依赖冲突，请按以下步骤操作：
+
+1. **检查依赖状态**
+```bash
+pip check
+python scripts/health_check.py
+```
+
+2. **重新安装依赖**
+```bash
+pip uninstall -y torch torchvision pandasai pandas pydantic
+pip install torch==2.1.0 torchvision==0.16.0 --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org
+pip install pandasai==2.3.0 --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org
+pip install "pydantic>=2.7.2" --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org
+```
+
+3. **验证修复**
+```bash
+pip check
+python scripts/health_check.py
 ### ⚡ 一键部署 (推荐)
 
 ```bash
 # 1. 克隆项目
-git clone https://github.com/Lillard01/chatExcel-mcp2.0.git
-cd chatExcel-mcp2.0
+git clone https://github.com/chatexcel/chatExcel-mcp.git
+cd chatExcel-mcp
 
 # 2. 一键部署（自动安装依赖、配置环境、启动服务）
-./start.sh --deploy
-
-# 3. 启动增强版服务器
 ./start.sh
+
+# 3. 验证部署状态
+python scripts/health_check.py
+```
+
+### 🔧 手动部署
+
+```bash
+# 1. 创建虚拟环境
+python3 -m venv venv
+source venv/bin/activate  # macOS/Linux
+# 或 venv\Scripts\activate  # Windows
+
+# 2. 安装依赖
+pip install -r requirements.txt --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org
+
+# 3. 启动GO服务 (可选，用于高性能Excel处理)
+cd excel-service
+go run main.go &
+cd ..
+
+# 4. 启动MCP服务器
+python server.py
+```
+
+### 📊 服务状态验证
+
+```bash
+# 检查服务健康状态
+curl http://localhost:8080/api/v1/health  # GO服务
+python scripts/health_check.py            # 完整系统检查
 ```
 
 ### 🔧 手动安装
@@ -267,8 +912,8 @@ cd chatExcel-mcp2.0
 #### 步骤1: 环境准备
 ```bash
 # 克隆项目
-git clone https://github.com/Lillard01/chatExcel-mcp2.0.git
-cd chatExcel-mcp2.0
+git clone https://github.com/chatexcel/chatExcel-mcp.git
+cd chatExcel-mcp
 
 # 创建虚拟环境
 python3 -m venv venv
@@ -283,11 +928,20 @@ source venv/bin/activate  # macOS/Linux
 # 升级pip
 pip install --upgrade pip
 
-# 安装项目依赖
+# 如果遇到SSL证书问题，使用以下命令
+pip install -r requirements.txt --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org
+
+# 或者正常安装
 pip install -r requirements.txt
 
 # 验证安装
 python3 check_dependencies.py
+
+# 运行健康检查脚本
+python scripts/health_check.py
+
+# 检查依赖冲突
+pip check
 ```
 
 #### 步骤3: 配置服务
@@ -355,6 +1009,54 @@ python3 comprehensive_mcp_test.py
 # 检查服务状态
 curl http://localhost:8080/health
 ```
+
+### 🔧 开发指南
+
+#### 项目结构
+```
+chatExcel-mcp/
+├── chatexcel_mcp/          # 主要源代码
+│   ├── __init__.py
+│   ├── server.py           # MCP服务器主文件
+│   ├── tools/              # 工具模块
+│   │   ├── excel_tools.py  # Excel操作工具
+│   │   ├── chart_tools.py  # 图表生成工具
+│   │   └── ai_tools.py     # AI分析工具
+│   └── utils/              # 工具函数
+├── tests/                  # 测试文件（已创建）
+├── docs/                   # 文档
+├── examples/               # 示例文件
+├── scripts/                # 脚本文件
+│   └── health_check.py     # 健康检查脚本
+├── requirements.txt        # 依赖列表（已更新）
+├── pyproject.toml         # 项目配置（已更新）
+└── README.md              # 项目说明
+```
+
+#### 环境健康检查
+
+项目包含完整的健康检查机制：
+
+```bash
+# 运行完整健康检查
+python scripts/health_check.py
+```
+
+健康检查包括：
+- ✅ Python版本验证
+- ✅ 虚拟环境检测
+- ✅ 依赖包版本验证
+- ✅ 项目文件结构完整性
+- ✅ 服务器模块导入测试
+
+#### 版本兼容性
+
+当前环境已验证兼容：
+- **Python**: 3.8+
+- **Torch**: 2.1.0 (兼容 torchvision 0.16.0)
+- **PandasAI**: 2.3.0 (兼容 pandas 1.5.3)
+- **Pydantic**: 2.11.7 (支持MCP 1.9.4)
+- **所有依赖**: 无冲突状态
 
 ## 🔧 MCP配置与集成
 
