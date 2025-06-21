@@ -6,6 +6,18 @@
 
 **chatExcel-mcp** 是一个基于 MCP (Model Context Protocol) 的企业级 Excel 智能处理服务器，提供强大的 Excel 文件分析、数据处理、公式计算和可视化功能。
 
+
+[![Python Version](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://python.org)
+[![FastMCP](https://img.shields.io/badge/FastMCP-0.3.0-green.svg)](https://github.com/jlowin/fastmcp)
+[![Go Version](https://img.shields.io/badge/go-1.24%2B-00ADD8.svg)](https://golang.org)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Version](https://img.shields.io/badge/version-2.1.0-orange.svg)](pyproject.toml)
+[![Formulas](https://img.shields.io/badge/formulas-1.2.10-blue.svg)](https://pypi.org/project/formulas/)
+[![Security](https://img.shields.io/badge/security-enhanced-green.svg)](#-安全考虑)
+[![Performance](https://img.shields.io/badge/performance-optimized-brightgreen.svg)](#-性能优化)
+[![Health Check](https://img.shields.io/badge/health-monitoring-blue.svg)](#-运维工具)
+
+
 ## 🚀 核心特性
 
 ### 📊 31个专业MCP工具
@@ -45,16 +57,6 @@
 - **并发处理**: 异步任务执行，提升处理速度
 - **内存管理**: 大文件分块处理，优化内存使用
 - **错误恢复**: 自动重试机制和健康监控
-
-[![Python Version](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://python.org)
-[![FastMCP](https://img.shields.io/badge/FastMCP-0.3.0-green.svg)](https://github.com/jlowin/fastmcp)
-[![Go Version](https://img.shields.io/badge/go-1.24%2B-00ADD8.svg)](https://golang.org)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-2.1.0-orange.svg)](pyproject.toml)
-[![Formulas](https://img.shields.io/badge/formulas-1.2.10-blue.svg)](https://pypi.org/project/formulas/)
-[![Security](https://img.shields.io/badge/security-enhanced-green.svg)](#-安全考虑)
-[![Performance](https://img.shields.io/badge/performance-optimized-brightgreen.svg)](#-性能优化)
-[![Health Check](https://img.shields.io/badge/health-monitoring-blue.svg)](#-运维工具)
 
 ## 📋 项目概述
 
