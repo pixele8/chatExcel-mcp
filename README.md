@@ -2000,7 +2000,7 @@ bandit -r .
 - **项目维护者**: ChatExcel Team
 - **问题反馈**: [GitHub Issues](https://github.com/Lillard01/chatExcel-mcp/issues)
 - **功能建议**: [GitHub Discussions](https://github.com/Lillard01/chatExcel-mcp/discussions)
-- **技术支持**: support@chatexcel.com
+- **技术支持**: lillardw459@gmail.com
 
 ## 🙏 致谢
 
