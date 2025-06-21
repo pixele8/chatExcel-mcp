@@ -204,44 +204,7 @@ flowchart TD
 
 #### 💡 Workflow示例
 
-```python
-# 步骤1: 文件信息探索
-file_info = await mcp_client.call_tool(
-    "excel_info_enhanced",
-    {"file_path": "/path/to/data.xlsx"}
-)
-print(f"发现 {file_info['sheets_count']} 个工作表")
-
-# 步骤2: 元数据深度分析
-metadata = await mcp_client.call_tool(
-    "read_excel_metadata",
-    {"file_path": "/path/to/data.xlsx"}
-)
-print(f"数据编码: {metadata['encoding']}, 总行数: {metadata['total_rows']}")
-
-# 步骤3: 智能结构检测
-structure = await mcp_client.call_tool(
-    "detect_excel_file_structure_tool",
-    {"file_path": "/path/to/data.xlsx", "sheet_name": "Sheet1"}
-)
-print(f"表头位置: {structure['header_row']}, 数据区域: {structure['data_range']}")
-
-# 步骤4: 获取最佳读取参数
-params = await mcp_client.call_tool(
-    "suggest_excel_read_parameters_tool",
-    {"file_path": "/path/to/data.xlsx"}
-)
-print(f"推荐参数: {params['recommended_params']}")
-
-# 步骤5: 生成读取模板
-template = await mcp_client.call_tool(
-    "create_excel_read_template_tool",
-    {
-        "file_path": "/path/to/data.xlsx",
-        "parameters": params['recommended_params']
-    }
-)
-print(f"生成的读取代码:\n{template['code_template']}")
+```
 ```
 
 ### 📊 阶段二：数据读取与加载 (4个工具)
@@ -260,29 +223,7 @@ print(f"生成的读取代码:\n{template['code_template']}")
 
 #### 💡 Workflow示例
 
-```python
-# 智能读取策略选择
-async def smart_read_excel(file_path, optimization_level="balanced"):
-    # 1. 性能基准测试（可选）
-    if optimization_level == "performance":
-        perf_result = await mcp_client.call_tool(
-            "excel_performance_comparison",
-            {"file_path": file_path, "test_operations": ["read", "parse"]}
-        )
-        best_engine = perf_result['recommended_engine']
-    
-    # 2. 执行优化读取
-    data = await mcp_client.call_tool(
-        "excel_read_enhanced",
-        {
-            "file_path": file_path,
-            "engine": best_engine if 'best_engine' in locals() else "auto",
-            "optimize_memory": True,
-            "chunk_size": 10000 if optimization_level == "memory" else None
-        }
-    )
-    
-    return data
+```
 ```
 
 ### 🔧 阶段三：数据处理与转换 (6个工具)
@@ -303,51 +244,7 @@ async def smart_read_excel(file_path, optimization_level="balanced"):
 
 #### 💡 Workflow示例
 
-```python
-# 完整数据处理流水线
-async def data_processing_pipeline(file_path, processing_code):
-    # 1. 安全代码执行
-    processed_data = await mcp_client.call_tool(
-        "run_excel_code",
-        {
-            "file_path": file_path,
-            "code": processing_code,
-            "security_level": "strict",
-            "timeout": 30,
-            "memory_limit": "1GB"
-        }
-    )
-    
-    # 2. 数据验证
-    validation_result = await mcp_client.call_tool(
-        "batch_data_verification_tool",
-        {
-            "data": processed_data['result'],
-            "validation_rules": [
-                "check_null_values",
-                "validate_data_types",
-                "check_duplicates"
-            ]
-        }
-    )
-    
-    # 3. 结果写入
-    if validation_result['is_valid']:
-        output_result = await mcp_client.call_tool(
-            "excel_write_enhanced",
-            {
-                "data": processed_data['result'],
-                "output_path": "/path/to/output.xlsx",
-                "formatting": {
-                    "auto_adjust_columns": True,
-                    "add_filters": True,
-                    "freeze_header": True
-                }
-            }
-        )
-        return output_result
-    else:
-        raise ValueError(f"数据验证失败: {validation_result['errors']}")
+```
 ```
 
 ### ✅ 阶段四：数据验证与质量控制 (10个工具)
@@ -377,67 +274,7 @@ async def data_processing_pipeline(file_path, processing_code):
 
 #### 💡 Workflow示例
 
-```python
-# 数据质量控制完整流程
-async def comprehensive_quality_control(file_path):
-    # 第一层：基础验证
-    integrity_check = await mcp_client.call_tool(
-        "verify_data_integrity",
-        {
-            "file_path": file_path,
-            "validation_mode": "comprehensive",
-            "check_duplicates": True,
-            "check_missing_values": True
-        }
-    )
-    
-    # 第二层：质量评估
-    quality_assessment = await mcp_client.call_tool(
-        "validate_data_quality",
-        {
-            "file_path": file_path,
-            "quality_metrics": ["completeness", "accuracy", "consistency"],
-            "generate_suggestions": True
-        }
-    )
-    
-    # 第三层：深度质量检查
-    enhanced_check = await mcp_client.call_tool(
-        "enhanced_data_quality_check",
-        {
-            "file_path": file_path,
-            "check_levels": ["basic", "advanced", "expert"],
-            "custom_rules": {
-                "date_format_validation": True,
-                "numeric_range_check": True,
-                "text_pattern_validation": True
-            }
-        }
-    )
-    
-    # 数据清洗（如果需要）
-    if quality_assessment['quality_score'] < 0.8:
-        cleaned_data = await mcp_client.call_tool(
-            "clean_excel_data",
-            {
-                "file_path": file_path,
-                "cleaning_operations": [
-                    "remove_duplicates",
-                    "fill_missing_values",
-                    "standardize_formats",
-                    "validate_data_types"
-                ],
-                "output_path": "/path/to/cleaned_data.xlsx"
-            }
-        )
-        return cleaned_data
-    
-    return {
-        "status": "quality_approved",
-        "integrity_score": integrity_check['integrity_score'],
-        "quality_score": quality_assessment['quality_score'],
-        "recommendations": enhanced_check['recommendations']
-    }
+```
 ```
 
 ### 📈 阶段五：数据可视化与报告 (3个工具)
@@ -455,65 +292,7 @@ async def comprehensive_quality_control(file_path):
 
 #### 💡 Workflow示例
 
-```python
-# 智能可视化决策系统
-async def smart_visualization_pipeline(data, chart_preferences=None):
-    # 数据特征分析
-    data_analysis = analyze_data_characteristics(data)
-    
-    # 智能图表推荐
-    if data_analysis['has_categories'] and data_analysis['has_numeric']:
-        # 分类数据 -> 柱状图
-        chart_result = await mcp_client.call_tool(
-            "bar_chart_to_html",
-            {
-                "data": data,
-                "x_column": data_analysis['category_column'],
-                "y_column": data_analysis['numeric_column'],
-                "title": "数据分布分析",
-                "chart_options": {
-                    "responsive": True,
-                    "animation": True,
-                    "export_enabled": True
-                }
-            }
-        )
-    
-    elif data_analysis['is_composition_data']:
-        # 构成数据 -> 饼图
-        chart_result = await mcp_client.call_tool(
-            "pie_chart_to_html",
-            {
-                "data": data,
-                "label_column": data_analysis['label_column'],
-                "value_column": data_analysis['value_column'],
-                "title": "构成比例分析",
-                "chart_options": {
-                    "show_percentages": True,
-                    "enable_legend": True,
-                    "interactive": True
-                }
-            }
-        )
-    
-    elif data_analysis['has_time_series']:
-        # 时间序列 -> 折线图
-        chart_result = await mcp_client.call_tool(
-            "line_chart_to_html",
-            {
-                "data": data,
-                "x_column": data_analysis['time_column'],
-                "y_columns": data_analysis['numeric_columns'],
-                "title": "趋势变化分析",
-                "chart_options": {
-                    "smooth_lines": True,
-                    "show_points": True,
-                    "zoom_enabled": True
-                }
-            }
-        )
-    
-    return chart_result
+```
 ```
 
 ### 🧮 阶段六：Excel公式处理与计算 (5个工具)
@@ -533,149 +312,14 @@ async def smart_visualization_pipeline(data, chart_preferences=None):
 
 #### 💡 Workflow示例
 
-```python
-# Excel公式处理完整流程
-async def excel_formula_processing_pipeline(workbook_path, target_formulas):
-    results = {}
-    
-    for formula in target_formulas:
-        # 1. 公式解析与验证
-        parse_result = await mcp_client.call_tool(
-            "parse_formula",
-            {
-                "formula": formula,
-                "validate_security": True,
-                "extract_references": True
-            }
-        )
-        
-        if not parse_result['is_safe']:
-            results[formula] = {"status": "rejected", "reason": "安全风险"}
-            continue
-        
-        # 2. 安全验证
-        validation_result = await mcp_client.call_tool(
-            "validate_formula",
-            {
-                "formula": formula,
-                "security_level": "strict",
-                "check_functions": True
-            }
-        )
-        
-        if validation_result['risk_level'] > 3:
-            results[formula] = {"status": "high_risk", "details": validation_result}
-            continue
-        
-        # 3. 依赖分析
-        dependency_result = await mcp_client.call_tool(
-            "analyze_dependencies",
-            {
-                "workbook_path": workbook_path,
-                "target_formula": formula,
-                "check_circular": True
-            }
-        )
-        
-        # 4. 公式执行
-        if not dependency_result['has_circular_dependency']:
-            execution_result = await mcp_client.call_tool(
-                "execute_formula",
-                {
-                    "formula": formula,
-                    "context": dependency_result['context'],
-                    "timeout": 10,
-                    "memory_limit": "100MB"
-                }
-            )
-            
-            results[formula] = {
-                "status": "success",
-                "result": execution_result['value'],
-                "performance": execution_result['execution_time'],
-                "dependencies": dependency_result['dependencies']
-            }
-        else:
-            results[formula] = {
-                "status": "circular_dependency",
-                "cycle_path": dependency_result['cycle_path']
-            }
-    
-    return results
+```
 ```
 
 ### 🎯 完整Workflow集成示例
 
 #### 📋 端到端数据处理流程
 
-```python
-# 企业级数据处理完整流程
-async def enterprise_data_workflow(input_file, output_requirements):
-    workflow_results = {}
-    
-    # 阶段1: 数据探索
-    print("🔍 开始数据探索阶段...")
-    exploration_results = await data_exploration_phase(input_file)
-    workflow_results['exploration'] = exploration_results
-    
-    # 阶段2: 数据读取
-    print("📊 开始数据读取阶段...")
-    data = await smart_read_excel(
-        input_file, 
-        optimization_level=exploration_results['recommended_optimization']
-    )
-    workflow_results['data_loading'] = {"rows": len(data), "columns": len(data.columns)}
-    
-    # 阶段3: 数据处理
-    print("🔧 开始数据处理阶段...")
-    if output_requirements.get('processing_code'):
-        processed_data = await data_processing_pipeline(
-            input_file, 
-            output_requirements['processing_code']
-        )
-        data = processed_data['result']
-    
-    # 阶段4: 质量控制
-    print("✅ 开始质量控制阶段...")
-    quality_results = await comprehensive_quality_control(input_file)
-    workflow_results['quality_control'] = quality_results
-    
-    # 阶段5: 可视化（如果需要）
-    if output_requirements.get('generate_charts'):
-        print("📈 开始可视化阶段...")
-        charts = await smart_visualization_pipeline(
-            data, 
-            output_requirements.get('chart_preferences')
-        )
-        workflow_results['visualization'] = charts
-    
-    # 阶段6: 公式处理（如果需要）
-    if output_requirements.get('formulas'):
-        print("🧮 开始公式处理阶段...")
-        formula_results = await excel_formula_processing_pipeline(
-            input_file, 
-            output_requirements['formulas']
-        )
-        workflow_results['formula_processing'] = formula_results
-    
-    # 最终输出
-    print("📤 生成最终输出...")
-    final_output = await generate_final_output(
-        data, 
-        workflow_results, 
-        output_requirements
-    )
-    
-    return {
-        "status": "completed",
-        "workflow_results": workflow_results,
-        "final_output": final_output,
-        "processing_summary": {
-            "total_tools_used": count_tools_used(workflow_results),
-            "processing_time": calculate_total_time(workflow_results),
-            "quality_score": quality_results.get('quality_score', 'N/A')
-        }
-    }
+```
 ```
 
 ### 📚 最佳实践建议
